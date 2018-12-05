@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace RemindXamarin.Models
 {
@@ -42,11 +43,11 @@ namespace RemindXamarin.Models
 
         public ArrayList getListTasks() {return listTasks;}
         public void setListTasks(ArrayList listTasks) {this.listTasks = listTasks;}
-        public void removeTask(Task t) {listTasks.Remove(t);}
+        public void removeTask(Tache t) {listTasks.Remove(t);}
         public void removeTaskByID(int id){
             int temp =-1;
             for (int i =0; i < listTasks.Count; i++){
-                Task t = (Task)listTasks[i];
+                Tache t = (Tache)listTasks[i];
                 if ( t.getID() == id){
                     temp = i;
                     break;
@@ -57,13 +58,13 @@ namespace RemindXamarin.Models
             }
         }
 
-        public Boolean addTask(Task t) {
+        public Boolean addTask(Tache t) {
 
             if (t.GetType() == typeof(SportTask)) {
                 return addSportTask((SportTask) t);
             }
 
-            foreach(Task x in listTasks) {
+            foreach(Tache x in listTasks) {
                 if(x.toString().Equals(t.toString())) {
                     return false;
                 }
@@ -91,7 +92,7 @@ namespace RemindXamarin.Models
         }
 
         public Boolean addSportTask(SportTask t) {
-            foreach(Task x in listSportTasks) {
+            foreach(Tache x in listSportTasks) {
                 if(x.toString().Equals(t.toString())) {
                     return false;
                 }
@@ -120,14 +121,14 @@ namespace RemindXamarin.Models
             return true;
         }
 
-        public void changeWithSaveIsActivatedNotification(Task t) {
+        public void changeWithSaveIsActivatedNotification(Tache t) {
             t.setIsActivatedNotification(!t.getIsActivatedNotification());
             serializeLists();
         }
 
         public void serializeLists() {
             /*serializeList(listCategories, "Category.txt");
-            serializeList(listTasks, "Task.txt");
+            serializeList(listTasks, "Tache.txt");
             serializeList(listSportTasks, "SportTask.txt");*/
 
         }	
@@ -172,17 +173,17 @@ namespace RemindXamarin.Models
         }
         
         public void unserializeListTasks() {
-            /*ArrayList<Task> list = new ArrayList<Task>();
+            /*ArrayList<Tache> list = new ArrayList<Tache>();
             try {
                 IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream("Task.txt", FileMode.Open, FileAccess.Read, FileShare.Read);
+                Stream stream = new FileStream("Tache.txt", FileMode.Open, FileAccess.Read, FileShare.Read);
                 list = (MyObject) formatter.Deserialize(stream);
                 stream.Close();
             }catch (Exception e){
                 serializeLists();
                 try{
                     IFormatter formatter = new BinaryFormatter();
-                    Stream stream = new FileStream("Task.txt", FileMode.Open, FileAccess.Read, FileShare.Read);
+                    Stream stream = new FileStream("Tache.txt", FileMode.Open, FileAccess.Read, FileShare.Read);
                     list = (MyObject) formatter.Deserialize(stream);
                     stream.Close();
                 }catch (Exception e2){
@@ -220,9 +221,10 @@ namespace RemindXamarin.Models
             ArrayList deletes = new ArrayList();
             DateTime now = new DateTime();
             for(int i=0; i < listTasks.Count; i++){
-                if(listTasks.get(i).getDateDeb() != null && listTasks.get(i).getNextDate().compareTo(now) < 0) {
-                    Task t = (Task) listTasks[i];
-                    deletes.Add(t.getID());
+                Tache t = (Tache)listTasks[i];
+                if (t.getDateDeb() != null && t.getNextDate().CompareTo(now) < 0) {
+                    Tache t2 = (Tache) listTasks[i];
+                    deletes.Add(t2.getID());
                 }
             }
             foreach(int i in deletes) {
@@ -230,19 +232,72 @@ namespace RemindXamarin.Models
             }
             serializeLists();
         }
-        
+
         public void sort(Boolean growing) {
             unserializeLists();
-            
+            int i, j;
+            int N = listTasks.Count;
+            for (j = N - 1; j > 0; j--)
+            {
+                for (i = 0; i < j; i++)
+                {
+                    Tache t1 = (Tache)listTasks[i];
+                    Tache t2 = (Tache)listTasks[i +  1];
+                    if (growing)
+                    {
+                        if (t1.getNextDate() > t2.getNextDate()) {
+                            Tache tmp = (Tache)listTasks[i];
+                            listTasks[i] = listTasks[i + 1];
+                            listTasks[i + 1] = tmp;
+
+                        }
+                    }
+                    else {
+                        if (t1.getNextDate() < t2.getNextDate())
+                        {
+                            Tache tmp = (Tache)listTasks[i];
+                            listTasks[i] = listTasks[i + 1];
+                            listTasks[i + 1] = tmp;
+
+                        }
+                    }
+                }
+            }
             serializeLists();
         }
 
         public void sportSort(Boolean growing) {
             unserializeLists();
-            Collections.sort(listSportTasks, new Comparator() {
-                
-            
-            });
+            int i, j;
+            int N = listSportTasks.Count;
+            for (j = N - 1; j > 0; j--)
+            {
+                for (i = 0; i < j; i++)
+                {
+                    Tache t1 = (Tache)listSportTasks[i];
+                    Tache t2 = (Tache)listSportTasks[i + 1];
+                    if (growing)
+                    {
+                        if (t1.getNextDate() > t2.getNextDate())
+                        {
+                            Tache tmp = (Tache)listSportTasks[i];
+                            listSportTasks[i] = listSportTasks[i + 1];
+                            listSportTasks[i + 1] = tmp;
+
+                        }
+                    }
+                    else
+                    {
+                        if (t1.getNextDate() < t2.getNextDate())
+                        {
+                            Tache tmp = (Tache)listSportTasks[i];
+                            listSportTasks[i] = listSportTasks[i + 1];
+                            listSportTasks[i + 1] = tmp;
+
+                        }
+                    }
+                }
+            }
             serializeLists();
         }
 
@@ -250,9 +305,8 @@ namespace RemindXamarin.Models
             ArrayList res = new ArrayList();
             sort(growing);
             seq = seq.ToUpper();
-            foreach(Task t in listTasks){
-                SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
-                String dateFormated = format.format(t.getNextDate().getTime());
+            foreach(Tache t in listTasks){
+                String dateFormated = t.getNextDate().ToString("d MMMM yyyy"); 
                 if(t.getName().ToUpper().Contains(seq)) {
                     res.Add(t);
                 }else if(t.getCategory().getName().ToUpper().Contains(seq)){
@@ -271,9 +325,8 @@ namespace RemindXamarin.Models
             sort(growing);
             seq = seq.ToUpper();
             foreach(SportTask t in listSportTasks){
-                SimpleDateFormat format = new SimpleDateFormat("d MMMM yyyy");
-                String dateFormated = format.format(t.getNextDate().getTime());
-                if(t.getName().ToUpper().Contains(seq)) {
+                String dateFormated = t.getNextDate().ToString("d MMMM yyyy");
+                if (t.getName().ToUpper().Contains(seq)) {
                     res.Add(t);
                 }else if(t.getCategory().getName().ToUpper().Contains(seq)){
                     res.Add(t);
@@ -286,8 +339,8 @@ namespace RemindXamarin.Models
             return res;
         }
 
-        public Task getTaskByID(int id){
-            foreach(Task t in listTasks){
+        public Tache getTaskByID(int id){
+            foreach(Tache t in listTasks){
                 if( t.getID() ==  id) {
                     return t;
                 }
@@ -324,7 +377,7 @@ namespace RemindXamarin.Models
 
         public ArrayList getTasksByCategory(Category c){
             ArrayList matches = new ArrayList();
-            foreach (Task t in getListTasks()){
+            foreach (Tache t in getListTasks()){
                 if (t.getCategory().Equals(c)){
                     matches.Add(t);
                 }

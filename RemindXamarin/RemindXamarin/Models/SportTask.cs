@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace RemindXamarin.Models
 {
-    public class SportTask : Task
+    public class SportTask : Tache
     {
         private ArrayList listCoord = new ArrayList();
         private int steps;

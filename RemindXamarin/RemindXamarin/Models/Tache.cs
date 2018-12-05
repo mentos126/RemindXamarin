@@ -3,7 +3,7 @@ using System;
 namespace RemindXamarin.Models
 {
     [Serializable]
-    public class Task
+    public class Tache
     {
         private int ID;
         // private UUID workID;
@@ -33,7 +33,7 @@ namespace RemindXamarin.Models
             this.setTimeMinutes(timeMinutes);
         }
 
-        public Task(String name, String description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
+        public Tache(String name, String description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
             this.setup(name, description, category, dateDeb, warningBefore, timeHour, timeMinutes);
             this.repete = new Boolean[] {
                     false, 
@@ -46,7 +46,7 @@ namespace RemindXamarin.Models
                     };
         }
         
-        public Task(String name, String description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes, Boolean[] repete) {
+        public Tache(String name, String description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes, Boolean[] repete) {
             this.setup(name, description, category, dateDeb, warningBefore, timeHour, timeMinutes);
             this.repete = repete;
         }
@@ -107,14 +107,14 @@ namespace RemindXamarin.Models
 
         public DateTime getNextDate(){
             if(dateDeb == null){
-                DateTime now = new DateTime();
+                DateTime now = DateTime.Now;
                 int day=0;
                 int first = 0;
                 for(int i=0; i<getRepete().Length; i++){
                     if(getRepete()[i] && first == 0){
                         first = i;
                     }
-                    if((i+1 >= now. && getRepete()[i]){
+                    if(i+1 >= (int)now.DayOfWeek && getRepete()[i]) {
                         day = i;
                         break;
                     }
@@ -122,11 +122,11 @@ namespace RemindXamarin.Models
                 if(day == 0){
                     day = first + 7;
                 }
-                DateTime c = new DateTime(now.get(DateTime.YEAR), now.get(DateTime.MONTH), now.get(DateTime.DAY_OF_MONTH), getTimeHour(), getTimeMinutes());
-                c.Add(DateTime.DAY_OF_MONTH, day+2 - now.get(DateTime.DAY_OF_WEEK));
+                DateTime c = new DateTime(now.Year, now.Month, now.Day, getTimeHour(), getTimeMinutes(), 0);
+                c.AddDays(day + 2 - (int)now.DayOfWeek);
                 return c;
             }else{
-                DateTime c = new DateTime(dateDeb.get(DateTime.YEAR), dateDeb.get(DateTime.MONTH), dateDeb.get(DateTime.DAY_OF_MONTH), getTimeHour(), getTimeMinutes());
+                DateTime c = new DateTime(dateDeb.Year, dateDeb.Month, dateDeb.Day, getTimeHour(), getTimeMinutes(), 0);
                 return c;
             }
         }
