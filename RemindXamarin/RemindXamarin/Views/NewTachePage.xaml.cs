@@ -9,26 +9,22 @@ using RemindXamarin.Models;
 namespace RemindXamarin.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewItemPage : ContentPage
+    public partial class NewTachePage : ContentPage
     {
-        public Item Item { get; set; }
+        public Tache Tache { get; set; }
 
-        public NewItemPage()
+        public NewTachePage()
         {
             InitializeComponent();
 
-            Item = new Item
-            {
-                Text = "Item name",
-                Description = "This is an item description."
-            };
+            Tache = new Tache("", "", new Category("", 0, 0), new DateTime(), 0,0,0);
 
             BindingContext = this;
         }
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", Item);
+            MessagingCenter.Send(this, "AddTache", Tache);
             await Navigation.PopModalAsync();
         }
     }

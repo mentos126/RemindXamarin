@@ -6,61 +6,56 @@ using RemindXamarin.Models;
 
 namespace RemindXamarin.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class MockDataStore : IDataStore<Tache>
     {
-        List<Item> items;
+        List<Tache> taches;
 
         public MockDataStore()
         {
-            items = new List<Item>();
-            var mockItems = new List<Item>
+            taches = new List<Tache>();
+            var mockTaches = new List<Tache>
             {
-                new Item { Id = Guid.NewGuid().ToString(), Text = "First item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Second item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Third item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fourth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fifth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description." },
+                new Tache("name 1", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, 12, 12), new DateTime(), 30, 12, 22),
             };
 
-            foreach (var item in mockItems)
+            foreach (var tache in mockTaches)
             {
-                items.Add(item);
+                taches.Add(tache);
             }
         }
 
-        public async Task<bool> AddItemAsync(Item item)
+        public async Task<bool> AddTacheAsync(Tache tache)
         {
-            items.Add(item);
+            taches.Add(tache);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(Item item)
+        public async Task<bool> UpdateTacheAsync(Tache tache)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(oldItem);
-            items.Add(item);
+            var oldTache = taches.Where((Tache arg) => arg.getID() == tache.getID()).FirstOrDefault();
+            taches.Remove(oldTache);
+            taches.Add(tache);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteItemAsync(string id)
+        public async Task<bool> DeleteTacheAsync(int id)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
-            items.Remove(oldItem);
+            var oldTache = taches.Where((Tache arg) => arg.getID() == id).FirstOrDefault();
+            taches.Remove(oldTache);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<Item> GetItemAsync(string id)
+        public async Task<Tache> GetTacheAsync(int id)
         {
-            return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+            return await Task.FromResult(taches.FirstOrDefault(s => s.getID() == id));
         }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<Tache>> GetTachesAsync(bool forceRefresh = false)
         {
-            return await Task.FromResult(items);
+            return await Task.FromResult(taches);
         }
     }
 }

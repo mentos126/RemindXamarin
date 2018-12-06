@@ -12,7 +12,7 @@ namespace RemindXamarin.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
+        public IDataStore<Tache> DataStore => DependencyService.Get<IDataStore<Tache>>() ?? new MockDataStore();
 
         bool isBusy = false;
         public bool IsBusy

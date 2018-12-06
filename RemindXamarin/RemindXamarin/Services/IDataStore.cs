@@ -6,10 +6,10 @@ namespace RemindXamarin.Services
 {
     public interface IDataStore<T>
     {
-        Task<bool> AddItemAsync(T item);
-        Task<bool> UpdateItemAsync(T item);
-        Task<bool> DeleteItemAsync(string id);
-        Task<T> GetItemAsync(string id);
-        Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
+        Task<bool> AddTacheAsync(T tache);
+        Task<bool> UpdateTacheAsync(T tache);
+        Task<bool> DeleteTacheAsync(int id);
+        Task<T> GetTacheAsync(int id);
+        Task<IEnumerable<T>> GetTachesAsync(bool forceRefresh = false);
     }
 }

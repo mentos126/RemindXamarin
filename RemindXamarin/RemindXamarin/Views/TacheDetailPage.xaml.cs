@@ -9,28 +9,24 @@ using RemindXamarin.ViewModels;
 namespace RemindXamarin.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ItemDetailPage : ContentPage
+    public partial class TacheDetailPage : ContentPage
     {
-        ItemDetailViewModel viewModel;
+        TacheDetailViewModel viewModel;
 
-        public ItemDetailPage(ItemDetailViewModel viewModel)
+        public TacheDetailPage(TacheDetailViewModel viewModel)
         {
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
         }
 
-        public ItemDetailPage()
+        public TacheDetailPage()
         {
             InitializeComponent();
 
-            var item = new Item
-            {
-                Text = "Item 1",
-                Description = "This is an item description."
-            };
+            var tache = new Tache("tache 1=0", "description 0", new Category(Tasker.CATEGORY_SPORT_TAG, 5, 3), new DateTime(), 10, 14, 15);
 
-            viewModel = new ItemDetailViewModel(item);
+            viewModel = new TacheDetailViewModel(tache);
             BindingContext = viewModel;
         }
     }
