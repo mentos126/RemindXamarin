@@ -5,20 +5,20 @@ namespace RemindXamarin.Models
     [Serializable]
     public class Tache
     {
-        private int ID;
+        private int ID { get; set; }
         // private UUID workID;
-        private String name;
-        private String description;
-        private Category category;
-        private DateTime dateDeb;
-        private int warningBefore;
-        private Boolean isActivatedNotification;
-        private int timeHour;
-        private int timeMinutes;
-        private Boolean[] repete ;
+        private string name { get; set; }
+        private string description { get; set; }
+        private Category category { get; set; }
+        private DateTime dateDeb { get; set; }
+        private int warningBefore { get; set; }
+        private Boolean isActivatedNotification { get; set; }
+        private int timeHour { get; set; }
+        private int timeMinutes { get; set; }
+        private Boolean[] repete { get; set; }
 
-   
-        private void setup(String name, String description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
+
+        private void setup(string name, string description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
 
             DateTime Jan1st1970 = new DateTime (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             this.ID =  (int)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
@@ -28,12 +28,12 @@ namespace RemindXamarin.Models
             this.category = category;
             this.dateDeb = dateDeb;
             this.warningBefore = warningBefore;
-            this.setIsActivatedNotification(true);
+            this.isActivatedNotification = true;
             this.setTimeHour(timeHour);
             this.setTimeMinutes(timeMinutes);
         }
 
-        public Tache(String name, String description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
+        public Tache(string name, string description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
             this.setup(name, description, category, dateDeb, warningBefore, timeHour, timeMinutes);
             this.repete = new Boolean[] {
                     false, 
@@ -46,7 +46,7 @@ namespace RemindXamarin.Models
                     };
         }
         
-        public Tache(String name, String description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes, Boolean[] repete) {
+        public Tache(string name, string description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes, Boolean[] repete) {
             this.setup(name, description, category, dateDeb, warningBefore, timeHour, timeMinutes);
             this.repete = repete;
         }
@@ -57,11 +57,11 @@ namespace RemindXamarin.Models
         // public UUID getWorkID() { return workID; }
         // public void setWorkID(UUID uuid) { workID = uuid; }
 
-        public String getName() {return name;}
-        public void setName(String name) {this.name = name;}
+        public string getName() {return name;}
+        public void setName(string name) {this.name = name;}
         
-        public String getDescription() {return description;}
-        public void setDescription(String description) {this.description = description;}
+        public string getDescription() {return description;}
+        public void setDescription(string description) {this.description = description;}
         
         public Category getCategory() {return category;}
         public void setCategory(Category category) {this.category = category;}
@@ -84,8 +84,8 @@ namespace RemindXamarin.Models
         public int getTimeMinutes() {return timeMinutes;}
         public void setTimeMinutes(int timeMinutes) {this.timeMinutes = timeMinutes;}
 
-        public String toString() {
-            String r = "";
+        public string toString() {
+            string r = "";
             foreach(Boolean x in this.repete) {					
                 r+="\n\t\t"+x;
             }

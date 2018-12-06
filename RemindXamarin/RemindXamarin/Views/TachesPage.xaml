@@ -15,27 +15,14 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="TachesListView"
-                ItemsSource="{Binding Taches}"
-                VerticalOptions="FillAndExpand"
-                 HasUnevenRows="true"
-                 RefreshCommand="{Binding LoadTachesCommand}"
-                 IsPullToRefreshEnabled="true"
-                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                 CachingStrategy="RecycleElement"
-                 ItemSelected="OnTacheSelected">
+            <ListView x:Name="TachesListView" ItemsSource="{Binding Taches}" VerticalOptions="FillAndExpand" HasUnevenRows="true" RefreshCommand="{Binding LoadTachesCommand}" 
+                      IsPullToRefreshEnabled="true" IsRefreshing="{Binding IsBusy, Mode=OneWay}" CachingStrategy="RecycleElement" ItemSelected="OnTacheSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10">
-                                <Label Text="{Binding Text}" 
-                       LineBreakMode="NoWrap" 
-                       Style="{DynamicResource ListItemTextStyle}" 
-                       FontSize="16" />
-                                <Label Text="{Binding Description}" 
-                       LineBreakMode="NoWrap"
-                       Style="{DynamicResource ListItemDetailTextStyle}"
-                       FontSize="13" />
+                                <Label Text="{Binding Text}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Text="{Binding description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

@@ -4,7 +4,7 @@
             xmlns:views="clr-namespace:RemindXamarin.Views"
             x:Class="RemindXamarin.Views.MainPage">
     <TabbedPage.Children>
-        <NavigationPage Title="Browse">
+        <NavigationPage Title="Reminds">
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_feed.png"/>
@@ -15,7 +15,7 @@
             </x:Arguments>
         </NavigationPage>
         
-        <NavigationPage Title="About">
+        <NavigationPage Title="Sport">
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_about.png"/>

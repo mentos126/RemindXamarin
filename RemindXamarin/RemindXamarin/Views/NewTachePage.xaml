@@ -9,9 +9,12 @@
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="Nom" FontSize="Medium" />
-            <Entry Text="{Binding Tache.Text}" FontSize="Small" />
+            <Entry Text="{Binding nom}" FontSize="Small" />
             <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Tache.Description}" FontSize="Small" Margin="0" />
+            <Editor Text="{Binding description}" FontSize="Small" Margin="0" />
+            <Label Text="Heure" FontSize="Medium" />
+            <TimePicker x:Name="_timePicker" Time="11:00:00" Format="T" PropertyChanged="OnTimePickerPropertyChanged" />
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
