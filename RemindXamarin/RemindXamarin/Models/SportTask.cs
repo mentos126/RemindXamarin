@@ -19,16 +19,16 @@ namespace RemindXamarin.Models
         ) :  base(name, description, category, dateDeb, warningBefore, timeHour, timeMinutes, repete) {
 
             DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            this.setID((int)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds);
+            this.ID = (int)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
             // this.workID = null;
-            this.setName(name);
-            this.setDescription(description);
-            this.setCategory(category);
-            this.setDateDeb(dateDeb);
-            this.setWarningBefore(warningBefore);
-            this.setIsActivatedNotification(false);
-            this.setTimeHour(timeHour);
-            this.setTimeMinutes(timeMinutes);
+            this.name = name;
+            this.description = description;
+            this.category = category;
+            this.dateDeb = dateDeb;
+            this.warningBefore = warningBefore;
+            this.isActivatedNotification = false;
+            this.timeHour = timeHour;
+            this.timeMinutes = timeMinutes;
 
             this.distance = distance;
             this.steps = steps;
@@ -61,15 +61,15 @@ namespace RemindXamarin.Models
 
         private double distanceBetween(Coordinate c1, Coordinate c2) {
             int R = 6371; // Radius of the earth
-            double latDistance = this.ConvertDegreesToRadians(c2.getLat() - c1.getLat());
-            double lonDistance = this.ConvertDegreesToRadians(c2.getLng() - c1.getLng());
+            double latDistance = this.ConvertDegreesToRadians(c2.lat - c1.lat);
+            double lonDistance = this.ConvertDegreesToRadians(c2.lng - c1.lng);
             double a = Math.Sin(latDistance / 2) * Math.Sin(latDistance / 2)
-                    + Math.Cos(this.ConvertDegreesToRadians(c1.getLat())) * Math.Cos(this.ConvertDegreesToRadians(c2.getLat()))
+                    + Math.Cos(this.ConvertDegreesToRadians(c1.lat)) * Math.Cos(this.ConvertDegreesToRadians(c2.lat))
                     * Math.Sin(lonDistance / 2) * Math.Sin(lonDistance / 2);
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             double distance = R * c * 1000; // convert to meters
 
-            double height = c1.getHeight() - c2.getHeight();
+            double height = c1.h - c2.h;
 
             distance = Math.Pow(distance, 2) + Math.Pow(height, 2);
 

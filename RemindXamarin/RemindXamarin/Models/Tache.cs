@@ -2,20 +2,19 @@ using System;
 
 namespace RemindXamarin.Models
 {
-    [Serializable]
     public class Tache
     {
-        private int ID { get; set; }
+        public int ID { get; set; }
         // private UUID workID;
-        private string name { get; set; }
-        private string description { get; set; }
-        private Category category { get; set; }
-        private DateTime dateDeb { get; set; }
-        private int warningBefore { get; set; }
-        private Boolean isActivatedNotification { get; set; }
-        private int timeHour { get; set; }
-        private int timeMinutes { get; set; }
-        private Boolean[] repete { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public Category category { get; set; }
+        public DateTime dateDeb { get; set; }
+        public int warningBefore { get; set; }
+        public Boolean isActivatedNotification { get; set; }
+        public int timeHour { get; set; }
+        public int timeMinutes { get; set; }
+        public Boolean[] repete { get; set; }
 
 
         private void setup(string name, string description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
@@ -29,8 +28,8 @@ namespace RemindXamarin.Models
             this.dateDeb = dateDeb;
             this.warningBefore = warningBefore;
             this.isActivatedNotification = true;
-            this.setTimeHour(timeHour);
-            this.setTimeMinutes(timeMinutes);
+            this.timeHour = timeHour;
+            this.timeMinutes = timeMinutes;
         }
 
         public Tache(string name, string description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
@@ -51,7 +50,7 @@ namespace RemindXamarin.Models
             this.repete = repete;
         }
 
-        public void setID(int ID) { this.ID = ID;}
+       /* public void setID(int ID) { this.ID = ID;}
         public int getID() {return ID;}
 
         // public UUID getWorkID() { return workID; }
@@ -82,7 +81,7 @@ namespace RemindXamarin.Models
         public void setTimeHour(int time) {this.timeHour = time;}
 
         public int getTimeMinutes() {return timeMinutes;}
-        public void setTimeMinutes(int timeMinutes) {this.timeMinutes = timeMinutes;}
+        public void setTimeMinutes(int timeMinutes) {this.timeMinutes = timeMinutes;}*/
 
         public string toString() {
             string r = "";
@@ -110,11 +109,11 @@ namespace RemindXamarin.Models
                 DateTime now = DateTime.Now;
                 int day=0;
                 int first = 0;
-                for(int i=0; i<getRepete().Length; i++){
-                    if(getRepete()[i] && first == 0){
+                for(int i=0; i< repete.Length; i++){
+                    if(repete[i] && first == 0){
                         first = i;
                     }
-                    if(i+1 >= (int)now.DayOfWeek && getRepete()[i]) {
+                    if(i+1 >= (int)now.DayOfWeek && repete[i]) {
                         day = i;
                         break;
                     }
@@ -122,11 +121,11 @@ namespace RemindXamarin.Models
                 if(day == 0){
                     day = first + 7;
                 }
-                DateTime c = new DateTime(now.Year, now.Month, now.Day, getTimeHour(), getTimeMinutes(), 0);
+                DateTime c = new DateTime(now.Year, now.Month, now.Day, timeHour, timeMinutes, 0);
                 c.AddDays(day + 2 - (int)now.DayOfWeek);
                 return c;
             }else{
-                DateTime c = new DateTime(dateDeb.Year, dateDeb.Month, dateDeb.Day, getTimeHour(), getTimeMinutes(), 0);
+                DateTime c = new DateTime(dateDeb.Year, dateDeb.Month, dateDeb.Day, timeHour, timeMinutes, 0);
                 return c;
             }
         }

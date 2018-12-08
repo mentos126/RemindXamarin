@@ -48,7 +48,7 @@ namespace RemindXamarin.Models
             int temp =-1;
             for (int i =0; i < listTasks.Count; i++){
                 Tache t = (Tache)listTasks[i];
-                if ( t.getID() == id){
+                if ( t.ID == id){
                     temp = i;
                     break;
                 }
@@ -81,7 +81,7 @@ namespace RemindXamarin.Models
             int temp =-1;
             for (int i =0; i < listSportTasks.Count; i++){
                 SportTask t = (SportTask)listSportTasks[i];
-                if (t.getID() == id){
+                if (t.ID == id){
                     temp = i;
                     break;
                 }
@@ -103,9 +103,9 @@ namespace RemindXamarin.Models
 
         public void editCategoryById(int id, Category c){
             Category cat = getCategoryByID(id);
-            cat.setColor(c.getColor());
-            cat.setIcon(c.getIcon());
-            cat.setName(c.getName());
+            cat.color = c.color;
+            cat.icon = c.icon;
+            cat.name = c.name;
         }
 
         public ArrayList getListCategories() {return listCategories;}
@@ -122,7 +122,7 @@ namespace RemindXamarin.Models
         }
 
         public void changeWithSaveIsActivatedNotification(Tache t) {
-            t.setIsActivatedNotification(!t.getIsActivatedNotification());
+            t.isActivatedNotification = !t.isActivatedNotification;
             serializeLists();
         }
 
@@ -222,9 +222,9 @@ namespace RemindXamarin.Models
             DateTime now = new DateTime();
             for(int i=0; i < listTasks.Count; i++){
                 Tache t = (Tache)listTasks[i];
-                if (t.getDateDeb() != null && t.getNextDate().CompareTo(now) < 0) {
+                if (t.dateDeb != null && t.getNextDate().CompareTo(now) < 0) {
                     Tache t2 = (Tache) listTasks[i];
-                    deletes.Add(t2.getID());
+                    deletes.Add(t2.ID);
                 }
             }
             foreach(int i in deletes) {
@@ -307,11 +307,11 @@ namespace RemindXamarin.Models
             seq = seq.ToUpper();
             foreach(Tache t in listTasks){
                 String dateFormated = t.getNextDate().ToString("d MMMM yyyy"); 
-                if(t.getName().ToUpper().Contains(seq)) {
+                if(t.name.ToUpper().Contains(seq)) {
                     res.Add(t);
-                }else if(t.getCategory().getName().ToUpper().Contains(seq)){
+                }else if(t.category.name.ToUpper().Contains(seq)){
                     res.Add(t);
-                }else if(t.getDescription().ToUpper().Contains(seq)){
+                }else if(t.description.ToUpper().Contains(seq)){
                     res.Add(t);
                 }else if(dateFormated.ToUpper().Contains(seq)){
                     res.Add(t);
@@ -326,11 +326,11 @@ namespace RemindXamarin.Models
             seq = seq.ToUpper();
             foreach(SportTask t in listSportTasks){
                 String dateFormated = t.getNextDate().ToString("d MMMM yyyy");
-                if (t.getName().ToUpper().Contains(seq)) {
+                if (t.name.ToUpper().Contains(seq)) {
                     res.Add(t);
-                }else if(t.getCategory().getName().ToUpper().Contains(seq)){
+                }else if(t.category.name.ToUpper().Contains(seq)){
                     res.Add(t);
-                }else if(t.getDescription().ToUpper().Contains(seq)){
+                }else if(t.description.ToUpper().Contains(seq)){
                     res.Add(t);
                 }else if(dateFormated.ToUpper().Contains(seq)){
                     res.Add(t);
@@ -341,7 +341,7 @@ namespace RemindXamarin.Models
 
         public Tache getTaskByID(int id){
             foreach(Tache t in listTasks){
-                if( t.getID() ==  id) {
+                if( t.ID ==  id) {
                     return t;
                 }
             }
@@ -350,7 +350,7 @@ namespace RemindXamarin.Models
 
         public SportTask getSportTaskByID(int id){
             foreach(SportTask t in listSportTasks){
-                if( t.getID() ==  id) {
+                if( t.ID ==  id) {
                     return t;
                 }
             }
@@ -359,7 +359,7 @@ namespace RemindXamarin.Models
 
         public Category getCategoryByID(int id){
             foreach(Category c in listCategories){
-                if( c.getID() ==  id) {
+                if( c.ID ==  id) {
                     return c;
                 }
             }
@@ -368,7 +368,7 @@ namespace RemindXamarin.Models
 
         public Category getCategoryByName(String catName){
             foreach (Category c in listCategories){
-                if (c.getName().Equals(catName)){
+                if (c.name.Equals(catName)){
                     return c;
                 }
             }
@@ -378,7 +378,7 @@ namespace RemindXamarin.Models
         public ArrayList getTasksByCategory(Category c){
             ArrayList matches = new ArrayList();
             foreach (Tache t in getListTasks()){
-                if (t.getCategory().Equals(c)){
+                if (t.category.Equals(c)){
                     matches.Add(t);
                 }
             }

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RemindXamarin.Views.NewTachePage"
-             Title="Nouvelle Tache">
+             x:Class="RemindXamarin.Views.NewTachePage" 
+             Title="{Binding title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Save" Clicked="Save_Clicked" />
     </ContentPage.ToolbarItems>
@@ -14,7 +14,16 @@
             <Editor Text="{Binding description}" FontSize="Small" Margin="0" />
             <Label Text="Heure" FontSize="Medium" />
             <TimePicker x:Name="_timePicker" Time="11:00:00" Format="T" PropertyChanged="OnTimePickerPropertyChanged" />
-            
+            <Label Text="Select category" FontSize="Medium" />
+            <!-- <TimePicker  Time="11:00:00" Format="T" PropertyChanged="OnTimePickerPropertyChanged" /> -->
+            <Label Text="Prévenir Avant:" FontSize="Medium" />
+            <Label Text="Répété:" FontSize="Medium" />
+            <DatePicker 
+                x:Name="_datePicker"
+                MinimumDate="{Binding MinDate}"
+                MaximumDate="{Binding MaxDate}"
+            /> 
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
