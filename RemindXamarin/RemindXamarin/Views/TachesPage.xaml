@@ -21,8 +21,48 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10">
-                                <Label Text="{Binding name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
-                                <Label Text="{Binding description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                                <Grid IsVisible="True" x:Name="controlGrid" RowSpacing="0" ColumnSpacing="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <!-- TODO icon -->
+                                    <Label HorizontalTextAlignment="Center" FontSize="22" Text="{Binding name}" Grid.Row="0" Grid.Column="1" />
+
+                                    <Label HorizontalTextAlignment="Center" Text="{Binding description}" Grid.Row="1" Grid.ColumnSpan="3" />
+
+                                    <Label HorizontalTextAlignment="Start" Text="{Binding description}" Grid.Row="2" Grid.Column="0" />
+                                    <Label HorizontalTextAlignment="End" Text="{Binding description}" Grid.Row="2" Grid.Column="2" />
+                                    
+                                    <Label HorizontalTextAlignment="Start" Text="{Binding category.name}" Grid.Row="3" Grid.Column="0" />
+                                    <Switch HorizontalOptions="End" Grid.Row="3" Grid.Column="2" />
+                                    
+                                    <Label HorizontalTextAlignment="Start" Text="{Binding description}" Grid.Row="4" Grid.ColumnSpan="2" />
+
+                                    <Button Text="Prendre une photo"
+                                        Grid.Row="5" Grid.ColumnSpan="3"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="Center"
+                                        Clicked="OnTakePhoto" />
+
+                                    <Button Text="Sélectionner un lieu"
+                                        Grid.Row="6" Grid.ColumnSpan="3"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="Center"
+                                        Clicked="OnSelectPlace" />
+
+                                </Grid>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

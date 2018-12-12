@@ -25,6 +25,14 @@ namespace RemindXamarin.Views
             BindingContext = viewModel = new TachesViewModel();
         }
 
+        void OnTakePhoto()
+        {
+        }
+
+        void OnSelectPlace()
+        {
+        }
+
         async void OnTacheSelected(object sender, SelectedItemChangedEventArgs args)
         {
             var tache = args.SelectedItem as Tache;

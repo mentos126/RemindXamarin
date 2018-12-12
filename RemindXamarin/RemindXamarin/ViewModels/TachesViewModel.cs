@@ -21,7 +21,7 @@ namespace RemindXamarin.ViewModels
             Taches = new ObservableCollection<Tache>();
             LoadTachesCommand = new Command(async () => await ExecuteLoadTachesCommand());
 
-            MessagingCenter.Subscribe<NewTachePage, Tache>(this, "AddTache_Clicked", async (obj, tache) =>
+            MessagingCenter.Subscribe<NewTachePage, Tache>(this, "AddTache", async (obj, tache) =>
             {
                 var newTache = tache as Tache;
                 Taches.Add(newTache);

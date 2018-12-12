@@ -7,23 +7,70 @@
         <ToolbarItem Text="Save" Clicked="Save_Clicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Nom" FontSize="Medium" />
-            <Entry Text="{Binding nom}" FontSize="Small" />
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding description}" FontSize="Small" Margin="0" />
-            <Label Text="Heure" FontSize="Medium" />
-            <TimePicker x:Name="_timePicker" Time="11:00:00" Format="T" PropertyChanged="OnTimePickerPropertyChanged" />
-            <Label Text="Select category" FontSize="Medium" />
-            <!-- <TimePicker  Time="11:00:00" Format="T" PropertyChanged="OnTimePickerPropertyChanged" /> -->
-            <Label Text="Prévenir Avant:" FontSize="Medium" />
-            <Label Text="Répété:" FontSize="Medium" />
-            <DatePicker 
-                x:Name="_datePicker"
-                MinimumDate="{Binding MinDate}"
-                MaximumDate="{Binding MaxDate}"
-            /> 
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Spacing="20" Padding="15">
+                    <Label Text="{Binding debug}" FontSize="Medium" />
+                    <Label Text="Nom" FontSize="Medium" />
+                    <Entry Text="{Binding tache.name}" FontSize="Small" />
+                    <Label Text="Description" FontSize="Medium" />
+                    <Editor Text="{Binding tache.description}" FontSize="Small" Margin="0" />
+                    <Label Text="Heure" FontSize="Medium" />
+                    <TimePicker x:Name="_timePicker" Time="11:00:00" Format="T" PropertyChanged="OnTimePickerPropertyChanged" />
+                    <Label Text="Prévenir Avant:" FontSize="Medium" />
+                    <Picker x:Name="pickerWarningBefore" ItemsSource="{Binding WarningBefore}">
+                    </Picker>
+                    
+                    <Label Text="Select category" FontSize="Medium" />
+                    <Picker x:Name="pickerCategory" SelectedIndexChanged="OnCategoryChanged" ItemsSource="{Binding CategoriesName}">
+                    </Picker>
 
-        </StackLayout>
+                    <Label Text="Répété:" FontSize="Medium" />
+                    <Switch x:Name="includeSwitch"
+                            Toggled="OnSwitchToggled" />
+
+                    <Label x:Name="datePickerLabel" Text="Date:" FontSize="Medium" />
+                    <DatePicker 
+                        x:Name="datePicker"
+                        MinimumDate="{Binding MinDate}"
+                        MaximumDate="{Binding MaxDate}"
+                        DateSelected="OnDateSelected"
+                    />
+
+                    <Grid IsVisible="False" x:Name="controlGrid" RowSpacing="1" ColumnSpacing="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalTextAlignment="End" Text="Lun." Grid.Row="0" Grid.Column="0" />
+                        <Switch HorizontalOptions="Start" x:Name="Monday" Grid.Row="0" Grid.Column="1" Toggled="OnSwitchDay" />
+                        <Label HorizontalTextAlignment="End" Text="Mar." Grid.Row="0" Grid.Column="2" />
+                        <Switch HorizontalOptions="Start" x:Name="Tuesday" Grid.Row="0" Grid.Column="3" Toggled="OnSwitchDay" />
+                        <Label HorizontalTextAlignment="End" Text="Mer." Grid.Row="0" Grid.Column="4" />
+                        <Switch HorizontalOptions="Start" x:Name="Wednesday" Grid.Row="0" Grid.Column="5" Toggled="OnSwitchDay" />
+
+                        <Label HorizontalTextAlignment="End" Text="Jeu." Grid.Row="1" Grid.Column="1" />
+                        <Switch HorizontalOptions="Start" x:Name="Thursday" Grid.Row="1" Grid.Column="2" Toggled="OnSwitchDay" />
+                        <Label HorizontalTextAlignment="End" Text="Ven." Grid.Row="1" Grid.Column="3" />
+                        <Switch HorizontalOptions="Start" x:Name="Friday" Grid.Row="1" Grid.Column="4" Toggled="OnSwitchDay" />
+
+                        <Label HorizontalTextAlignment="End" Text="Sam." Grid.Row="2" Grid.Column="1" />
+                        <Switch HorizontalOptions="Start" x:Name="Saturday" Grid.Row="2" Grid.Column="2" Toggled="OnSwitchDay" />
+                        <Label HorizontalTextAlignment="End" Text="Dim." Grid.Row="2" Grid.Column="3" />
+                        <Switch HorizontalOptions="Start" x:Name="Sunday" Grid.Row="2" Grid.Column="4" Toggled="OnSwitchDay" />
+                    </Grid>
+
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
