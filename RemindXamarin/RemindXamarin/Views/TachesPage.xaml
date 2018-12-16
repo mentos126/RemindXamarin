@@ -36,8 +36,9 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    
-                                    <!-- TODO icon -->
+
+                                    <Image Source="ic_access_alarm_black_36dp.png" Grid.Row="0" Grid.Column="0"/>
+                                    <!-- <Image Source="http://cdn-gulli.ladmedia.fr/var/jeunesse/storage/images/canalj/la-tele/dessins-animes/toto/images/les-personnages/toto/4131722-1-fre-FR/Toto_image_player_432_324.jpg" Grid.Row="0" Grid.Column="0" /> -->
                                     <Label HorizontalTextAlignment="Center" FontSize="22" Text="{Binding name}" Grid.Row="0" Grid.Column="1" />
 
                                     <Label HorizontalTextAlignment="Center" Text="{Binding description}" Grid.Row="1" Grid.ColumnSpan="3" />

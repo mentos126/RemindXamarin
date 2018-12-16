@@ -1,0 +1,14 @@
+﻿In progress:
+
+add folder assets with icons
+show icon in xaml files
+
+TODO:
+
+add category
+new category
+
+remove task
+edit task
+
+autre+++++
