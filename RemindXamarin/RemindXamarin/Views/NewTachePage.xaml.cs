@@ -118,5 +118,10 @@ namespace RemindXamarin.Views
             MessagingCenter.Send(this, "AddTache", tache);
             await Navigation.PopModalAsync();
         }
+
+        async void OnAddCategory(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new NewCategory()));
+        }
     }
 }

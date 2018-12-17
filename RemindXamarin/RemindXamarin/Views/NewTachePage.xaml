@@ -24,6 +24,22 @@
                     <Label Text="Select category" FontSize="Medium" />
                     <Picker x:Name="pickerCategory" SelectedIndexChanged="OnCategoryChanged" ItemsSource="{Binding CategoriesName}">
                     </Picker>
+                    <Grid RowSpacing="1" ColumnSpacing="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="ic_add_black_36dp.png"  Grid.Row="0" Grid.Column="0" HorizontalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAddCategory"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image Source="ic_brush_black_36dp.png" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center"/>
+                    </Grid>
+                    
 
                     <Label Text="Répété:" FontSize="Medium" />
                     <Switch x:Name="includeSwitch"
