@@ -15,11 +15,11 @@ namespace RemindXamarin.Services
             taches = new List<Tache>();
             var mockTaches = new List<Tache>
             {
-                new Tache("name 1", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, 12, 12), new DateTime(), 30, 12, 22),
-                new Tache("name 2", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, 12, 12), new DateTime(), 30, 12, 22),
-                new Tache("name 3", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, 12, 12), new DateTime(), 30, 12, 22),
-                new Tache("name 4", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, 12, 12), new DateTime(), 30, 12, 22),
-                new Tache("name 5", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, 12, 12), new DateTime(), 30, 12, 22),
+                new Tache("name 1", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", 12), new DateTime(), 30, 12, 22),
+                new Tache("name 2", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", 12), new DateTime(), 30, 12, 22),
+                new Tache("name 3", "description 1", new Category(Tasker.CATEGORY_SPORT_TAG, "ic_directions_run_black_36dp.png", 12), new DateTime(), 30, 12, 22),
+                new Tache("name 4", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", 12), new DateTime(), 30, 12, 22),
+                new Tache("name 5", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", 12), new DateTime(), 30, 12, 22),
             };
 
             foreach (var tache in mockTaches)

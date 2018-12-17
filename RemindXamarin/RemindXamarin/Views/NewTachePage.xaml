@@ -10,20 +10,21 @@
         <ScrollView>
             <StackLayout>
                 <StackLayout Spacing="20" Padding="15">
-                    <Label Text="{Binding debug}" FontSize="Medium" />
                     <Label Text="Nom" FontSize="Medium" />
                     <Entry Text="{Binding tache.name}" FontSize="Small" />
+                    
                     <Label Text="Description" FontSize="Medium" />
                     <Editor Text="{Binding tache.description}" FontSize="Small" Margin="0" />
+                    
                     <Label Text="Heure" FontSize="Medium" />
                     <TimePicker x:Name="_timePicker" Time="11:00:00" Format="T" PropertyChanged="OnTimePickerPropertyChanged" />
+
                     <Label Text="Prévenir Avant:" FontSize="Medium" />
-                    <Picker x:Name="pickerWarningBefore" ItemsSource="{Binding WarningBefore}">
-                    </Picker>
-                    
+                    <Picker x:Name="pickerWarningBefore" ItemsSource="{Binding WarningBefore}"/>
+
                     <Label Text="Select category" FontSize="Medium" />
-                    <Picker x:Name="pickerCategory" SelectedIndexChanged="OnCategoryChanged" ItemsSource="{Binding CategoriesName}">
-                    </Picker>
+                    <Picker x:Name="pickerCategory" SelectedIndexChanged="OnCategoryChanged" ItemsSource="{Binding CategoriesName}"/>
+
                     <Grid RowSpacing="1" ColumnSpacing="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -37,10 +38,13 @@
                                 <TapGestureRecognizer Tapped="OnAddCategory"/>
                             </Image.GestureRecognizers>
                         </Image>
-                        <Image Source="ic_brush_black_36dp.png" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center"/>
+                        <Image x:Name="edit"  Source="ic_brush_black_36dp.png" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEditCategory"/>
+                            </Image.GestureRecognizers>
+                        </Image>
                     </Grid>
                     
-
                     <Label Text="Répété:" FontSize="Medium" />
                     <Switch x:Name="includeSwitch"
                             Toggled="OnSwitchToggled" />

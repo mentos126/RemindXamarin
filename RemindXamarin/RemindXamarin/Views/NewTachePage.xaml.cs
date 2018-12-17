@@ -24,22 +24,17 @@ namespace RemindXamarin.Views
         public ArrayList CategoriesName { get; set; }
         public ArrayList WarningBefore { get; set; }
 
-        public string debug { get; set; }
-
-
         public NewTachePage()
         {
             InitializeComponent();
 
             tache = new Tache("votre nom", "votre description", null, new DateTime(), 30, 12, 22);
-            debug = "null";
             MinDate = DateTime.Now;
             MaxDate = DateTime.Now.Add(new TimeSpan(1000, 0, 0, 0, 0));
             SelectedDate = new DateTime();
             isRepet = false;
             Categories = new ArrayList();
             Categories = Tasker.Instance.getListCategories();
-            Categories.Add(new Category("TOTO", 1, 1));
             CategoriesName = new ArrayList();
             foreach (Category c in Categories)
             {
@@ -52,6 +47,9 @@ namespace RemindXamarin.Views
             }
 
             BindingContext = this;
+
+            pickerWarningBefore.SelectedIndex = 7;
+            pickerCategory.SelectedIndex = 0;
         }
 
         void OnTimePickerPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -107,8 +105,16 @@ namespace RemindXamarin.Views
             if (pickerCategory.SelectedIndex != -1)
             {
                 tache.category = (Category) Categories[pickerCategory.SelectedIndex];
+                if(tache.category.name.Equals(Tasker.CATEGORY_SPORT_TAG) || tache.category.name.Equals(Tasker.CATEGORY_NONE_TAG))
+                {
+                    edit.IsVisible = false;
+                }
+                else
+                {
+                    edit.IsVisible = true;
+                }
+
             }
-            debug = tache.category.name;
         }
 
         async void Save_Clicked(object sender, EventArgs e)
@@ -123,5 +129,11 @@ namespace RemindXamarin.Views
         {
             await Navigation.PushModalAsync(new NavigationPage(new NewCategory()));
         }
+
+        async void OnEditCategory(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new EditCategory()));
+        }
+
     }
 }

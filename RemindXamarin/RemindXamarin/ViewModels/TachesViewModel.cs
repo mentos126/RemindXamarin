@@ -35,14 +35,10 @@ namespace RemindXamarin.ViewModels
                 return;
 
             IsBusy = true;
-            Console.WriteLine("TACHES 0 !!!!");
             try
             {
                 Taches.Clear();
-                Console.WriteLine("TACHES !!!!");
-                Console.WriteLine(Taches);
                 var taches = await DataStore.GetTachesAsync(true);
-                Console.WriteLine(taches);
                 foreach (var tache in taches)
                 {
                     Taches.Add(tache);

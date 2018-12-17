@@ -1,14 +1,30 @@
 ﻿In progress:
 
-add folder assets with icons
-show icon in xaml files
+new category
+	* list icone
+	* couleur
 
 TODO:
 
-add category
-new category
+edit category
 
 remove task
 edit task
+new task (save)
 
-autre+++++
+listes de taches 
+			* tri
+			* filtre
+			* affichage de la couleur
+			* switch change si notifier
+			* affichage de la date et l'heure
+			* ajout de photo
+			* ajout de localisation
+
+
+sport activity
+sport detail
+sport list
+
+notification
+base de donnée

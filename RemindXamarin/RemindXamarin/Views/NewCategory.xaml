@@ -1,9 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ColorPicker.Sample"
+             xmlns:cp="clr-namespace:Amporis.Xamarin.Forms.ColorPicker;assembly=Amporis.Xamarin.Forms.ColorPicker"
              x:Class="RemindXamarin.Views.NewCategory"
              Title="{Binding Title}">
     <StackLayout Spacing="20" Padding="15">
         <Label Text="Titre:" FontSize="Medium" />
+        <Entry Text="{Binding category.name}" FontSize="Small" />
+
+        <Label Text="Icône:" FontSize="Medium" />
+        <!-- <Picker x:Name="pickerIcone" SelectedIndexChanged="OnIconChanged">
+            <Picker.ItemsSource>
+                <Image Source=""   HorizontalOptions="Center"/>
+            </Picker.ItemsSource>
+        </Picker> -->
+
+        <Picker x:Name="pickerIcone" SelectedIndexChanged="OnIconChanged" ItemsSource="{Binding Icones}"/>
+        <Image Source="{Binding Source={x:Reference pickerIcone}, Path=SelectedItem}" />
+        
+
+        <Label Text="Couleur:" FontSize="Medium" />
+        <cp:ColorPickerMixer x:Name="editedColor" Color="{Binding EditedColor}" />
     </StackLayout>
 </ContentPage>

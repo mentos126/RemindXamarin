@@ -33,10 +33,10 @@ namespace RemindXamarin.Models
             unserializeLists();
 
             if (getCategoryByName(CATEGORY_NONE_TAG) == null){
-                addCategory( new Category(CATEGORY_NONE_TAG, 12, 0));
+                addCategory( new Category(CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", 0));
             }
             if (getCategoryByName(CATEGORY_SPORT_TAG) == null){
-                addCategory( new Category(CATEGORY_SPORT_TAG, 13, 0));
+                addCategory( new Category(CATEGORY_SPORT_TAG, "ic_directions_run_black_36dp.png", 0));
             }
             serializeLists();
         }

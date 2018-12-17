@@ -37,17 +37,18 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Source="ic_access_alarm_black_36dp.png" Grid.Row="0" Grid.Column="0"/>
+                                    <Image Source="{Binding category.icon}" Grid.Row="0" Grid.Column="0"/>
                                     <Label HorizontalTextAlignment="Center" FontSize="22" Text="{Binding name}" Grid.Row="0" Grid.Column="1" />
 
                                     <Label HorizontalTextAlignment="Center" Text="{Binding description}" Grid.Row="1" Grid.ColumnSpan="3" />
 
-                                    <Label HorizontalTextAlignment="Start" Text="{Binding description}" Grid.Row="2" Grid.Column="0" />
-                                    <Label HorizontalTextAlignment="End" Text="{Binding description}" Grid.Row="2" Grid.Column="2" />
+                                    <Label HorizontalTextAlignment="Start" Text="{Binding getNextDate}" Grid.Row="2" Grid.Column="0" />
+                                    <Label HorizontalTextAlignment="End" Text="{Binding timeHour}:{Binding timeMinutes}" Grid.Row="2" Grid.Column="2" />
                                     
                                     <Label HorizontalTextAlignment="Start" Text="{Binding category.name}" Grid.Row="3" Grid.Column="0" />
-                                    <Switch HorizontalOptions="End" Grid.Row="3" Grid.Column="2" />
+                                    <Switch HorizontalOptions="End" IsToggled="{Binding isActivatedNotification}" Grid.Row="3" Grid.Column="2" />
                                     
+                                    <!-- public Boolean[] repete { get; set; } -->
                                     <Label HorizontalTextAlignment="Start" Text="{Binding description}" Grid.Row="4" Grid.ColumnSpan="2" />
 
                                     <Button Text="Prendre une photo"
