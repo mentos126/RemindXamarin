@@ -21,8 +21,9 @@ namespace RemindXamarin.Views
         public TachesPage()
         {
             InitializeComponent();
+            viewModel = new TachesViewModel();
 
-            BindingContext = viewModel = new TachesViewModel();
+            BindingContext = viewModel;
         }
 
         void OnTakePhoto()
@@ -56,6 +57,19 @@ namespace RemindXamarin.Views
 
             if (viewModel.Taches.Count == 0)
                 viewModel.LoadTachesCommand.Execute(null);
+        }
+
+        void OnDelete (object sender, EventArgs e)
+        {
+            try
+            { 
+                var mi = ((MenuItem)sender);
+                viewModel.DeleteTache(((Tache) mi.CommandParameter).ID);
+            }
+            catch (Exception x)
+            {
+                Console.Write(x.Message);
+            }
         }
     }
 }

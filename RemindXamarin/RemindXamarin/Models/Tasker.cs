@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace RemindXamarin.Models
 {
@@ -33,10 +34,10 @@ namespace RemindXamarin.Models
             unserializeLists();
 
             if (getCategoryByName(CATEGORY_NONE_TAG) == null){
-                addCategory( new Category(CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", 0));
+                addCategory( new Category(CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", Color.FromHex("FF6A00")));
             }
             if (getCategoryByName(CATEGORY_SPORT_TAG) == null){
-                addCategory( new Category(CATEGORY_SPORT_TAG, "ic_directions_run_black_36dp.png", 0));
+                addCategory( new Category(CATEGORY_SPORT_TAG, "ic_directions_run_black_36dp.png", Color.FromHex("FFFF92FF")));
             }
             serializeLists();
         }

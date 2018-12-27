@@ -34,6 +34,7 @@ namespace RemindXamarin.Views
             SelectedDate = new DateTime();
             isRepet = false;
             Categories = new ArrayList();
+
             Categories = Tasker.Instance.getListCategories();
             CategoriesName = new ArrayList();
             foreach (Category c in Categories)
@@ -120,6 +121,9 @@ namespace RemindXamarin.Views
         async void Save_Clicked(object sender, EventArgs e)
         {
             //TODO : verifier si tache correcte
+
+
+            //Tasker.Instance.addTask(tache);
 
             MessagingCenter.Send(this, "AddTache", tache);
             await Navigation.PopModalAsync();

@@ -24,7 +24,7 @@ namespace RemindXamarin.Views
         {
             InitializeComponent();
 
-            var tache = new Tache("tache 0", "description 0", new Category(Tasker.CATEGORY_SPORT_TAG, "ic_directions_run_black_36dp.png", 3), new DateTime(), 10, 14, 15);
+            var tache = new Tache("tache 0", "description 0", new Category(Tasker.CATEGORY_SPORT_TAG, "ic_directions_run_black_36dp.png", Color.FromHex("FF6A00")), new DateTime(), 10, 14, 15);
 
             viewModel = new TacheDetailViewModel(tache);
             BindingContext = viewModel;

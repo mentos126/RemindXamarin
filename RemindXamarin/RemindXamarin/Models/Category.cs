@@ -1,4 +1,5 @@
 using System;
+using Xamarin.Forms;
 
 namespace RemindXamarin.Models
 {
@@ -7,9 +8,9 @@ namespace RemindXamarin.Models
 		public int ID { get; set; }
         public String name { get; set; }
         public String icon { get; set; }
-        public int color { get; set; }
+        public Color color { get; set; }
 
-        public Category(String name, String icon , int color) {
+        public Category(String name, String icon , Color color) {
             DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             this.ID = (int)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds; this.name = name;
 			this.icon = icon;

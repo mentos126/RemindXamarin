@@ -13,7 +13,10 @@ namespace RemindXamarin.ViewModels
     public class TachesViewModel : BaseViewModel
     {
         public ObservableCollection<Tache> Taches { get; set; }
+        public ObservableCollection<Category> Categories { get; set; }
         public Command LoadTachesCommand { get; set; }
+        public Command LoadCategoryCommand { get; set; }
+        public String debug { get; set; }
 
         public TachesViewModel()
         {
@@ -27,6 +30,30 @@ namespace RemindXamarin.ViewModels
                 Taches.Add(newTache);
                 await DataStore.AddTacheAsync(newTache);
             });
+
+        }
+
+        public async void DeleteTache(int id)
+        {
+            try
+            {
+                // Taches.Clear();
+                bool temp = false;
+                temp = await DataStore.DeleteTacheAsync(id);
+               /* var taches = await DataStore.GetTachesAsync(true);
+                foreach (var tache in taches)
+                {
+                    Taches.Add(tache);
+                }*/
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         async Task ExecuteLoadTachesCommand()

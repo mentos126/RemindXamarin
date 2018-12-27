@@ -20,7 +20,10 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10">
+                            <ViewCell.ContextActions>
+                                <MenuItem Clicked="OnDelete" CommandParameter="{Binding .}" Text="Suppimer" IsDestructive="True" />
+                            </ViewCell.ContextActions>
+                            <StackLayout Padding="10" BackgroundColor="{Binding category.color }">
                                 <Grid IsVisible="True" x:Name="controlGrid" RowSpacing="0" ColumnSpacing="1">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
