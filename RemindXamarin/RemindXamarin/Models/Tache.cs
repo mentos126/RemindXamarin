@@ -9,7 +9,7 @@ namespace RemindXamarin.Models
         public string name { get; set; }
         public string description { get; set; }
         public Category category { get; set; }
-        public DateTime dateDeb { get; set; }
+        public DateTime? dateDeb { get; set; }
         public int warningBefore { get; set; }
         public Boolean isActivatedNotification { get; set; }
         public int timeHour { get; set; }
@@ -17,7 +17,7 @@ namespace RemindXamarin.Models
         public Boolean[] repete { get; set; }
 
 
-        private void setup(string name, string description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
+        private void setup(string name, string description, Category category, DateTime? dateDeb, int warningBefore, int timeHour, int timeMinutes) {
 
             DateTime Jan1st1970 = new DateTime (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             this.ID =  (int)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
@@ -32,7 +32,7 @@ namespace RemindXamarin.Models
             this.timeMinutes = timeMinutes;
         }
 
-        public Tache(string name, string description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes) {
+        public Tache(string name, string description, Category category, DateTime? dateDeb, int warningBefore, int timeHour, int timeMinutes) {
             this.setup(name, description, category, dateDeb, warningBefore, timeHour, timeMinutes);
             this.repete = new Boolean[] {
                     false, 
@@ -125,7 +125,7 @@ namespace RemindXamarin.Models
                 c.AddDays(day + 2 - (int)now.DayOfWeek);
                 return c;
             }else{
-                DateTime c = new DateTime(dateDeb.Year, dateDeb.Month, dateDeb.Day, timeHour, timeMinutes, 0);
+                DateTime c = new DateTime(dateDeb.Value.Year, dateDeb.Value.Month, dateDeb.Value.Day, timeHour, timeMinutes, 0);
                 return c;
             }
         }

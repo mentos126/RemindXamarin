@@ -1,19 +1,12 @@
 ﻿In progress:
 
-synchronized listes categories
 
+************************************
 TODO:
-
-edit category
-
-remove task
-edit task
-new task (save)
 
 listes de taches 
 			* tri
 			* filtre
-			* swipe right pour delete 
 			* switch change si notifier
 			* affichage de la date et l'heure
 			* ajout de photo
@@ -27,7 +20,10 @@ sport list
 notification
 base de donnée
 
+***********************************
 Done (AMELIORER):
+
+synchronized listes categories
 
 new category
 	* list icone

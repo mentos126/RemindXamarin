@@ -1,12 +1,16 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using Xamarin.Forms;
 
 using RemindXamarin.Models;
 using RemindXamarin.Views;
+
+
 
 namespace RemindXamarin.ViewModels
 {
@@ -31,20 +35,27 @@ namespace RemindXamarin.ViewModels
                 await DataStore.AddTacheAsync(newTache);
             });
 
+            MessagingCenter.Subscribe<EditTachePage, Tache>(this, "UpdateTache", async (obj, tache) =>
+            {
+                var newTache = tache as Tache;
+                var oldTache = Taches.Where((Tache arg) => arg.ID == newTache.ID).FirstOrDefault();
+                Taches.Remove(oldTache);
+                Taches.Add(newTache);
+                await DataStore.UpdateTacheAsync(newTache);
+            });
+
         }
 
-        public async void DeleteTache(int id)
+        public async void DeleteTache(Tache tache)
         {
             try
             {
-                // Taches.Clear();
-                bool temp = false;
-                temp = await DataStore.DeleteTacheAsync(id);
-               /* var taches = await DataStore.GetTachesAsync(true);
-                foreach (var tache in taches)
+                if (Taches.Contains(tache))
                 {
-                    Taches.Add(tache);
-                }*/
+                    Taches.Remove(tache);
+                    await DataStore.DeleteTacheAsync(tache.ID);
+                }
+                 
             }
             catch (Exception ex)
             {

@@ -40,7 +40,7 @@ namespace RemindXamarin.Views
             if (tache == null)
                 return;
 
-            await Navigation.PushAsync(new TacheDetailPage(new TacheDetailViewModel(tache)));
+            await Navigation.PushModalAsync(new NavigationPage (new EditTachePage(new EditTacheViewModel(tache))));
 
             // Manually deselect item.
             TachesListView.SelectedItem = null;
@@ -64,7 +64,7 @@ namespace RemindXamarin.Views
             try
             { 
                 var mi = ((MenuItem)sender);
-                viewModel.DeleteTache(((Tache) mi.CommandParameter).ID);
+                viewModel.DeleteTache(((Tache) mi.CommandParameter));
             }
             catch (Exception x)
             {

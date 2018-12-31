@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using RemindXamarin.Models;
-using RemindXamarin.Services;
+using RemindXamarin.ViewModels;
 
-using System.ComponentModel;
 using System.Collections;
+using System.ComponentModel;
+using RemindXamarin.Services;
 
 namespace RemindXamarin.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewTachePage : ContentPage
-    {
-        public string title = "Nouvelle Tâche";
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class EditTachePage : ContentPage
+	{
+
+        EditTacheViewModel viewModel;
+
+        public string title = "Modifier Tâche";
         public Tache tache { get; set; }
         public bool isRepet { get; set; }
         public DateTime myTime { get; set; }
@@ -26,20 +33,21 @@ namespace RemindXamarin.Views
         public ArrayList CategoriesName { get; set; }
         public ArrayList WarningBefore { get; set; }
 
-        public NewTachePage()
+        public EditTachePage(EditTacheViewModel viewModel)
         {
             InitializeComponent();
 
-            tache = new Tache("votre nom", "votre description", null, new DateTime(), 30, 12, 22);
+            this.tache = new Tache("Erreussssssssr", "Erreur", new Category(Tasker.CATEGORY_SPORT_TAG, "ic_directions_run_black_36dp.png", Color.FromHex("FF6A00")), new DateTime(), 0, 0, 0);
+            this.tache = viewModel.Tache;
+
             MinDate = DateTime.Now;
             MaxDate = DateTime.Now.Add(new TimeSpan(1000, 0, 0, 0, 0));
-            SelectedDate = new DateTime();
-            isRepet = false;
-
+            SelectedDate = this.tache.getNextDate();
+            isRepet = this.tache.dateDeb == null;
             Categories = new ArrayList();
+
             Categories = Tasker.Instance.getListCategories();
-            // var mock = new MockDataStore();
-            //Categories = mock.GetCategoriesAsync();
+            //viewModel.LoadCategoriesCommand.Execute(null);
 
             CategoriesName = new ArrayList();
             foreach (Category c in Categories)
@@ -52,11 +60,24 @@ namespace RemindXamarin.Views
                 WarningBefore.Add(i);
             }
 
+            this.viewModel = viewModel;
             BindingContext = this;
 
-            pickerWarningBefore.SelectedIndex = 7;
-            pickerCategory.SelectedIndex = 0;
+            pickerWarningBefore.SelectedIndex = tache.warningBefore / 5;
+            int index = 0;
+            foreach (Category c in Categories)
+            {
+                if(tache.category.ID == c.ID)
+                {
+                    break;
+                }
+                index++;
+            }
+            pickerCategory.SelectedIndex = index;
+
         }
+
+        
 
         void OnTimePickerPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
@@ -76,7 +97,7 @@ namespace RemindXamarin.Views
             }
             tache.timeHour = myTime.Hour;
             tache.timeMinutes = myTime.Minute;
-            
+
         }
 
         void OnDateSelected(object sender, DateChangedEventArgs args)
@@ -110,8 +131,8 @@ namespace RemindXamarin.Views
         {
             if (pickerCategory.SelectedIndex != -1)
             {
-                tache.category = (Category) Categories[pickerCategory.SelectedIndex];
-                if(tache.category.name.Equals(Tasker.CATEGORY_SPORT_TAG) || tache.category.name.Equals(Tasker.CATEGORY_NONE_TAG))
+                tache.category = (Category)Categories[pickerCategory.SelectedIndex];
+                if (tache.category.name.Equals(Tasker.CATEGORY_SPORT_TAG) || tache.category.name.Equals(Tasker.CATEGORY_NONE_TAG))
                 {
                     edit.IsVisible = false;
                 }
@@ -125,9 +146,9 @@ namespace RemindXamarin.Views
 
         void Save_Clicked(object sender, EventArgs e)
         {
-            Tache newTache = new Tache(tache.name, tache.description, (Category) Categories[pickerCategory.SelectedIndex], null, 
+            Tache newTache = new Tache(tache.name, tache.description, (Category)Categories[pickerCategory.SelectedIndex], null,
                 pickerWarningBefore.SelectedIndex * 5, tache.timeHour, tache.timeMinutes);
-            if(tache.name != "")
+            if (tache.name != "")
             {
                 if (tache.description != "")
                 {
@@ -150,7 +171,7 @@ namespace RemindXamarin.Views
                     }
                     else
                     {
-                        if(DateTime.Compare(tache.dateDeb.Value , DateTime.Now ) < 0)
+                        if (DateTime.Compare(tache.dateDeb.Value, DateTime.Now) < 0)
                         {
                             newTache.dateDeb = tache.dateDeb;
                             Save(newTache);
@@ -172,11 +193,11 @@ namespace RemindXamarin.Views
             }
         }
 
-        async void Save(Tache newItem)
+        async void Save(Tache newTache)
         {
-            //Tasker.Instance.addTask(newItem);
-            MessagingCenter.Send(this, "AddTache", newItem);
-            await Navigation.PopModalAsync();
+            newTache.ID = tache.ID;
+            MessagingCenter.Send(this, "UpdateTache", newTache);
+            await Navigation.PopModalAsync(false);
         }
 
         async void OnAddCategory(object sender, EventArgs e)
@@ -188,6 +209,5 @@ namespace RemindXamarin.Views
         {
             await Navigation.PushModalAsync(new NavigationPage(new EditCategory(tache.category)));
         }
-
     }
 }

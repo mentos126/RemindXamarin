@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RemindXamarin.Views.EditTachePage" 
+             Title="{Binding title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Clicked="Save_Clicked" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Spacing="20" Padding="15">
+                    <Label Text="Nom" FontSize="Medium" />
+                    <Entry Text="{Binding tache.name}" FontSize="Small" />
+
+                    <Label Text="Description" FontSize="Medium" />
+                    <Editor Text="{Binding tache.description}" FontSize="Small" Margin="0" />
+
+                    <Label Text="Heure" FontSize="Medium" />
+                    <TimePicker x:Name="_timePicker" Time="11:00:00" Format="T" PropertyChanged="OnTimePickerPropertyChanged" />
+
+                    <Label Text="Prévenir Avant:" FontSize="Medium" />
+                    <Picker x:Name="pickerWarningBefore" ItemsSource="{Binding WarningBefore}"/>
+
+                    <Label Text="Select category" FontSize="Medium" />
+                    <Picker x:Name="pickerCategory" SelectedIndexChanged="OnCategoryChanged" ItemsSource="{Binding CategoriesName}"/>
+
+                    <Grid RowSpacing="1" ColumnSpacing="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="ic_add_black_36dp.png"  Grid.Row="0" Grid.Column="0" HorizontalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAddCategory"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image x:Name="edit"  Source="ic_brush_black_36dp.png" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnEditCategory"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+
+                    <Label Text="Répété:" FontSize="Medium" />
+                    <Switch x:Name="includeSwitch"
+                            Toggled="OnSwitchToggled" />
+
+                    <Label x:Name="datePickerLabel" Text="Date:" FontSize="Medium" />
+                    <DatePicker 
+                        x:Name="datePicker"
+                        MinimumDate="{Binding MinDate}"
+                        MaximumDate="{Binding MaxDate}"
+                        DateSelected="OnDateSelected"
+                    />
+
+                    <Grid IsVisible="False" x:Name="controlGrid" RowSpacing="1" ColumnSpacing="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalTextAlignment="End" Text="Lun." Grid.Row="0" Grid.Column="0" />
+                        <Switch HorizontalOptions="Start" x:Name="Monday" Grid.Row="0" Grid.Column="1" Toggled="OnSwitchDay" />
+                        <Label HorizontalTextAlignment="End" Text="Mar." Grid.Row="0" Grid.Column="2" />
+                        <Switch HorizontalOptions="Start" x:Name="Tuesday" Grid.Row="0" Grid.Column="3" Toggled="OnSwitchDay" />
+                        <Label HorizontalTextAlignment="End" Text="Mer." Grid.Row="0" Grid.Column="4" />
+                        <Switch HorizontalOptions="Start" x:Name="Wednesday" Grid.Row="0" Grid.Column="5" Toggled="OnSwitchDay" />
+
+                        <Label HorizontalTextAlignment="End" Text="Jeu." Grid.Row="1" Grid.Column="1" />
+                        <Switch HorizontalOptions="Start" x:Name="Thursday" Grid.Row="1" Grid.Column="2" Toggled="OnSwitchDay" />
+                        <Label HorizontalTextAlignment="End" Text="Ven." Grid.Row="1" Grid.Column="3" />
+                        <Switch HorizontalOptions="Start" x:Name="Friday" Grid.Row="1" Grid.Column="4" Toggled="OnSwitchDay" />
+
+                        <Label HorizontalTextAlignment="End" Text="Sam." Grid.Row="2" Grid.Column="1" />
+                        <Switch HorizontalOptions="Start" x:Name="Saturday" Grid.Row="2" Grid.Column="2" Toggled="OnSwitchDay" />
+                        <Label HorizontalTextAlignment="End" Text="Dim." Grid.Row="2" Grid.Column="3" />
+                        <Switch HorizontalOptions="Start" x:Name="Sunday" Grid.Row="2" Grid.Column="4" Toggled="OnSwitchDay" />
+                    </Grid>
+
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
