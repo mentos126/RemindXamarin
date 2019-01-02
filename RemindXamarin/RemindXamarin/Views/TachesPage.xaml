@@ -15,6 +15,22 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <Grid IsVisible="True" x:Name="controlGrid" RowSpacing="0" ColumnSpacing="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
+                <SearchBar x:Name="SearchBar" TextChanged="SearchBar_TextChanged" SearchButtonPressed="SearchBar_SearchButtonPressed" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" />
+                <Image x:Name="order"  Source="ic_sort_black_36dp.png" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapOrder_Tapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+
             <ListView x:Name="TachesListView" ItemsSource="{Binding Taches}" VerticalOptions="FillAndExpand" HasUnevenRows="true" RefreshCommand="{Binding LoadTachesCommand}" 
                       IsPullToRefreshEnabled="true" IsRefreshing="{Binding IsBusy, Mode=OneWay}" CachingStrategy="RecycleElement" ItemSelected="OnTacheSelected">
                 <ListView.ItemTemplate>
@@ -31,7 +47,7 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
@@ -45,8 +61,8 @@
 
                                     <Label HorizontalTextAlignment="Center" Text="{Binding description}" Grid.Row="1" Grid.ColumnSpan="3" />
 
-                                    <Label HorizontalTextAlignment="Start" Text="{Binding getNextDate}" Grid.Row="2" Grid.Column="0" />
-                                    <Label HorizontalTextAlignment="End" Text="{Binding timeHour}:{Binding timeMinutes}" Grid.Row="2" Grid.Column="2" />
+                                    <Label HorizontalTextAlignment="Start" Text="{Binding NextDate}" Grid.Row="2" Grid.Column="0" />
+                                    <Label HorizontalTextAlignment="End" Text="{Binding formatedTime}" Grid.Row="2" Grid.Column="2" />
                                     
                                     <Label HorizontalTextAlignment="Start" Text="{Binding category.name}" Grid.Row="3" Grid.Column="0" />
                                     <Switch HorizontalOptions="End" IsToggled="{Binding isActivatedNotification}" Grid.Row="3" Grid.Column="2" />
@@ -54,11 +70,22 @@
                                     <!-- public Boolean[] repete { get; set; } -->
                                     <Label HorizontalTextAlignment="Start" Text="{Binding description}" Grid.Row="4" Grid.ColumnSpan="2" />
 
-                                    <Button Text="Prendre une photo"
+                                    <Button 
+                                        IsVisible="{Binding isNotTakePhoto}"
+                                        Text="Prendre une photo"
                                         Grid.Row="5" Grid.ColumnSpan="3"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="Center"
+                                        CommandParameter="{Binding .}"
                                         Clicked="OnTakePhoto" />
+
+                                    <Image
+                                        IsVisible="{Binding isTakePhoto}"
+                                        Grid.Row="5" Grid.ColumnSpan="3"
+                                        HeightRequest="300"
+                                        WidthRequest="300"
+                                        Source="{Binding photo}"
+                                        />
 
                                     <Button Text="Sélectionner un lieu"
                                         Grid.Row="6" Grid.ColumnSpan="3"

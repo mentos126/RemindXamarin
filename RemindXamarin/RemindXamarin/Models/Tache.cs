@@ -15,7 +15,37 @@ namespace RemindXamarin.Models
         public int timeHour { get; set; }
         public int timeMinutes { get; set; }
         public Boolean[] repete { get; set; }
+        public String photo { get; set; }
+        public bool isTakePhoto
+        {
+            get
+            {
+                return !photo.Equals("");;
+            }
+        }
+        public bool isNotTakePhoto
+        {
+            get
+            {
+                return photo.Equals(""); ;
+            }
+        }
 
+        public String NextDate
+        {
+            get
+            {
+                return getNextDate().ToString("dd/M/yyyy");
+
+            }
+        }
+        public string formatedTime
+        {
+            get
+            {
+                return string.Format("{0} : {1}", timeHour, timeMinutes);
+            }
+        }
 
         private void setup(string name, string description, Category category, DateTime? dateDeb, int warningBefore, int timeHour, int timeMinutes) {
 
@@ -30,6 +60,7 @@ namespace RemindXamarin.Models
             this.isActivatedNotification = true;
             this.timeHour = timeHour;
             this.timeMinutes = timeMinutes;
+            this.photo = "";
         }
 
         public Tache(string name, string description, Category category, DateTime? dateDeb, int warningBefore, int timeHour, int timeMinutes) {
@@ -49,39 +80,6 @@ namespace RemindXamarin.Models
             this.setup(name, description, category, dateDeb, warningBefore, timeHour, timeMinutes);
             this.repete = repete;
         }
-
-       /* public void setID(int ID) { this.ID = ID;}
-        public int getID() {return ID;}
-
-        // public UUID getWorkID() { return workID; }
-        // public void setWorkID(UUID uuid) { workID = uuid; }
-
-        public string getName() {return name;}
-        public void setName(string name) {this.name = name;}
-        
-        public string getDescription() {return description;}
-        public void setDescription(string description) {this.description = description;}
-        
-        public Category getCategory() {return category;}
-        public void setCategory(Category category) {this.category = category;}
-        
-        public DateTime getDateDeb() {return dateDeb;}
-        public void setDateDeb(DateTime dateDeb) {this.dateDeb = dateDeb;}
-        
-        public int getWarningBefore() {return warningBefore;}
-        public void setWarningBefore(int warningBefore) {this.warningBefore = warningBefore;}
-        
-        public Boolean getIsActivatedNotification() {return isActivatedNotification;}
-        public void setIsActivatedNotification(Boolean isActivatedNotification) {this.isActivatedNotification = isActivatedNotification;}
-
-        public Boolean[] getRepete() {return repete;}
-        public void setRepete(int index) {this.repete[index] = !this.repete[index];}
-        
-        public int getTimeHour() {return timeHour;}
-        public void setTimeHour(int time) {this.timeHour = time;}
-
-        public int getTimeMinutes() {return timeMinutes;}
-        public void setTimeMinutes(int timeMinutes) {this.timeMinutes = timeMinutes;}*/
 
         public string toString() {
             string r = "";
@@ -129,24 +127,6 @@ namespace RemindXamarin.Models
                 return c;
             }
         }
-
-        private long getDateDiff(DateTime date1, DateTime date2/*, TimeUnit timeUnit*/) {
-            // long diffInMillies = date2.getTime() - date1.getTime();
-            // return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
-            return 0;
-        }
-
-        /*public long getDuration(TimeUnit timeUnit){
-            Calendar cal = getNextDate();
-            cal.set(Calendar.HOUR, getTimeMinutes());
-            cal.set(Calendar.MINUTE, getTimeMinutes());
-            cal.add(Calendar.MINUTE, -1 * getWarningBefore());
-            //cal.roll(Calendar.MINUTE, getWarningBefore());
-            Date mDate  = getNextDate().getTime();
-            /*mDate.setHours(getTimeHour());
-            mDate.setMinutes(getTimeMinutes());*/
-            /*return getDateDiff(mDate,new Date(),timeUnit);
-        }*/
 
     }
 }

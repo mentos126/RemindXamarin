@@ -1,17 +1,16 @@
 ﻿In progress:
+************
 
+listes de taches 
+			* switch change si notifier
+			* ajout de photo
 
 ************************************
 TODO:
+*****
 
 listes de taches 
-			* tri
-			* filtre
-			* switch change si notifier
-			* affichage de la date et l'heure
-			* ajout de photo
 			* ajout de localisation
-
 
 sport activity
 sport detail
@@ -22,8 +21,14 @@ base de donnée
 
 ***********************************
 Done (AMELIORER):
+*****************
+
+listes de taches 
+			* tri
+			* filtre
 
 synchronized listes categories
+editTache category ??
 
 new category
 	* list icone

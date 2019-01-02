@@ -73,7 +73,6 @@ namespace RemindXamarin.Views
                     {
                         category.color = editedColor.Color;
                         Tasker.Instance.addCategory(category);
-
                         MessagingCenter.Send(this, "AddCategory", category);
                         await Navigation.PopModalAsync();
                     }

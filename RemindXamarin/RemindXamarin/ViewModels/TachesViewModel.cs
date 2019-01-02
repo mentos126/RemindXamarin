@@ -17,9 +17,7 @@ namespace RemindXamarin.ViewModels
     public class TachesViewModel : BaseViewModel
     {
         public ObservableCollection<Tache> Taches { get; set; }
-        public ObservableCollection<Category> Categories { get; set; }
         public Command LoadTachesCommand { get; set; }
-        public Command LoadCategoryCommand { get; set; }
         public String debug { get; set; }
 
         public TachesViewModel()

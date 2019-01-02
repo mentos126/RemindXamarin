@@ -5,10 +5,12 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using RemindXamarin.Models;
+using RemindXamarin.ViewModels;
 using RemindXamarin.Services;
 
 using System.ComponentModel;
 using System.Collections;
+
 
 namespace RemindXamarin.Views
 {
@@ -25,12 +27,15 @@ namespace RemindXamarin.Views
         public ArrayList Categories { get; set; }
         public ArrayList CategoriesName { get; set; }
         public ArrayList WarningBefore { get; set; }
+        public EditTacheViewModel viewModel { get; set; }
+
 
         public NewTachePage()
         {
             InitializeComponent();
+            viewModel = new EditTacheViewModel();
 
-            tache = new Tache("votre nom", "votre description", null, new DateTime(), 30, 12, 22);
+            tache = new Tache("votre nom", "votre description", null, DateTime.Now, 30, 12, 22);
             MinDate = DateTime.Now;
             MaxDate = DateTime.Now.Add(new TimeSpan(1000, 0, 0, 0, 0));
             SelectedDate = new DateTime();

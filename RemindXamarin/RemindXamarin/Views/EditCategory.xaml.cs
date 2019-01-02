@@ -19,6 +19,7 @@ namespace RemindXamarin.Views
         public string title = "Modifier une catégorie";
         public Category category { get; set; }
         public ArrayList Icones { get; set; }
+        public EditCategory editCategory { get; set; }
 
         public EditCategory(Category cat)
         {
@@ -83,9 +84,8 @@ namespace RemindXamarin.Views
                     if (editedColor.Color != null)
                     {
                         category.color = editedColor.Color;
-                        Tasker.Instance.addCategory(category);
-
-                        MessagingCenter.Send(this, "AddCategory", category);
+                        //Tasker.Instance.editCategoryById(category.ID, category);
+                        MessagingCenter.Send(this, "UpdateCategory", category);
                         await Navigation.PopModalAsync();
                     }
                     else

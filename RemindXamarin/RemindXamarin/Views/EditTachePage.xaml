@@ -23,7 +23,7 @@
                     <Picker x:Name="pickerWarningBefore" ItemsSource="{Binding WarningBefore}"/>
 
                     <Label Text="Select category" FontSize="Medium" />
-                    <Picker x:Name="pickerCategory" SelectedIndexChanged="OnCategoryChanged" ItemsSource="{Binding CategoriesName}"/>
+                    <Picker x:Name="pickerCategory" SelectedIndexChanged="OnCategoryChanged" ItemsSource="{Binding viewModel.CategoriesName}"/>
 
                     <Grid RowSpacing="1" ColumnSpacing="1">
                         <Grid.RowDefinitions>
