@@ -42,13 +42,14 @@
                             <StackLayout Padding="10" BackgroundColor="{Binding category.color }">
                                 <Grid IsVisible="True" x:Name="controlGrid" RowSpacing="0" ColumnSpacing="1">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
                                         <RowDefinition Height="auto" />
-                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -65,10 +66,9 @@
                                     <Label HorizontalTextAlignment="End" Text="{Binding formatedTime}" Grid.Row="2" Grid.Column="2" />
                                     
                                     <Label HorizontalTextAlignment="Start" Text="{Binding category.name}" Grid.Row="3" Grid.Column="0" />
-                                    <Switch HorizontalOptions="End" IsToggled="{Binding isActivatedNotification}" Grid.Row="3" Grid.Column="2" />
-                                    
-                                    <!-- public Boolean[] repete { get; set; } -->
-                                    <Label HorizontalTextAlignment="Start" Text="{Binding description}" Grid.Row="4" Grid.ColumnSpan="2" />
+                                    <Switch HorizontalOptions="End" IsToggled="{Binding isActivatedNotification, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" />
+
+                                    <Label HorizontalTextAlignment="Start" Text="{Binding repeteFormated}" Grid.Row="4" Grid.ColumnSpan="2" />
 
                                     <Button 
                                         IsVisible="{Binding isNotTakePhoto}"
@@ -80,15 +80,14 @@
                                         Clicked="OnTakePhoto" />
 
                                     <Image
-                                        IsVisible="{Binding isTakePhoto}"
-                                        Grid.Row="5" Grid.ColumnSpan="3"
+                                        Source="{Binding photo}"
+                                        Grid.Row="6" Grid.ColumnSpan="3"
                                         HeightRequest="300"
                                         WidthRequest="300"
-                                        Source="{Binding photo}"
                                         />
 
                                     <Button Text="Sélectionner un lieu"
-                                        Grid.Row="6" Grid.ColumnSpan="3"
+                                        Grid.Row="7" Grid.ColumnSpan="3"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="Center"
                                         Clicked="OnSelectPlace" />

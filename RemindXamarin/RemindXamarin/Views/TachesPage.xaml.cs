@@ -12,6 +12,10 @@ using RemindXamarin.Views;
 using RemindXamarin.ViewModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+using System.Diagnostics;
+using RemindXamarin.Services;
 
 namespace RemindXamarin.Views
 {
@@ -32,31 +36,56 @@ namespace RemindXamarin.Views
             this.sortList();
         }
 
+        
         public async void OnTakePhoto(object sender, EventArgs e)
         {
-            await CrossMedia.Current.Initialize();
-            if (!CrossMedia.Current.IsTakePhotoSupported && !CrossMedia.Current.IsPickPhotoSupported)
+            var initialize = await CrossMedia.Current.Initialize();
+
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported || !CrossMedia.IsSupported || !initialize)
             {
-                await DisplayAlert("Message","prise de photo non supporter","OK");
+                DependencyService.Get<IMessageToast>().Show(":( No camera available.");
                 return;
             }
-            else
-            {
-                var file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-                {
-                    Directory = "Images",
-                    Name = DateTime.Now+"_pic.jpg"
-                });
 
-                if(file == null)
+            using (var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+            {
+                PhotoSize = PhotoSize.Medium,
+                Directory = "Images",
+                Name = DateTime.Now + "_pic.jpg"
+            }))
+            {
+                if (file == null)
+                    return;
+                if (string.IsNullOrWhiteSpace(file?.Path))
                 {
                     return;
                 }
 
-                var mi = ((MenuItem)sender);
-                ((Tache)mi.CommandParameter).photo = file.Path;
-                
+                var mi = ((Button)sender);
+                Tache myTache = ((Tache)mi.CommandParameter);
+                myTache.photo = file.Path;
+                Debug.Print(myTache.name+"++++++++++++++++++++++++");
+                Debug.Print(myTache.photo + "++++++++++++++++++++++++");
+                viewModel.UpdateTache(myTache);
+                file.Dispose();
             }
+
+
+
+            /*using (var memoryStream = new MemoryStream())
+            {
+                file.GetStream().CopyTo(memoryStream);
+                var myfile = memoryStream.ToArray();
+                mysfile = myfile;
+            }
+
+            PhotoIDImage.Source = ImageSource.FromFile(file.Path);*/
+
+
+            /*var mi = ((MenuItem)sender);
+            ((Tache)mi.CommandParameter).photo = file.Path; */
+
+
         }
 
         void OnSelectPlace(object sender, EventArgs e)
@@ -145,6 +174,12 @@ namespace RemindXamarin.Views
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.sortList();
+        }
+
+        private void SwitchNotification_Toggled(object sender, ToggledEventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            ((Tache)mi.CommandParameter).isActivatedNotification = !((Tache)mi.CommandParameter).isActivatedNotification;
         }
     }
 }

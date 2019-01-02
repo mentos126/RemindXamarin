@@ -44,6 +44,32 @@ namespace RemindXamarin.ViewModels
 
         }
 
+        public async void UpdateTache(Tache tache)
+        {
+            try
+            {
+                if (Taches.Contains(tache))
+                {
+                    var oldTache = Taches.Where((Tache arg) => arg.ID == tache.ID).FirstOrDefault();
+                    Taches.Remove(oldTache);
+                    Taches.Add(tache);
+
+                    Debug.Print(tache.name + "++++++++++++++++++++++++");
+                    Debug.Print(tache.photo + "++++++++++++++++++++++++");
+                    await DataStore.UpdateTacheAsync(tache);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
         public async void DeleteTache(Tache tache)
         {
             try

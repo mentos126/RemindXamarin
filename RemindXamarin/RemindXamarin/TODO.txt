@@ -2,7 +2,6 @@
 ************
 
 listes de taches 
-			* switch change si notifier
 			* ajout de photo
 
 ************************************

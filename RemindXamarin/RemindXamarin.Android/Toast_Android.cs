@@ -22,5 +22,6 @@ namespace RemindXamarin.Droid
         {
             Toast.MakeText(Android.App.Application.Context, message, ToastLength.Long).Show();
         }
+        
     }
 }
