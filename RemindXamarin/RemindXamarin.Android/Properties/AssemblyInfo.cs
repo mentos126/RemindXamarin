@@ -34,3 +34,11 @@ using Android.App;
 [assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
 [assembly: UsesPermission(Android.Manifest.Permission.Camera)]
 [assembly: UsesPermission(Android.Manifest.Permission.ReadExternalStorage)]
+
+[assembly: UsesPermission(Android.Manifest.Permission.AccessCoarseLocation)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessFineLocation)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessLocationExtraCommands)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessMockLocation)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessNetworkState)]
+[assembly: UsesPermission(Android.Manifest.Permission.AccessWifiState)]
+

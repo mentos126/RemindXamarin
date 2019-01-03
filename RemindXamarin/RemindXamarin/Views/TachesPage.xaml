@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RemindXamarin.Views.TachesPage"
              Title="{Binding Title}"
@@ -50,6 +51,7 @@
                                         <RowDefinition Height="auto" />
                                         <RowDefinition Height="auto" />
                                         <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -92,6 +94,14 @@
                                         HorizontalOptions="Center"
                                         Clicked="OnSelectPlace" />
 
+                                    <maps:Map WidthRequest="320" HeightRequest="200"
+                                        x:Name="MyMap"
+                                        IsShowingUser="true"
+                                        MapType="Hybrid"
+                                        Grid.Row="8" Grid.ColumnSpan="3"
+                                              
+                                    /> 
+                                    
                                 </Grid>
                             </StackLayout>
                         </ViewCell>

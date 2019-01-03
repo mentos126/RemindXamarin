@@ -21,6 +21,7 @@ namespace RemindXamarin.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            Xamarin.FormsMaps.Init(this, savedInstanceState);
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
