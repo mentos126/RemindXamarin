@@ -84,7 +84,7 @@ namespace RemindXamarin.Views
                     if (editedColor.Color != null)
                     {
                         category.color = editedColor.Color;
-                        //Tasker.Instance.editCategoryById(category.ID, category);
+                        Tasker.Instance.editCategoryById(category.ID, category);
                         MessagingCenter.Send(this, "UpdateCategory", category);
                         await Navigation.PopModalAsync();
                     }

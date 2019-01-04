@@ -16,6 +16,8 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Diagnostics;
 using RemindXamarin.Services;
+using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace RemindXamarin.Views
 {
@@ -49,8 +51,6 @@ namespace RemindXamarin.Views
 
             using (var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
             {
-                PhotoSize = PhotoSize.Medium,
-                Directory = "Images",
                 Name = DateTime.Now + "_pic.jpg"
             }))
             {
@@ -66,25 +66,16 @@ namespace RemindXamarin.Views
                 myTache.photo = file.Path;
                 Debug.Print(myTache.name+"++++++++++++++++++++++++");
                 Debug.Print(myTache.photo + "++++++++++++++++++++++++");
-                viewModel.UpdateTache(myTache);
+
+
+                //viewModel.UpdateTache(myTache);
+                Tasker.Instance.removeTask(myTache);
+                Tasker.Instance.addTask(myTache);
+                viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
+                //Tasker.Instance.getListTasks();
+                TachesListView.ItemsSource = viewModel.Taches;
                 file.Dispose();
             }
-
-
-
-            /*using (var memoryStream = new MemoryStream())
-            {
-                file.GetStream().CopyTo(memoryStream);
-                var myfile = memoryStream.ToArray();
-                mysfile = myfile;
-            }
-
-            PhotoIDImage.Source = ImageSource.FromFile(file.Path);*/
-
-
-            /*var mi = ((MenuItem)sender);
-            ((Tache)mi.CommandParameter).photo = file.Path; */
-
 
         }
 
@@ -114,12 +105,15 @@ namespace RemindXamarin.Views
             base.OnAppearing();
 
             if (viewModel.Taches.Count == 0)
-                viewModel.LoadTachesCommand.Execute(null);
+                //viewModel.LoadTachesCommand.Execute(null);
+                viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
+            //Tasker.Instance.getListTasks();
 
         }
 
         public void filterList()
         {
+            viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
             String keywords = SearchBar.Text.ToLower();
             IEnumerable<Tache> result = null;
             if (keywords.Equals(""))
@@ -130,7 +124,29 @@ namespace RemindXamarin.Views
             { 
                 result = viewModel.Taches.Where(tache => tache.name.ToLower().Contains(keywords));
             }
+            /*Debug.Print(Tasker.Instance.getListTasks().ToString());
+            ArrayList result = new ArrayList();
+            if (keywords.Equals(""))
+            {
+                result = Tasker.Instance.getListTasks();
+            }
+            else
+            {
+                foreach(Tache t in Tasker.Instance.getListTasks())
+                {
+                    Debug.Print(t.name+"7777777777777");
+                    if (t.name.ToLower().Contains(keywords))
+                    {
+                        result.Add(t);
+                    }
+                }
+            }*/
+            //viewModel.Taches = new ObservableCollection<Tache>(result.Cast<Tache>().ToList());
             TachesListView.ItemsSource = result;
+            TachesListView.ItemsSource = viewModel.Taches;
+
+            sortDirection = !sortDirection;
+            sortList();
         }
 
         public void sortList()
@@ -144,7 +160,8 @@ namespace RemindXamarin.Views
             {
                 result = viewModel.Taches.OrderByDescending( tache => tache.name);
             }
-            TachesListView.ItemsSource = result;
+            viewModel.Taches = new ObservableCollection<Tache>(result.Cast<Tache>().ToList());
+            TachesListView.ItemsSource = viewModel.Taches;
             sortDirection = !sortDirection;
         }
 
@@ -153,7 +170,10 @@ namespace RemindXamarin.Views
             try
             { 
                 var mi = ((MenuItem)sender);
-                viewModel.DeleteTache(((Tache) mi.CommandParameter));
+                //viewModel.DeleteTache(((Tache) mi.CommandParameter));
+                Tasker.Instance.removeTask((Tache) mi.CommandParameter);
+                viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
+                TachesListView.ItemsSource = viewModel.Taches;
             }
             catch (Exception x)
             {
@@ -166,12 +186,12 @@ namespace RemindXamarin.Views
             this.filterList();
         }
 
-        private void TapOrder_Tapped(object sender, EventArgs e)
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.sortList();
+            this.filterList();
         }
 
-        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        private void TapOrder_Tapped(object sender, EventArgs e)
         {
             this.sortList();
         }

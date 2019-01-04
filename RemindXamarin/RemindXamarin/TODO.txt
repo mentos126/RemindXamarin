@@ -1,8 +1,7 @@
 ﻿In progress:
 ************
 
-listes de taches 
-			* ajout de photo
+!!! ne plus utilisé les services et viewmodel ==> utiliser tasker !!!
 
 ************************************
 TODO:
@@ -23,8 +22,9 @@ Done (AMELIORER):
 *****************
 
 listes de taches 
-			* tri
+			* tri --> ne fonctionne pas des masses
 			* filtre
+			* ajout de photo --> affichage dans la liste
 
 synchronized listes categories
 editTache category ??

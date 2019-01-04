@@ -50,8 +50,8 @@ namespace RemindXamarin.Views
             SelectedDate = this.tache.getNextDate();
             isRepet = this.tache.dateDeb == null;
 
-            //viewModel.Categories = new ArrayList();
-            //Categories = Tasker.Instance.getListCategories();
+            /*viewModel.Categories = new ArrayList();
+            viewModel.Categories = Tasker.Instance.getListCategories();*/
 
             WarningBefore = new ArrayList();
             for (int i = 0; i <= 90; i += 5)
@@ -208,8 +208,12 @@ namespace RemindXamarin.Views
         async void Save(Tache newTache)
         {
             newTache.ID = tache.ID;
-            MessagingCenter.Send(this, "UpdateTache", newTache);
-            await Navigation.PopModalAsync(false);
+            tache = newTache;
+            Tasker.Instance.removeTask(newTache);
+            Tasker.Instance.addTask(newTache);
+            Debug.Print(Tasker.Instance.getTaskByID(newTache.ID).name+"8888888888888888888");
+            //MessagingCenter.Send(this, "UpdateTache", newTache);
+            await Navigation.PopModalAsync();
         }
 
         async void OnAddCategory(object sender, EventArgs e)

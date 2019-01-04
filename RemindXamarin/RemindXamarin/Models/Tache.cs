@@ -1,5 +1,7 @@
 using System;
 
+using Xamarin.Forms;
+
 namespace RemindXamarin.Models
 {
     public class Tache
@@ -15,7 +17,65 @@ namespace RemindXamarin.Models
         public int timeHour { get; set; }
         public int timeMinutes { get; set; }
         public Boolean[] repete { get; set; }
+        public String repeteFormated
+        {
+            get
+            {
+                if(dateDeb == null)
+                {
+                    String s = "";
+                    for(int day=0; day<7; day++ )
+                    {
+                        switch (day)
+                        {
+                            case 0:
+                                if (repete[day])
+                                    s += "Lun. ";
+                                break;
+                            case 1:
+                                if (repete[day])
+                                    s += "Mar. ";
+                                break;
+                            case 2:
+                                if (repete[day])
+                                    s += "Mer. ";
+                                break;
+                            case 3:
+                                if (repete[day])
+                                    s += "Jeu. ";
+                                break;
+                            case 4:
+                                if (repete[day])
+                                    s += "Ven. ";
+                                break;
+                            case 5:
+                                if (repete[day])
+                                    s += "Sam. ";
+                                break;
+                            case 6:
+                                if (repete[day])
+                                    s += "Dim. ";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    return s;
+                }
+                else
+                {
+                    return "Une seule fois.";
+                }
+            }
+        }
         public String photo { get; set; }
+        /*public BitmapImage getBitmapPhoto
+        {
+            get
+            {
+                return new BitmapImage(new Uri(photo));
+            }
+        }*/
         public bool isTakePhoto
         {
             get

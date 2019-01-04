@@ -18,7 +18,7 @@
         <StackLayout>
             <Grid IsVisible="True" x:Name="controlGrid" RowSpacing="0" ColumnSpacing="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -32,8 +32,7 @@
                 </Image>
             </Grid>
 
-            <ListView x:Name="TachesListView" ItemsSource="{Binding Taches}" VerticalOptions="FillAndExpand" HasUnevenRows="true" RefreshCommand="{Binding LoadTachesCommand}" 
-                      IsPullToRefreshEnabled="true" IsRefreshing="{Binding IsBusy, Mode=OneWay}" CachingStrategy="RecycleElement" ItemSelected="OnTacheSelected">
+            <ListView x:Name="TachesListView" RefreshCommand="{Binding LoadTachesCommand}" IsPullToRefreshEnabled="false" IsRefreshing="{Binding IsBusy, Mode=OneWay}" ItemsSource="{Binding Taches}"  HasUnevenRows="true" VerticalOptions="FillAndExpand"  CachingStrategy="RecycleElement" ItemSelected="OnTacheSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -81,12 +80,12 @@
                                         CommandParameter="{Binding .}"
                                         Clicked="OnTakePhoto" />
 
-                                    <Image
-                                        Source="{Binding photo}"
-                                        Grid.Row="6" Grid.ColumnSpan="3"
+                                    <Image Grid.Row="6" Grid.ColumnSpan="3"
+                                        IsVisible="{Binding isTakePhoto}"
+                                           Source="{Binding photo}"
                                         HeightRequest="300"
-                                        WidthRequest="300"
-                                        />
+                                        WidthRequest="300">
+                                    </Image>
 
                                     <Button Text="Sélectionner un lieu"
                                         Grid.Row="7" Grid.ColumnSpan="3"
@@ -94,13 +93,13 @@
                                         HorizontalOptions="Center"
                                         Clicked="OnSelectPlace" />
 
-                                    <maps:Map WidthRequest="320" HeightRequest="200"
+                                    <!--maps:Map WidthRequest="320" HeightRequest="200"
                                         x:Name="MyMap"
                                         IsShowingUser="true"
                                         MapType="Hybrid"
                                         Grid.Row="8" Grid.ColumnSpan="3"
                                               
-                                    /> 
+                                    /--> 
                                     
                                 </Grid>
                             </StackLayout>

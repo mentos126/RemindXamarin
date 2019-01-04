@@ -179,7 +179,7 @@ namespace RemindXamarin.Views
 
         async void Save(Tache newItem)
         {
-            //Tasker.Instance.addTask(newItem);
+            Tasker.Instance.addTask(newItem);
             MessagingCenter.Send(this, "AddTache", newItem);
             await Navigation.PopModalAsync();
         }
