@@ -30,14 +30,44 @@ namespace RemindXamarin.Views
         public TachesPage()
         {
             InitializeComponent();
+            permissions();
             viewModel = new TachesViewModel();
-
             BindingContext = viewModel;
 
             sortDirection = true;
             this.sortList();
         }
 
+        public async void permissions()
+        {
+            try
+            {
+                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+                if (status != PermissionStatus.Granted)
+                {
+                    if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
+                    {
+                        await DisplayAlert("Need location", "Gunna need that location", "OK");
+                    }
+
+                    var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+                    status = results[Permission.Location];
+                }
+
+                if (status == PermissionStatus.Granted)
+                {
+                    //Permission granted, do what you want do.
+                }
+                else if (status != PermissionStatus.Unknown)
+                {
+                    await DisplayAlert("Location Denied", "Can not continue, try again.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
+        }
         
         public async void OnTakePhoto(object sender, EventArgs e)
         {
@@ -71,9 +101,11 @@ namespace RemindXamarin.Views
                 //viewModel.UpdateTache(myTache);
                 Tasker.Instance.removeTask(myTache);
                 Tasker.Instance.addTask(myTache);
-                viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
                 //Tasker.Instance.getListTasks();
-                TachesListView.ItemsSource = viewModel.Taches;
+
+                filterList("");
+                /*viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
+                TachesListView.ItemsSource = viewModel.Taches;*/
                 file.Dispose();
             }
 
@@ -107,22 +139,22 @@ namespace RemindXamarin.Views
             if (viewModel.Taches.Count == 0)
                 //viewModel.LoadTachesCommand.Execute(null);
                 viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
-            //Tasker.Instance.getListTasks();
+                //Tasker.Instance.getListTasks();
 
         }
 
-        public void filterList()
+        public void filterList(String s)
         {
-            viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
-            String keywords = SearchBar.Text.ToLower();
+            ObservableCollection<Tache> refs = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
+            String keywords = s.ToLower();
             IEnumerable<Tache> result = null;
             if (keywords.Equals(""))
             {
-                result = viewModel.Taches;
+                result = refs;
             }
             else
             { 
-                result = viewModel.Taches.Where(tache => tache.name.ToLower().Contains(keywords));
+                result = refs.Where(tache => tache.name.ToLower().Contains(keywords));
             }
             /*Debug.Print(Tasker.Instance.getListTasks().ToString());
             ArrayList result = new ArrayList();
@@ -141,17 +173,19 @@ namespace RemindXamarin.Views
                     }
                 }
             }*/
+            viewModel.Taches.Clear();
+            foreach(Tache res in result)
+            {
+                viewModel.Taches.Add(res);
+            }
             //viewModel.Taches = new ObservableCollection<Tache>(result.Cast<Tache>().ToList());
-            TachesListView.ItemsSource = result;
             TachesListView.ItemsSource = viewModel.Taches;
 
-            sortDirection = !sortDirection;
-            sortList();
         }
 
         public void sortList()
         {
-            IEnumerable<Tache> result = null;
+          /*  IEnumerable<Tache> result = null;
             if (sortDirection)
             {
                 result = viewModel.Taches.OrderBy( tache => tache.name);
@@ -160,9 +194,10 @@ namespace RemindXamarin.Views
             {
                 result = viewModel.Taches.OrderByDescending( tache => tache.name);
             }
-            viewModel.Taches = new ObservableCollection<Tache>(result.Cast<Tache>().ToList());
+            viewModel.Taches =  new ObservableCollection<Tache>(result.Cast<Tache>().ToList());
             TachesListView.ItemsSource = viewModel.Taches;
             sortDirection = !sortDirection;
+            */
         }
 
         void OnDelete (object sender, EventArgs e)
@@ -183,12 +218,12 @@ namespace RemindXamarin.Views
 
         private void SearchBar_SearchButtonPressed(object sender, EventArgs e)
         {
-            this.filterList();
+            this.filterList(SearchBar.Text.ToLower());
         }
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.filterList();
+            this.filterList(SearchBar.Text.ToLower());
         }
 
         private void TapOrder_Tapped(object sender, EventArgs e)

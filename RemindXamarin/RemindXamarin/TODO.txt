@@ -1,14 +1,12 @@
 ﻿In progress:
 ************
 
-!!! ne plus utilisé les services et viewmodel ==> utiliser tasker !!!
+listes de taches 
+			* ajout de localisation
 
 ************************************
 TODO:
 *****
-
-listes de taches 
-			* ajout de localisation
 
 sport activity
 sport detail
@@ -24,7 +22,6 @@ Done (AMELIORER):
 listes de taches 
 			* tri --> ne fonctionne pas des masses
 			* filtre
-			* ajout de photo --> affichage dans la liste
 
 synchronized listes categories
 editTache category ??
