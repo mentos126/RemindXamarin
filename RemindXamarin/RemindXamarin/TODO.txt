@@ -1,6 +1,9 @@
 ﻿In progress:
 ************
 
+!!! probleme d'actualisation de la list view de la home page !!!
+!!! utilisation du filtre pour faire une pseudo mise a jour !!!
+
 listes de taches 
 			* ajout de localisation
 
@@ -18,10 +21,6 @@ base de donnée
 ***********************************
 Done (AMELIORER):
 *****************
-
-listes de taches 
-			* tri --> ne fonctionne pas des masses
-			* filtre
 
 synchronized listes categories
 editTache category ??
