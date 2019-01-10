@@ -4,8 +4,6 @@
 !!! probleme d'actualisation de la list view de la home page !!!
 !!! utilisation du filtre pour faire une pseudo mise a jour !!!
 
-listes de taches 
-			* ajout de localisation
 
 ************************************
 TODO:
