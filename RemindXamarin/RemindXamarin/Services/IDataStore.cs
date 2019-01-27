@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using RemindXamarin.Models;
+
 namespace RemindXamarin.Services
 {
-    public interface IDataStore<T, C>
+    public interface IDataStore<T>
     {
-        Task<bool> AddTacheAsync(T tache);
-        Task<bool> UpdateTacheAsync(T tache);
-        Task<bool> DeleteTacheAsync(int id);
+        Task<int> AddTacheAsync(T tache);
+        Task<int> UpdateTacheAsync(T tache);
+        Task<int> DeleteTacheAsync(int id);
         Task<T> GetTacheAsync(int id);
         Task<IEnumerable<T>> GetTachesAsync(bool forceRefresh = false);
-
-        Task<bool> AddCategoryAsync(C category);
-        Task<bool> UpdateCategoryAsync(C category);
-        Task<bool> DeleteCategoryAsync(int id);
-        Task<C> GetCategoryAsync(int id);
-        Task<IEnumerable<C>> GetCategoriesAsync(bool forceRefresh = false);
+        Task<IEnumerable<T>> SearchAsync(String recherche);
 
     }
 }

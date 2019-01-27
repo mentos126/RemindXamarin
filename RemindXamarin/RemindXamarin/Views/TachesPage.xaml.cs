@@ -25,20 +25,20 @@ namespace RemindXamarin.Views
     public partial class TachesPage : ContentPage
     {
         TachesViewModel viewModel;
-        bool sortDirection = true;
+
+        bool SortDirection { get; set; }
 
         public TachesPage()
         {
             InitializeComponent();
-            permissions();
+            Permissions();
             viewModel = new TachesViewModel();
             BindingContext = viewModel;
+            SortDirection = true;
 
-            sortDirection = true;
-            this.sortList();
         }
 
-        public async void permissions()
+        public async void Permissions()
         {
             try
             {
@@ -93,19 +93,12 @@ namespace RemindXamarin.Views
 
                 var mi = ((Button)sender);
                 Tache myTache = ((Tache)mi.CommandParameter);
-                myTache.photo = file.Path;
-                Debug.Print(myTache.name+"++++++++++++++++++++++++");
-                Debug.Print(myTache.photo + "++++++++++++++++++++++++");
+                myTache.Photo = file.Path;
+                Debug.Print(myTache.Name+"++++++++++++++++++++++++");
+                Debug.Print(myTache.Photo + "++++++++++++++++++++++++");
 
 
-                //viewModel.UpdateTache(myTache);
-                Tasker.Instance.removeTask(myTache);
-                Tasker.Instance.addTask(myTache);
-                //Tasker.Instance.getListTasks();
-
-                filterList("");
-                /*viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
-                TachesListView.ItemsSource = viewModel.Taches;*/
+                FilterList("");
                 file.Dispose();
             }
 
@@ -117,11 +110,10 @@ namespace RemindXamarin.Views
 
         async void OnTacheSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var tache = args.SelectedItem as Tache;
-            if (tache == null)
+            if (!(args.SelectedItem is Tache tache))
                 return;
 
-            await Navigation.PushModalAsync(new NavigationPage (new EditTachePage(tache)));
+            await Navigation.PushAsync(new TacheDetailPage (new TacheDetailViewModel(tache)));
 
             // Manually deselect item.
             TachesListView.SelectedItem = null;
@@ -137,53 +129,16 @@ namespace RemindXamarin.Views
             base.OnAppearing();
 
             if (viewModel.Taches.Count == 0)
-                //viewModel.LoadTachesCommand.Execute(null);
-                viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
-                //Tasker.Instance.getListTasks();
+                viewModel.LoadTachesCommand.Execute(null);
 
         }
 
-        public void filterList(String s)
+        public void FilterList(String s)
         {
-            ObservableCollection<Tache> refs = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
-            String keywords = s.ToLower();
-            IEnumerable<Tache> result = null;
-            if (keywords.Equals(""))
-            {
-                result = refs;
-            }
-            else
-            { 
-                result = refs.Where(tache => tache.name.ToLower().Contains(keywords));
-            }
-            /*Debug.Print(Tasker.Instance.getListTasks().ToString());
-            ArrayList result = new ArrayList();
-            if (keywords.Equals(""))
-            {
-                result = Tasker.Instance.getListTasks();
-            }
-            else
-            {
-                foreach(Tache t in Tasker.Instance.getListTasks())
-                {
-                    Debug.Print(t.name+"7777777777777");
-                    if (t.name.ToLower().Contains(keywords))
-                    {
-                        result.Add(t);
-                    }
-                }
-            }*/
-            viewModel.Taches.Clear();
-            foreach(Tache res in result)
-            {
-                viewModel.Taches.Add(res);
-            }
-            //viewModel.Taches = new ObservableCollection<Tache>(result.Cast<Tache>().ToList());
-            TachesListView.ItemsSource = viewModel.Taches;
-
+                viewModel.Search(s);
         }
 
-        public void sortList()
+        public void SortList()
         {
           /*  IEnumerable<Tache> result = null;
             if (sortDirection)
@@ -205,10 +160,6 @@ namespace RemindXamarin.Views
             try
             { 
                 var mi = ((MenuItem)sender);
-                //viewModel.DeleteTache(((Tache) mi.CommandParameter));
-                Tasker.Instance.removeTask((Tache) mi.CommandParameter);
-                viewModel.Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
-                TachesListView.ItemsSource = viewModel.Taches;
             }
             catch (Exception x)
             {
@@ -218,23 +169,23 @@ namespace RemindXamarin.Views
 
         private void SearchBar_SearchButtonPressed(object sender, EventArgs e)
         {
-            this.filterList(SearchBar.Text.ToLower());
+            this.FilterList(SearchBar.Text.ToLower());
         }
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.filterList(SearchBar.Text.ToLower());
+            this.FilterList(SearchBar.Text.ToLower());
         }
 
         private void TapOrder_Tapped(object sender, EventArgs e)
         {
-            this.sortList();
+            this.SortList();
         }
 
         private void SwitchNotification_Toggled(object sender, ToggledEventArgs e)
         {
-            var mi = ((MenuItem)sender);
-            ((Tache)mi.CommandParameter).isActivatedNotification = !((Tache)mi.CommandParameter).isActivatedNotification;
+            /*var mi = ((MenuItem)sender);
+            ((Tache)mi.CommandParameter).IsActivatedNotification = !((Tache)mi.CommandParameter).IsActivatedNotification;*/
         }
     }
 }

@@ -9,7 +9,7 @@ namespace RemindXamarin.ViewModels
         public Tache Tache { get; set; }
         public TacheDetailViewModel(Tache tache = null)
         {
-            Title = tache?.name;
+            Title = tache?.Name;
             Tache = tache;
         }
     }

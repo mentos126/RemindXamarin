@@ -16,33 +16,32 @@ namespace RemindXamarin.ViewModels
     public class TachesViewModel : BaseViewModel
     {
         public ObservableCollection<Tache> Taches { get; set; }
-        //public ArrayList Taches { get; set; }
         public Command LoadTachesCommand { get; set; }
-        public String debug { get; set; }
+        public String MyDebug { get; set; }
 
         public TachesViewModel()
         {
+            MyDebug = "null";
             Title = "Reminds";
-            //Taches = Tasker.Instance.getListTasks();
-            Taches = new ObservableCollection<Tache>(Tasker.Instance.getListTasks().Cast<Tache>().ToList());
-            //Taches = Tasker.Instance.getListTasks();
-            //LoadTachesCommand = new Command(async () => await ExecuteLoadTachesCommand());
+            Taches = new ObservableCollection<Tache>();
+            LoadTachesCommand = new Command(async () => await ExecuteLoadTachesCommand());
 
-           /* MessagingCenter.Subscribe<NewTachePage, Tache>(this, "AddTache", async (obj, tache) =>
+            MessagingCenter.Subscribe<NewTachePage, Tache>(this, "AddTache", async (obj, tache) =>
             {
                 var newTache = tache as Tache;
                 Taches.Add(newTache);
-                await DataStore.AddTacheAsync(newTache);
+                try
+                {
+                    await DataStore.AddTacheAsync(newTache);
+
+                }
+                catch (Exception e) {
+                    Debug.Print("ADDDDAAAADDDDAAA");
+                    //Debug.Print(newTache.MyToString());
+                    Debug.Print(e.StackTrace);
+                }
             });
 
-            MessagingCenter.Subscribe<EditTachePage, Tache>(this, "UpdateTache", async (obj, tache) =>
-            {
-                var newTache = tache as Tache;
-                var oldTache = Taches.Where((Tache arg) => arg.ID == newTache.ID).FirstOrDefault();
-                Taches.Remove(oldTache);
-                Taches.Add(newTache);
-                await DataStore.UpdateTacheAsync(newTache);
-            });*/
 
         }
 
@@ -91,7 +90,7 @@ namespace RemindXamarin.ViewModels
             {
                 IsBusy = false;
             }
-        }
+        }*/
 
         async Task ExecuteLoadTachesCommand()
         {
@@ -116,6 +115,31 @@ namespace RemindXamarin.ViewModels
             {
                 IsBusy = false;
             }
-        }*/
+        }
+
+        async internal void Search(string s)
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                var taches = await DataStore.SearchAsync(s);
+                Taches.Clear();
+                foreach (var tache in taches)
+                {
+                    Taches.Add(tache);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
     }
 }

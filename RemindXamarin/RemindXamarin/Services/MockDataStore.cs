@@ -1,113 +1,90 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using RemindXamarin.Models;
 using Xamarin.Forms;
+using SQLite;
+using System.IO;
+using System.Diagnostics;
 
 namespace RemindXamarin.Services
 {
-    public class MockDataStore : IDataStore<Tache, Category>
+    public class MockDataStore : SQLiteAsyncConnection, IDataStore<Tache>
     {
-        List<Tache> taches;
-        List<Category> categories;
 
-        public MockDataStore()
+        static MockDataStore database;
+
+        public static MockDataStore Database
         {
-            taches = new List<Tache>();
-            var mockTaches = new List<Tache>
+            get
             {
-                new Tache("name 1", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", Color.FromHex("FF6A00")), new DateTime(), 30, 12, 22),
-                new Tache("name 2", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", Color.FromHex("FF6A00")), new DateTime(), 30, 12, 22),
-                new Tache("name 3", "description 1", new Category(Tasker.CATEGORY_SPORT_TAG, "ic_directions_run_black_36dp.png", Color.FromHex("FFFF92FF")), new DateTime(), 30, 12, 22),
-                new Tache("name 4", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", Color.FromHex("FF6A00")), new DateTime(), 30, 12, 22),
-                new Tache("name 5", "description 1", new Category(Tasker.CATEGORY_NONE_TAG, "ic_alarm_black_36dp.png", Color.FromHex("FF6A00")), new DateTime(), 30, 12, 22),
-            };
-
-            foreach (var tache in mockTaches)
-            {
-                //taches.Add(tache);
-            }
-
-            categories = new List<Category>();
-
-            var mockCategories = new List<Category>
-            {
-
-            };
-
-            foreach (var cat in mockCategories)
-            {
-                categories.Add(cat);
+                if (database == null)
+                {
+                    database = new MockDataStore(
+                        Path.Combine(
+                            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+                            "TachesSQLite.db3"
+                            )
+                        );
+                    
+                }
+                return database;
             }
         }
 
-        public async Task<bool> AddTacheAsync(Tache tache)
+        public MockDataStore(string path) : base(path)
         {
-            taches.Add(tache);
-
-            return await Task.FromResult(true);
+            Debug.Print("ddddddddddddddddddddddddddddddddddddddd");
+            Debug.Print(path);
+            this.CreateTableAsync<Tache>().Wait();
+            Debug.Print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         }
 
-        public async Task<bool> UpdateTacheAsync(Tache tache)
-        {
-            var oldTache = taches.Where((Tache arg) => arg.ID == tache.ID).FirstOrDefault();
-            taches.Remove(oldTache);
-            taches.Add(tache);
 
-            return await Task.FromResult(true);
+        public async Task<int> AddTacheAsync(Tache tache)
+        {
+            try
+            {
+                Debug.Print("AAAAAAAAAAAAAAAA");
+                return await Database.InsertAsync(tache);
+            }catch(Exception e)
+            {
+                Debug.Print("BBBBBBBBBBBBBBBB");
+                Debug.Print(e.StackTrace);
+                return 0;
+            }
         }
 
-        public async Task<bool> DeleteTacheAsync(int id)
+        public async Task<int> UpdateTacheAsync(Tache tache)
         {
-            var oldTache = taches.Where((Tache arg) => arg.ID == id).FirstOrDefault();
-            taches.Remove(oldTache);
+            return await Database.UpdateAsync(tache);
+        }
 
-            return await Task.FromResult(true);
+        public async Task<int> DeleteTacheAsync(int id)
+        {
+            return await Database.DeleteAsync(id);
         }
 
         public async Task<Tache> GetTacheAsync(int id)
         {
-            return await Task.FromResult(taches.FirstOrDefault(s => s.ID == id));
+            return await Database.GetAsync<Tache>(id);
         }
 
         public async Task<IEnumerable<Tache>> GetTachesAsync(bool forceRefresh = false)
         {
-            return await Task.FromResult(taches);
+            return await Database.Table<Tache>().ToListAsync();
         }
 
-        public async Task<bool> AddCategoryAsync(Category category)
+        public async Task<IEnumerable<Tache>> SearchAsync(String recherche)
         {
-            categories.Add(category);
-            return await Task.FromResult(true);
-
+          
+                var taches = from t in Database.Table<Tache>()
+                             where t.Name.Contains(recherche) //|| t.Description.Contains(recherche)
+                             select t;
+                return await taches.ToListAsync();
         }
 
-        public async Task<bool> UpdateCategoryAsync(Category category)
-        {
-            var oldCategory = categories.Where((Category arg) => arg.ID == category.ID).FirstOrDefault();
-            categories.Remove(oldCategory);
-            categories.Add(category);
-
-            return await Task.FromResult(true);
-        }
-
-        public async Task<bool> DeleteCategoryAsync(int id)
-        {
-            var oldCategory = categories.Where((Category arg) => arg.ID == id).FirstOrDefault();
-            categories.Remove(oldCategory);
-
-            return await Task.FromResult(true);
-        }
-
-        public async Task<Category> GetCategoryAsync(int id)
-        {
-            return await Task.FromResult(categories.FirstOrDefault(s => s.ID == id));
-        }
-
-        public async Task<IEnumerable<Category>> GetCategoriesAsync(bool forceRefresh = false)
-        {
-            return await Task.FromResult(categories);
-        }
     }
 }

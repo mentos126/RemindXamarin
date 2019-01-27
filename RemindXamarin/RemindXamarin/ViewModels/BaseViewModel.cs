@@ -7,12 +7,17 @@ using Xamarin.Forms;
 
 using RemindXamarin.Models;
 using RemindXamarin.Services;
+using System.IO;
 
 namespace RemindXamarin.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Tache, Category> DataStore => DependencyService.Get<IDataStore<Tache, Category>>() ?? new MockDataStore();
+#pragma warning disable CS0246 // Le nom de type ou d'espace de noms 'MockDataStore' est introuvable (vous manque-t-il une directive using ou une référence d'assembly ?)
+        public IDataStore<Tache> DataStore => DependencyService.Get<IDataStore<Tache>>() ?? MockDataStore.Database;
+#pragma warning restore CS0246 // Le nom de type ou d'espace de noms 'MockDataStore' est introuvable (vous manque-t-il une directive using ou une référence d'assembly ?)
+
+       // public IDataStore<Tache> DataStore => DependencyService.Get<IDataStore<Tache>>() ?? MockDataStore.Database;
 
         bool isBusy = false;
         public bool IsBusy

@@ -10,7 +10,7 @@ using RemindXamarin.Services;
 
 using System.ComponentModel;
 using System.Collections;
-
+using System.Diagnostics;
 
 namespace RemindXamarin.Views
 {
@@ -18,38 +18,64 @@ namespace RemindXamarin.Views
     public partial class NewTachePage : ContentPage
     {
         public string title = "Nouvelle Tâche";
-        public Tache tache { get; set; }
-        public bool isRepet { get; set; }
-        public DateTime myTime { get; set; }
+        public Tache Tache { get; set; }
+        public bool IsRepet { get; set; }
+        public DateTime MyTime { get; set; }
         public DateTime MinDate { get; set; }
         public DateTime MaxDate { get; set; }
         public DateTime SelectedDate { get; set; }
-        public ArrayList Categories { get; set; }
-        public ArrayList CategoriesName { get; set; }
+        public List<CategoryEnum> Categories { get; set; }
+        public List<String> CategoriesName { get; set; }
         public ArrayList WarningBefore { get; set; }
-        public EditTacheViewModel viewModel { get; set; }
 
 
         public NewTachePage()
         {
             InitializeComponent();
-            viewModel = new EditTacheViewModel();
 
-            tache = new Tache("votre nom", "votre description", null, DateTime.Now, 30, 12, 22);
+            DateTime temp = DateTime.Now.AddMinutes(5.0);
+
+            Tache = new Tache() {
+                Id = 0,
+                Name = "votre nom",
+                Photo = "",
+                Description = "votre description",
+                Category = CategoryEnum.Sport,
+                DateDeb = DateTime.Now,
+                WarningBefore = 35,
+                TimeHour = temp.Hour,
+                TimeMinutes = temp.Minute,
+                IsActivatedNotification = true,
+                Monday = false,
+                Tuesday = false,
+                Wednesday = false,
+                Thursday = false,
+                Friday = false,
+                Saturday = false,
+                Sunday = false,
+            };
             MinDate = DateTime.Now;
             MaxDate = DateTime.Now.Add(new TimeSpan(1000, 0, 0, 0, 0));
             SelectedDate = new DateTime();
-            isRepet = false;
+            IsRepet = false;
 
-            Categories = new ArrayList();
-            Categories = Tasker.Instance.getListCategories();
-            // var mock = new MockDataStore();
-            //Categories = mock.GetCategoriesAsync();
-
-            CategoriesName = new ArrayList();
-            foreach (Category c in Categories)
+            Categories = new List<CategoryEnum>()
             {
-                CategoriesName.Add(c.name);
+                CategoryEnum.Sport,
+                CategoryEnum.RDV,
+                CategoryEnum.Loisirs,
+                CategoryEnum.Anniversaire,
+                CategoryEnum.Vacances,
+                CategoryEnum.Congés,
+                CategoryEnum.Santé,
+                CategoryEnum.Courses,
+                CategoryEnum.Autres,
+            };
+
+            CategoriesName = new List<String>();
+            foreach (CategoryEnum c in Categories)
+            {
+                CategoriesName.Add(c.ToString());
             }
             WarningBefore = new ArrayList();
             for (int i = 0; i <= 90; i += 5)
@@ -74,24 +100,24 @@ namespace RemindXamarin.Views
         void SetTriggerTime()
         {
 
-            myTime = DateTime.Today + _timePicker.Time;
-            if (myTime < DateTime.Now)
+            MyTime = DateTime.Today + _timePicker.Time;
+            if (MyTime < DateTime.Now)
             {
-                myTime += TimeSpan.FromDays(1);
+                MyTime += TimeSpan.FromDays(1);
             }
-            tache.timeHour = myTime.Hour;
-            tache.timeMinutes = myTime.Minute;
+            Tache.TimeHour = MyTime.Hour;
+            Tache.TimeMinutes = MyTime.Minute;
             
         }
 
         void OnDateSelected(object sender, DateChangedEventArgs args)
         {
-            tache.dateDeb = SelectedDate;
+            Tache.DateDeb = SelectedDate;
         }
 
         void OnSwitchToggled(object sender, ToggledEventArgs args)
         {
-            this.isRepet = !this.isRepet;
+            this.IsRepet = !this.IsRepet;
             datePicker.IsVisible = !datePicker.IsVisible;
             datePickerLabel.IsVisible = datePicker.IsVisible;
             controlGrid.IsVisible = !controlGrid.IsVisible;
@@ -100,52 +126,59 @@ namespace RemindXamarin.Views
 
         void OnSwitchDay()
         {
-            this.tache.repete = new Boolean[] {
-                    Monday.IsToggled,
-                    Tuesday.IsToggled,
-                    Wednesday.IsToggled,
-                    Thursday.IsToggled,
-                    Friday.IsToggled,
-                    Saturday.IsToggled,
-                    Sunday.IsToggled,
-                    };
+            this.Tache.Monday = Monday.IsToggled;
+            this.Tache.Tuesday = Tuesday.IsToggled;
+            this.Tache.Wednesday = Wednesday.IsToggled;
+            this.Tache.Thursday = Thursday.IsToggled;
+            this.Tache.Friday = Friday.IsToggled;
+            this.Tache.Saturday = Saturday.IsToggled;
+            this.Tache.Sunday = Sunday.IsToggled;
         }
 
         void OnCategoryChanged()
         {
             if (pickerCategory.SelectedIndex != -1)
             {
-                tache.category = (Category) Categories[pickerCategory.SelectedIndex];
-                if(tache.category.name.Equals(Tasker.CATEGORY_SPORT_TAG) || tache.category.name.Equals(Tasker.CATEGORY_NONE_TAG))
-                {
-                    edit.IsVisible = false;
-                }
-                else
-                {
-                    edit.IsVisible = true;
-                }
-
+                Tache.Category = Categories[pickerCategory.SelectedIndex];
             }
         }
 
         void Save_Clicked(object sender, EventArgs e)
         {
-            Tache newTache = new Tache(tache.name, tache.description, (Category) Categories[pickerCategory.SelectedIndex], null, 
-                pickerWarningBefore.SelectedIndex * 5, tache.timeHour, tache.timeMinutes);
-            if(tache.name != "")
+            Tache newTache = new Tache {
+                Id = 0,
+                Name = Tache.Name,
+                Photo = "",
+                Description = Tache.Description,
+                Category = Categories[pickerCategory.SelectedIndex],
+                DateDeb = null,
+                WarningBefore = pickerWarningBefore.SelectedIndex * 5,
+                TimeHour = Tache.TimeHour,
+                TimeMinutes = Tache.TimeMinutes,
+                IsActivatedNotification = true,
+                Monday = false,
+                Tuesday = false,
+                Wednesday = false,
+                Thursday = false,
+                Friday = false,
+                Saturday = false,
+                Sunday = false,
+             };
+            if (Tache.Name != "")
             {
-                if (tache.description != "")
+                if (Tache.Description != "")
                 {
-                    if (isRepet)
+                    if (IsRepet)
                     {
-                        bool temp = false;
-                        foreach (bool b in tache.repete)
+                        if (this.Tache.Monday || this.Tache.Tuesday || this.Tache.Wednesday || this.Tache.Thursday || this.Tache.Friday || this.Tache.Saturday || this.Tache.Sunday)
                         {
-                            temp = temp || b;
-                        }
-                        if (temp)
-                        {
-                            newTache.repete = tache.repete;
+                            newTache.Monday = this.Tache.Monday ;
+                            newTache.Tuesday = this.Tache.Tuesday;
+                            newTache.Wednesday = this.Tache.Wednesday;
+                            newTache.Thursday = this.Tache.Thursday;
+                            newTache.Friday = this.Tache.Friday;
+                            newTache.Saturday = this.Tache.Saturday;
+                            newTache.Sunday = this.Tache.Sunday;
                             Save(newTache);
                         }
                         else
@@ -155,9 +188,9 @@ namespace RemindXamarin.Views
                     }
                     else
                     {
-                        if(DateTime.Compare(tache.dateDeb.Value , DateTime.Now ) < 0)
+                        if(DateTime.Compare(Tache.DateDeb.Value , DateTime.Now ) < 0)
                         {
-                            newTache.dateDeb = tache.dateDeb;
+                            newTache.DateDeb = Tache.DateDeb;
                             Save(newTache);
                         }
                         else
@@ -177,21 +210,10 @@ namespace RemindXamarin.Views
             }
         }
 
-        async void Save(Tache newItem)
+        async void Save(Tache newTache)
         {
-            Tasker.Instance.addTask(newItem);
-            //MessagingCenter.Send(this, "AddTache", newItem);
+            MessagingCenter.Send(this, "AddTache", newTache);
             await Navigation.PopModalAsync();
-        }
-
-        async void OnAddCategory(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new NavigationPage(new NewCategory()));
-        }
-
-        async void OnEditCategory(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new NavigationPage(new EditCategory(tache.category)));
         }
 
     }

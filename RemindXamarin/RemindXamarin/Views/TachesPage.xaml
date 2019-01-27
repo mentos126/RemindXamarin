@@ -32,14 +32,20 @@
                 </Image>
             </Grid>
 
-            <ListView x:Name="TachesListView" RefreshCommand="{Binding LoadTachesCommand}" IsPullToRefreshEnabled="false" IsRefreshing="{Binding IsBusy, Mode=OneWay}" ItemsSource="{Binding Taches}"  HasUnevenRows="true" VerticalOptions="FillAndExpand"  CachingStrategy="RecycleElement" ItemSelected="OnTacheSelected">
+            <ListView x:Name="TachesListView" 
+                      ItemsSource="{Binding Taches}"
+                        VerticalOptions="FillAndExpand"
+                         HasUnevenRows="true"
+                         IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                         CachingStrategy="RecycleElement"
+                      ItemSelected="OnTacheSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.ContextActions>
-                                <MenuItem Clicked="OnDelete" CommandParameter="{Binding .}" Text="Suppimer" IsDestructive="True" />
+                                <MenuItem Clicked="OnDelete" CommandParameter="{Binding .}" Text="Supprimer" IsDestructive="True" />
                             </ViewCell.ContextActions>
-                            <StackLayout Padding="10" BackgroundColor="{Binding category.color }">
+                            <StackLayout Padding="10" BackgroundColor="{Binding CatColor }">
                                 <Grid IsVisible="True" x:Name="controlGrid" RowSpacing="0" ColumnSpacing="1">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto" />
@@ -58,48 +64,48 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Source="{Binding category.icon}" Grid.Row="0" Grid.Column="0"/>
-                                    <Label HorizontalTextAlignment="Center" FontSize="22" Text="{Binding name}" Grid.Row="0" Grid.Column="1" />
+                                    <Image Source="{Binding CatIcon}" Grid.Row="0" Grid.Column="0"/>
+                                    <Label HorizontalTextAlignment="Center" FontSize="22" Text="{Binding Name}" Grid.Row="0" Grid.Column="1" />
 
-                                    <Label HorizontalTextAlignment="Center" Text="{Binding description}" Grid.Row="1" Grid.ColumnSpan="3" />
+                                    <Label HorizontalTextAlignment="Center" Text="{Binding Description}" Grid.Row="1" Grid.ColumnSpan="3" />
 
                                     <Label HorizontalTextAlignment="Start" Text="{Binding NextDate}" Grid.Row="2" Grid.Column="0" />
-                                    <Label HorizontalTextAlignment="End" Text="{Binding formatedTime}" Grid.Row="2" Grid.Column="2" />
-                                    
-                                    <Label HorizontalTextAlignment="Start" Text="{Binding category.name}" Grid.Row="3" Grid.Column="0" />
-                                    <Switch HorizontalOptions="End" IsToggled="{Binding isActivatedNotification, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" />
+                                    <Label HorizontalTextAlignment="End" Text="{Binding FormatedTime}" Grid.Row="2" Grid.Column="2" />
 
-                                    <Label HorizontalTextAlignment="Start" Text="{Binding repeteFormated}" Grid.Row="4" Grid.ColumnSpan="2" />
+                                    <Label HorizontalTextAlignment="Start" Text="{Binding CatName}" Grid.Row="3" Grid.Column="0" />
+                                    <Switch HorizontalOptions="End" IsToggled="{Binding IsActivatedNotification, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" />
 
-                                    <Button 
-                                        IsVisible="{Binding isNotTakePhoto}"
+                                    <Label HorizontalTextAlignment="Start" Text="{Binding RepeteFormated}" Grid.Row="4" Grid.ColumnSpan="2" />
+
+                                    <!--Button 
+                                        IsVisible="{Binding IsNotTakePhoto}"
                                         Text="Prendre une photo"
                                         Grid.Row="5" Grid.ColumnSpan="3"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="Center"
                                         CommandParameter="{Binding .}"
-                                        Clicked="OnTakePhoto" />
+                                        Clicked="OnTakePhoto" /-->
 
                                     <Image Grid.Row="6" Grid.ColumnSpan="3"
-                                        IsVisible="{Binding isTakePhoto}"
-                                           Source="{Binding photo}"
+                                        IsVisible="{Binding IsTakePhoto}"
+                                           Source="{Binding Photo}"
                                         HeightRequest="300"
                                         WidthRequest="300">
                                     </Image>
 
-                                    <Button Text="Sélectionner un lieu"
+                                    <!--Button Text="Sélectionner un lieu"
                                         Grid.Row="7" Grid.ColumnSpan="3"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="Center"
-                                        Clicked="OnSelectPlace" />
+                                        Clicked="OnSelectPlace" /-->
 
-                                    <maps:Map WidthRequest="320" HeightRequest="200"
+                                    <!--maps:Map WidthRequest="320" HeightRequest="200"
                                         x:Name="MyMap"
                                         IsShowingUser="true"
                                         MapType="Hybrid"
                                         Grid.Row="8" Grid.ColumnSpan="3"
                                               
-                                    />
+                                    /-->
 
                                 </Grid>
                             </StackLayout>

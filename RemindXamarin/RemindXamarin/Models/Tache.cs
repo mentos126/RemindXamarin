@@ -1,93 +1,111 @@
 using System;
-
 using Xamarin.Forms;
+using SQLite;
 
 namespace RemindXamarin.Models
 {
-    public class Tache
+    public enum CategoryEnum
     {
-        public int ID { get; set; }
-        // private UUID workID;
-        public string name { get; set; }
-        public string description { get; set; }
-        public Category category { get; set; }
-        public DateTime? dateDeb { get; set; }
-        public int warningBefore { get; set; }
-        public Boolean isActivatedNotification { get; set; }
-        public int timeHour { get; set; }
-        public int timeMinutes { get; set; }
-        public Boolean[] repete { get; set; }
-        public String repeteFormated
+        Sport,
+        RDV,
+        Anniversaire,
+        Santé,
+        Vacances,
+        Congés,
+        Courses,
+        Loisirs,
+        Autres,
+    }
+
+    [Table(nameof(Tache))]
+    public class Tache 
+    {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+        public string Name { get;  set; }
+
+        public string Description { get; set; }
+        public CategoryEnum Category { get; set; }
+        public DateTime? DateDeb { get; set; }
+        public int WarningBefore { get; set; }
+        public bool IsActivatedNotification { get; set; }
+        public int TimeHour { get; set; }
+        public int TimeMinutes { get; set; }
+        public String Photo { get; set; }
+        public bool Monday { get; set; }
+        public bool Tuesday { get; set; }
+        public bool Wednesday { get; set; }
+        public bool Thursday { get; set; }
+        public bool Friday { get; set; }
+        public bool Saturday { get; set; }
+        public bool Sunday { get; set; }
+                    
+
+         public String RepeteFormated
+         {
+             get
+             {
+                 if(DateDeb == null)
+                 {
+                     String s = "";
+                     for(int day=0; day<7; day++ )
+                     {
+                         switch (day)
+                         {
+                             case 0:
+                                 if (Monday)
+                                     s += "Lun. ";
+                                 break;
+                             case 1:
+                                 if (Tuesday)
+                                     s += "Mar. ";
+                                 break;
+                             case 2:
+                                 if (Wednesday)
+                                     s += "Mer. ";
+                                 break;
+                             case 3:
+                                 if (Thursday)
+                                     s += "Jeu. ";
+                                 break;
+                             case 4:
+                                 if (Friday)
+                                     s += "Ven. ";
+                                 break;
+                             case 5:
+                                 if (Saturday)
+                                     s += "Sam. ";
+                                 break;
+                             case 6:
+                                 if (Sunday)
+                                     s += "Dim. ";
+                                 break;
+                             default:
+                                 break;
+                         }
+                     }
+                     return s;
+                 }
+                 else
+                 {
+                     return "Une seule fois.";
+                 }
+             }
+         }
+
+        public bool IsTakePhoto
         {
             get
             {
-                if(dateDeb == null)
-                {
-                    String s = "";
-                    for(int day=0; day<7; day++ )
-                    {
-                        switch (day)
-                        {
-                            case 0:
-                                if (repete[day])
-                                    s += "Lun. ";
-                                break;
-                            case 1:
-                                if (repete[day])
-                                    s += "Mar. ";
-                                break;
-                            case 2:
-                                if (repete[day])
-                                    s += "Mer. ";
-                                break;
-                            case 3:
-                                if (repete[day])
-                                    s += "Jeu. ";
-                                break;
-                            case 4:
-                                if (repete[day])
-                                    s += "Ven. ";
-                                break;
-                            case 5:
-                                if (repete[day])
-                                    s += "Sam. ";
-                                break;
-                            case 6:
-                                if (repete[day])
-                                    s += "Dim. ";
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    return s;
-                }
-                else
-                {
-                    return "Une seule fois.";
-                }
+                return !Photo.Equals("");;
             }
         }
-        public String photo { get; set; }
-        /*public BitmapImage getBitmapPhoto
+
+        public bool IsNotTakePhoto
         {
             get
             {
-                return new BitmapImage(new Uri(photo));
-            }
-        }*/
-        public bool isTakePhoto
-        {
-            get
-            {
-                return !photo.Equals("");;
-            }
-        }
-        public bool isNotTakePhoto
-        {
-            get
-            {
-                return photo.Equals(""); ;
+                return Photo.Equals(""); ;
             }
         }
 
@@ -95,95 +113,247 @@ namespace RemindXamarin.Models
         {
             get
             {
-                return getNextDate().ToString("dd/M/yyyy");
+                return GetNextDate().ToString("dd/M/yyyy");
 
             }
         }
-        public string formatedTime
+
+        public string FormatedTime
         {
             get
             {
-                return string.Format("{0} : {1}", timeHour, timeMinutes);
+                return string.Format("{0} : {1}", TimeHour, TimeMinutes);
             }
         }
 
-        private void setup(string name, string description, Category category, DateTime? dateDeb, int warningBefore, int timeHour, int timeMinutes) {
-
-            DateTime Jan1st1970 = new DateTime (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            this.ID =  (int)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
-            // this.workID = null;
-            this.name = name;
-            this.description = description;
-            this.category = category;
-            this.dateDeb = dateDeb;
-            this.warningBefore = warningBefore;
-            this.isActivatedNotification = true;
-            this.timeHour = timeHour;
-            this.timeMinutes = timeMinutes;
-            this.photo = "";
-        }
-
-        public Tache(string name, string description, Category category, DateTime? dateDeb, int warningBefore, int timeHour, int timeMinutes) {
-            this.setup(name, description, category, dateDeb, warningBefore, timeHour, timeMinutes);
-            this.repete = new Boolean[] {
-                    false, 
-                    false, 
-                    false, 
-                    false, 
-                    false, 
-                    false, 
-                    false,    
-                    };
-        }
-        
-        public Tache(string name, string description, Category category, DateTime dateDeb, int warningBefore, int timeHour, int timeMinutes, Boolean[] repete) {
-            this.setup(name, description, category, dateDeb, warningBefore, timeHour, timeMinutes);
-            this.repete = repete;
-        }
-
-        public string toString() {
-            string r = "";
-            foreach(Boolean x in this.repete) {					
-                r+="\n\t\t"+x;
+        public String CatIcon
+        {
+            get
+            {
+                switch (this.Category)
+                {
+                    case CategoryEnum.Sport:
+                        return "ic_directions_run_black_36dp.png";
+                    case CategoryEnum.RDV:
+                        return "ic_alarm_black_36dp.png";
+                    case CategoryEnum.Anniversaire:
+                        return "ic_cake_black_36dp.png";
+                    case CategoryEnum.Santé:
+                        return "ic_favorite_black_36dp.png";
+                    case CategoryEnum.Vacances:
+                        return "ic_card_giftcard_black_36dp.png";
+                    case CategoryEnum.Congés:
+                        return "ic_card_giftcard_black_36dp.png";
+                    case CategoryEnum.Courses:
+                        return "ic_access_alarm_black_36dp.png";
+                    case CategoryEnum.Loisirs:
+                        return "ic_access_time_black_36dp.png";
+                    default:
+                        return "ic_alarm_black_36dp.png";
+                }
             }
+        }
+
+        public String CatName
+        {
+            get
+            {
+                switch (this.Category)
+                {
+                    case CategoryEnum.Sport:
+                        return "Sport";
+                    case CategoryEnum.RDV:
+                        return "RDV";
+                    case CategoryEnum.Anniversaire:
+                        return "Anniversaire";
+                    case CategoryEnum.Santé:
+                        return "Santé";
+                    case CategoryEnum.Vacances:
+                        return "Vacances";
+                    case CategoryEnum.Congés:
+                        return "Congés";
+                    case CategoryEnum.Courses:
+                        return "Courses";
+                    case CategoryEnum.Loisirs:
+                        return "Loisirs";
+                    default:
+                        return "Autres";
+                }
+            }
+        }
+
+        public Color CatColor
+        {
+            get
+            {
+                switch (this.Category)
+                {
+                    case CategoryEnum.Sport:
+                        return Color.FromHex("ff1d00");
+                    case CategoryEnum.RDV:
+                        return Color.FromHex("5eff00");
+                    case CategoryEnum.Anniversaire:
+                        return Color.FromHex("00aeff");
+                    case CategoryEnum.Santé:
+                        return Color.FromHex("ffd000");
+                    case CategoryEnum.Vacances:
+                        return Color.FromHex("b700ff");
+                    case CategoryEnum.Congés:
+                        return Color.FromHex("ff00f2");
+                    case CategoryEnum.Courses:
+                        return Color.FromHex("a7a7a76e");
+                    case CategoryEnum.Loisirs:
+                        return Color.FromHex("75705ae7");
+                    default:
+                        return Color.FromHex("755a6be7");
+                }
+            }
+        }
+
+        public string MyToString() {
             return " [ "
-                    + "\n\tID : "+ID
-                    + "\n\t"+name
-                    + "\n\t"+description
-                    + "\n\t"+category
-                    + "\n\t"+dateDeb
-                    + "\n\t"+warningBefore
-                    + "\n\t"+timeHour
-                    + "\n\t"+timeMinutes
-                    + "\n\t"+isActivatedNotification
+                    + "\n\tID : "+Id
+                    + "\n\t"+Name
+                    + "\n\t"+Description
+                    + "\n\t"+Category
+                    + "\n\t"+DateDeb
+                    + "\n\t"+WarningBefore
+                    + "\n\t"+TimeHour
+                    + "\n\t"+TimeMinutes
+                    + "\n\t"+IsActivatedNotification
                     +"\n\t["
-                    +r
+                    + "\n\t\t Monday"+Monday
+                    + "\n\t\t Monday"+Tuesday
+                    + "\n\t\t Monday"+Wednesday
+                    + "\n\t\t Monday"+Thursday
+                    + "\n\t\t Monday"+Friday
+                    + "\n\t\t Monday"+Saturday
+                    + "\n\t\t Monday"+Sunday
                     +"\n\t]"
                     +"\n] ";
         }
 
-        public DateTime getNextDate(){
-            if(dateDeb == null){
+        public DateTime GetNextDate(){
+            if(DateDeb == null){
                 DateTime now = DateTime.Now;
                 int day=0;
                 int first = 0;
-                for(int i=0; i< repete.Length; i++){
-                    if(repete[i] && first == 0){
-                        first = i;
-                    }
-                    if(i+1 >= (int)now.DayOfWeek && repete[i]) {
-                        day = i;
-                        break;
+
+                for(int dayT=0; day< 7; day++){
+
+                    switch (dayT)
+                    {
+                        case 0:
+                            if (Monday)
+                            {
+                                if (first == 0)
+                                {
+                                    first = dayT;
+                                }
+                                if (dayT + 1 >= (int)now.DayOfWeek)
+                                {
+                                    day = dayT;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 1:
+                            if (Tuesday)
+                            {
+                                if (first == 0)
+                                {
+                                    first = dayT;
+                                }
+                                if (dayT + 1 >= (int)now.DayOfWeek)
+                                {
+                                    day = dayT;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 2:
+                            if (Wednesday)
+                            {
+                                if (first == 0)
+                                {
+                                    first = dayT;
+                                }
+                                if (dayT + 1 >= (int)now.DayOfWeek)
+                                {
+                                    day = dayT;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 3:
+                            if (Thursday)
+                            {
+                                if (first == 0)
+                                {
+                                    first = dayT;
+                                }
+                                if (dayT + 1 >= (int)now.DayOfWeek)
+                                {
+                                    day = dayT;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 4:
+                            if (Friday)
+                            {
+                                if (first == 0)
+                                {
+                                    first = dayT;
+                                }
+                                if (dayT + 1 >= (int)now.DayOfWeek)
+                                {
+                                    day = dayT;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 5:
+                            if (Saturday)
+                            {
+                                if (first == 0)
+                                {
+                                    first = dayT;
+                                }
+                                if (dayT + 1 >= (int)now.DayOfWeek)
+                                {
+                                    day = dayT;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 6:
+                            if (Sunday)
+                            {
+                                if (first == 0)
+                                {
+                                    first = dayT;
+                                }
+                                if (dayT + 1 >= (int)now.DayOfWeek)
+                                {
+                                    day = dayT;
+                                    break;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 }
-                if(day == 0){
+
+                if (day == 0){
                     day = first + 7;
                 }
-                DateTime c = new DateTime(now.Year, now.Month, now.Day, timeHour, timeMinutes, 0);
+                DateTime c = new DateTime(now.Year, now.Month, now.Day, TimeHour, TimeMinutes, 0);
                 c.AddDays(day + 2 - (int)now.DayOfWeek);
                 return c;
             }else{
-                DateTime c = new DateTime(dateDeb.Value.Year, dateDeb.Value.Month, dateDeb.Value.Day, timeHour, timeMinutes, 0);
+                DateTime c = new DateTime(DateDeb.Value.Year, DateDeb.Value.Month, DateDeb.Value.Day, TimeHour, TimeMinutes, 0);
                 return c;
             }
         }
