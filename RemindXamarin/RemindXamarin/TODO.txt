@@ -1,13 +1,11 @@
 ﻿In progress:
 ************
 
+Utilisation de capteurs en Xamarin
+
 ************************************
 TODO:
 *****
 
-Utilisation de capteurs en Xamarin
 
-***********************************
-Done (AMELIORER):
-*****************
 

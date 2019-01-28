@@ -91,5 +91,10 @@ namespace RemindXamarin.Views
                 CrossLocalNotifications.Current.Cancel(viewModel.Tache.Id);
             }
         }
+
+        async private void OnLaunchSport()
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new SportActivityPage(this.viewModel.Tache)));
+        }
     }
 }

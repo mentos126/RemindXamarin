@@ -32,6 +32,11 @@
                               WidthRequest="0"
                               MapType="Street" />
 
+                <Button Text="commencer une séance de sport"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Clicked="OnLaunchSport" />
+                
             </StackLayout>
         </StackLayout>
     </ScrollView>
