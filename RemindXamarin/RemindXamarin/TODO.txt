@@ -1,14 +1,9 @@
 ﻿In progress:
 ************
 
-maps in taches.xaml
-
 ************************************
 TODO:
 *****
-
-notification 
-SwitchNotification_Toggled
 
 Utilisation de capteurs en Xamarin
 

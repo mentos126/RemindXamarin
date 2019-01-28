@@ -21,7 +21,7 @@ Créez une application mobile native basée sur Xamarin.Forms. Cette application
 ### __Géolocalisation et prise de photo en Xamarin__
 
 Reprenez l’exemple de l'application précédente, ajoutez les fonctionnalités suivantes :
-- [ ] Possibilité d’ajouter une position géolocalisée pour un rdv donné.
+- [X] Possibilité d’ajouter une position géolocalisée pour un rdv donné.
 - [X] Possibilité de prendre une photo et de l’ajouter comme information complémentaire pour certains évènements
 
 ---
@@ -29,8 +29,8 @@ Reprenez l’exemple de l'application précédente, ajoutez les fonctionnalités
 ### __Notifications en Xamarin__
 
 Reprenez l’exemple de l'application précédente, ajoutez les fonctionnalités suivantes :  
-- [ ] Permettre à l'utilisateur de pouvoir choisir (ou non) des notifications par rapport aux événements saisis.
-- [ ] Ajouter des notifications en fonction des informations saisies par l'utilisateur.
+- [X] Permettre à l'utilisateur de pouvoir choisir (ou non) des notifications par rapport aux événements saisis.
+- [X] Ajouter des notifications en fonction des informations saisies par l'utilisateur.
 
 ---
 
@@ -38,7 +38,7 @@ Reprenez l’exemple de l'application précédente, ajoutez les fonctionnalités
 
 Reprenez l'application précédente. Développez une fonction qui permet, pour un type particulier d'évènement (sport) envoyé par l'application précédente, de demander à l'utilisateur s'il veut commencer une activité sportive. Dans le cas où la réponse est positive, l'application lui propose un certain nombre de types d'exercices. L'utilisateur choisira un parmi ces exercices. L'application commence à enregistrer certaines données liées à ces activités. Ces données dépendent des capteurs disponibles sur le téléphone.
 
-- [X] Photo
+- [ ] Photo
 - [ ] GPS
 - [ ] Pedometre
 

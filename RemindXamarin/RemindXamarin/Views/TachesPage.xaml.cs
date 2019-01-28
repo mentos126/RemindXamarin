@@ -18,6 +18,8 @@ using System.Diagnostics;
 using RemindXamarin.Services;
 using System.Collections;
 using System.Collections.ObjectModel;
+using Xamarin.Forms.Maps;
+using Plugin.LocalNotifications;
 
 namespace RemindXamarin.Views
 {
@@ -92,7 +94,9 @@ namespace RemindXamarin.Views
             base.OnAppearing();
 
             if (viewModel.Taches.Count == 0)
+            {
                 viewModel.LoadTachesCommand.Execute(null);
+            }
 
         }
 
@@ -126,10 +130,6 @@ namespace RemindXamarin.Views
             this.FilterList(SearchBar.Text.ToLower());
         }
 
-        private void SwitchNotification_Toggled(object sender, ToggledEventArgs e)
-        {
-            /*var mi = ((MenuItem)sender);
-            ((Tache)mi.CommandParameter).IsActivatedNotification = !((Tache)mi.CommandParameter).IsActivatedNotification;*/
-        }
+
     }
 }

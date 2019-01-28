@@ -1,12 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RemindXamarin.Views.TacheDetailPage"
              Title="{Binding Title}">
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Tache:" FontSize="Medium" />
-        <Label Text="{Binding Tache.Text}" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Tache.Description}" FontSize="Small"/>
-    </StackLayout>
+    <ScrollView>
+        <StackLayout Spacing="20" Padding="15">
+            <StackLayout Padding="10" BackgroundColor="{Binding Tache.CatColor }">
+                <Image Source="{Binding Tache.CatIcon}" Grid.Row="0" Grid.Column="0"/>
+                    <Label HorizontalTextAlignment="Center" FontSize="22" Text="{Binding Tache.Name}" />
+
+                    <Label HorizontalTextAlignment="Center" Text="{Binding Tache.Description}"  />
+
+                    <Label HorizontalTextAlignment="Center" Text="{Binding Tache.NextDate}"  />
+                    <Label HorizontalTextAlignment="Center" Text="{Binding Tache.FormatedTime}" />
+
+                    <Label HorizontalTextAlignment="Center" Text="{Binding Tache.CatName}" />
+                    <Switch HorizontalOptions="Center" IsToggled="{Binding Tache.IsActivatedNotification, Mode=TwoWay}" Toggled="Switch_Toggled" />
+
+                    <Label HorizontalTextAlignment="Center" Text="{Binding Tache.RepeteFormated}" />
+
+                <Image IsVisible="{Binding Tache.IsTakePhoto}"
+                            Source="{Binding Tache.Photo}"
+                            HorizontalOptions="Center"
+                            HeightRequest="300"
+                            WidthRequest="300"/>
+
+                    <maps:Map x:Name="MyMap"
+                              HorizontalOptions="Center"
+                              HeightRequest="0"
+                              WidthRequest="0"
+                              MapType="Street" />
+
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:EventToCommandBehavior"
              x:Class="RemindXamarin.Views.TachesPage"
              Title="{Binding Title}"
              x:Name="BrowseTachesPage">
@@ -22,7 +23,6 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
                 <SearchBar x:Name="SearchBar" TextChanged="SearchBar_TextChanged" SearchButtonPressed="SearchBar_SearchButtonPressed" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" />
             </Grid>
@@ -48,9 +48,6 @@
                                         <RowDefinition Height="auto" />
                                         <RowDefinition Height="auto" />
                                         <RowDefinition Height="auto" />
-                                        <RowDefinition Height="auto" />
-                                        <RowDefinition Height="auto" />
-                                        <RowDefinition Height="auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -67,36 +64,8 @@
                                     <Label HorizontalTextAlignment="End" Text="{Binding FormatedTime}" Grid.Row="2" Grid.Column="2" />
 
                                     <Label HorizontalTextAlignment="Start" Text="{Binding CatName}" Grid.Row="3" Grid.Column="0" />
-                                    <Switch HorizontalOptions="End" IsToggled="{Binding IsActivatedNotification, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" />
 
                                     <Label HorizontalTextAlignment="Start" Text="{Binding RepeteFormated}" Grid.Row="4" Grid.ColumnSpan="2" />
-
-                                    <Image Grid.Row="5" Grid.ColumnSpan="3"
-                                        IsVisible="{Binding IsTakePhoto}"
-                                           Source="{Binding Photo}"
-                                        HeightRequest="300"
-                                        WidthRequest="300">
-                                    </Image>
-
-                                    <Label HorizontalTextAlignment="Start" FontSize="22" Text="{Binding Lat}" Grid.Row="6" Grid.Column="0" />
-                                    <Label HorizontalTextAlignment="End" FontSize="22" Text="{Binding Lng}" Grid.Row="6" Grid.Column="2" />
-
-                                    <maps:Map WidthRequest="320" HeightRequest="200"
-                                        IsVisible="{Binding IsTakeGPS}"
-                                        x:Name="MyMap"
-                                        MapType="Street"
-                                        Grid.Row="7" Grid.ColumnSpan="3">
-                                        <maps:Map.Pins>
-                                            <maps:Pin Label="" Address="" Type="Place" >
-                                                <maps:Pin.Position >
-                                                    <maps:Position > 
-                                                        
-                                                    </maps:Position>
-                                                </maps:Pin.Position>
-                                            </maps:Pin>
-                                        </maps:Map.Pins>
-                                        
-                                    </maps:Map>
 
                                 </Grid>
                             </StackLayout>

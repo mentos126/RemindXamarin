@@ -16,6 +16,7 @@ using Plugin.Geolocator.Abstractions;
 using Plugin.Geolocator;
 using Xamarin.Forms.Maps;
 using Position = Xamarin.Forms.Maps.Position;
+using Plugin.LocalNotifications;
 
 namespace RemindXamarin.Views
 {
@@ -198,6 +199,7 @@ namespace RemindXamarin.Views
         async void Save(Tache newTache)
         {
             MessagingCenter.Send(this, "AddTache", newTache);
+            CrossLocalNotifications.Current.Show(newTache.Name, newTache.CatName + ": " + newTache.Description, newTache.Id, newTache.GetNextDate());
             await Navigation.PopModalAsync();
         }
 

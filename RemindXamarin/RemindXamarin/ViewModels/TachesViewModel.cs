@@ -15,13 +15,16 @@ namespace RemindXamarin.ViewModels
 {
     public class TachesViewModel : BaseViewModel
     {
+
         public ObservableCollection<Tache> Taches { get; set; }
         public Command LoadTachesCommand { get; set; }
+        private string NowResearch { get; set; }
         public String MyDebug { get; set; }
 
         public TachesViewModel()
         {
             MyDebug = "null";
+            NowResearch = "";
             Title = "Reminds";
             Taches = new ObservableCollection<Tache>();
             LoadTachesCommand = new Command(async () => await ExecuteLoadTachesCommand());
@@ -85,6 +88,7 @@ namespace RemindXamarin.ViewModels
 
         async internal void Search(string s)
         {
+            this.NowResearch = s;
             if (IsBusy)
                 return;
 

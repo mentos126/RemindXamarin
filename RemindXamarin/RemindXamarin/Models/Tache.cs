@@ -2,6 +2,8 @@ using System;
 using Xamarin.Forms;
 using SQLite;
 using Xamarin.Forms.Maps;
+using RemindXamarin.Services;
+using RemindXamarin.ViewModels;
 
 namespace RemindXamarin.Models
 {
@@ -32,6 +34,16 @@ namespace RemindXamarin.Models
         public int WarningBefore { get; set; }
         public bool IsActivatedNotification { get; set; }
         public int TimeHour { get; set; }
+        public int TimeMinutes { get; set; }
+        public String Photo { get; set; }
+        public bool Monday { get; set; }
+        public bool Tuesday { get; set; }
+        public bool Wednesday { get; set; }
+        public bool Thursday { get; set; }
+        public bool Friday { get; set; }
+        public bool Saturday { get; set; }
+        public bool Sunday { get; set; }
+
         public String TimeHourFormated {
             get
             {
@@ -43,7 +55,7 @@ namespace RemindXamarin.Models
                 return res += TimeHour;
             }
         }
-        public int TimeMinutes { get; set; }
+
         public String TimeMinutesFormated
         {
             get
@@ -56,17 +68,8 @@ namespace RemindXamarin.Models
                 return res += TimeMinutes;
             }
         }
-        public String Photo { get; set; }
-        public bool Monday { get; set; }
-        public bool Tuesday { get; set; }
-        public bool Wednesday { get; set; }
-        public bool Thursday { get; set; }
-        public bool Friday { get; set; }
-        public bool Saturday { get; set; }
-        public bool Sunday { get; set; }
-                    
 
-         public String RepeteFormated
+        public String RepeteFormated
          {
              get
              {
@@ -395,7 +398,7 @@ namespace RemindXamarin.Models
         {
             get
             {
-                return new Position(Lat, Lng);
+                return new Position(this.Lat, this.Lng);
             }
         }
 
