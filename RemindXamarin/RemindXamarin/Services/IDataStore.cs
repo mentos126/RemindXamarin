@@ -10,7 +10,7 @@ namespace RemindXamarin.Services
     {
         Task<int> AddTacheAsync(T tache);
         Task<int> UpdateTacheAsync(T tache);
-        Task<int> DeleteTacheAsync(int id);
+        Task<int> DeleteTacheAsync(T tache);
         Task<T> GetTacheAsync(int id);
         Task<IEnumerable<T>> GetTachesAsync(bool forceRefresh = false);
         Task<IEnumerable<T>> SearchAsync(String recherche);

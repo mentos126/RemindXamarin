@@ -27,7 +27,9 @@ namespace RemindXamarin.Views
             var tache = new Tache() {
                 Id = 0,
                 Name = "tache 0",
-                /*Photo = "",
+                Lat = 999.999,
+                Lng = 999.999,
+                Photo = "",
                 Description = "description 0",
                 Category = CategoryEnum.Sport,
                 DateDeb = new DateTime(),
@@ -35,7 +37,13 @@ namespace RemindXamarin.Views
                 TimeHour = 14,
                 TimeMinutes = 15,
                 IsActivatedNotification = true,
-                Repete = new bool[] { false, false, false, false, false, false, false, }*/
+                Monday = false,
+                Tuesday = false,
+                Wednesday = false,
+                Thursday = false,
+                Friday = false,
+                Saturday = false,
+                Sunday = false,
             };
 
             viewModel = new TacheDetailViewModel(tache);

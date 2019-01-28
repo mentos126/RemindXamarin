@@ -25,11 +25,6 @@
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
                 <SearchBar x:Name="SearchBar" TextChanged="SearchBar_TextChanged" SearchButtonPressed="SearchBar_SearchButtonPressed" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" />
-                <Image x:Name="order"  Source="ic_sort_black_36dp.png" Grid.Row="0" Grid.Column="1" HorizontalOptions="Center">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TapOrder_Tapped"/>
-                    </Image.GestureRecognizers>
-                </Image>
             </Grid>
 
             <ListView x:Name="TachesListView" 
@@ -48,7 +43,6 @@
                             <StackLayout Padding="10" BackgroundColor="{Binding CatColor }">
                                 <Grid IsVisible="True" x:Name="controlGrid" RowSpacing="0" ColumnSpacing="1">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto" />
                                         <RowDefinition Height="auto" />
                                         <RowDefinition Height="auto" />
                                         <RowDefinition Height="auto" />
@@ -77,35 +71,32 @@
 
                                     <Label HorizontalTextAlignment="Start" Text="{Binding RepeteFormated}" Grid.Row="4" Grid.ColumnSpan="2" />
 
-                                    <!--Button 
-                                        IsVisible="{Binding IsNotTakePhoto}"
-                                        Text="Prendre une photo"
-                                        Grid.Row="5" Grid.ColumnSpan="3"
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="Center"
-                                        CommandParameter="{Binding .}"
-                                        Clicked="OnTakePhoto" /-->
-
-                                    <Image Grid.Row="6" Grid.ColumnSpan="3"
+                                    <Image Grid.Row="5" Grid.ColumnSpan="3"
                                         IsVisible="{Binding IsTakePhoto}"
                                            Source="{Binding Photo}"
                                         HeightRequest="300"
                                         WidthRequest="300">
                                     </Image>
 
-                                    <!--Button Text="Sélectionner un lieu"
-                                        Grid.Row="7" Grid.ColumnSpan="3"
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="Center"
-                                        Clicked="OnSelectPlace" /-->
+                                    <Label HorizontalTextAlignment="Start" FontSize="22" Text="{Binding Lat}" Grid.Row="6" Grid.Column="0" />
+                                    <Label HorizontalTextAlignment="End" FontSize="22" Text="{Binding Lng}" Grid.Row="6" Grid.Column="2" />
 
-                                    <!--maps:Map WidthRequest="320" HeightRequest="200"
+                                    <maps:Map WidthRequest="320" HeightRequest="200"
+                                        IsVisible="{Binding IsTakeGPS}"
                                         x:Name="MyMap"
-                                        IsShowingUser="true"
-                                        MapType="Hybrid"
-                                        Grid.Row="8" Grid.ColumnSpan="3"
-                                              
-                                    /-->
+                                        MapType="Street"
+                                        Grid.Row="7" Grid.ColumnSpan="3">
+                                        <maps:Map.Pins>
+                                            <maps:Pin Label="" Address="" Type="Place" >
+                                                <maps:Pin.Position >
+                                                    <maps:Position > 
+                                                        
+                                                    </maps:Position>
+                                                </maps:Pin.Position>
+                                            </maps:Pin>
+                                        </maps:Map.Pins>
+                                        
+                                    </maps:Map>
 
                                 </Grid>
                             </StackLayout>

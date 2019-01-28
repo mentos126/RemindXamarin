@@ -36,25 +36,13 @@ namespace RemindXamarin.Services
 
         public MockDataStore(string path) : base(path)
         {
-            Debug.Print("ddddddddddddddddddddddddddddddddddddddd");
-            Debug.Print(path);
             this.CreateTableAsync<Tache>().Wait();
-            Debug.Print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         }
 
 
         public async Task<int> AddTacheAsync(Tache tache)
         {
-            try
-            {
-                Debug.Print("AAAAAAAAAAAAAAAA");
-                return await Database.InsertAsync(tache);
-            }catch(Exception e)
-            {
-                Debug.Print("BBBBBBBBBBBBBBBB");
-                Debug.Print(e.StackTrace);
-                return 0;
-            }
+            return await Database.InsertAsync(tache);
         }
 
         public async Task<int> UpdateTacheAsync(Tache tache)
@@ -62,9 +50,9 @@ namespace RemindXamarin.Services
             return await Database.UpdateAsync(tache);
         }
 
-        public async Task<int> DeleteTacheAsync(int id)
+        public async Task<int> DeleteTacheAsync(Tache tache)
         {
-            return await Database.DeleteAsync(id);
+            return await Database.DeleteAsync(tache);
         }
 
         public async Task<Tache> GetTacheAsync(int id)
@@ -79,11 +67,12 @@ namespace RemindXamarin.Services
 
         public async Task<IEnumerable<Tache>> SearchAsync(String recherche)
         {
-          
-                var taches = from t in Database.Table<Tache>()
-                             where t.Name.Contains(recherche) //|| t.Description.Contains(recherche)
-                             select t;
-                return await taches.ToListAsync();
+            var taches = from t in Database.Table<Tache>()
+                            orderby t.DateDeb
+                            where t.Name.Contains(recherche) || t.Description.Contains(recherche) 
+                            select t;
+
+            return await taches.ToListAsync();
         }
 
     }

@@ -20,8 +20,7 @@
 			<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"></meta-data>
 		</provider>
     <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"></meta-data>
-    <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAttdHMG-YIASWeyX4Gcy0rOwewdXGrDf4" />
+    <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAII-ploaTAs1XCI6M57n25jNY2CBRsc5g" />
     <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-    <!-- meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBvhT0KdxmiUCnGPVVkhV3PYA1up8tbCg4" /-->
 	</application>
 </manifest>

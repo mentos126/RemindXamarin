@@ -1,6 +1,7 @@
 using System;
 using Xamarin.Forms;
 using SQLite;
+using Xamarin.Forms.Maps;
 
 namespace RemindXamarin.Models
 {
@@ -23,14 +24,38 @@ namespace RemindXamarin.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string Name { get;  set; }
-
+        public double Lat { get; set; }
+        public double Lng { get; set; }
         public string Description { get; set; }
         public CategoryEnum Category { get; set; }
         public DateTime? DateDeb { get; set; }
         public int WarningBefore { get; set; }
         public bool IsActivatedNotification { get; set; }
         public int TimeHour { get; set; }
+        public String TimeHourFormated {
+            get
+            {
+                String res = "";
+                if (TimeHour < 10)
+                {
+                    res += "0";
+                }
+                return res += TimeHour;
+            }
+        }
         public int TimeMinutes { get; set; }
+        public String TimeMinutesFormated
+        {
+            get
+            {
+                String res = "";
+                if (TimeMinutes < 10)
+                {
+                    res += "0";
+                }
+                return res += TimeMinutes;
+            }
+        }
         public String Photo { get; set; }
         public bool Monday { get; set; }
         public bool Tuesday { get; set; }
@@ -93,6 +118,14 @@ namespace RemindXamarin.Models
              }
          }
 
+        public bool IsTakeGPS
+        {
+            get
+            {
+                return ! ((Lat == 999.999) && (Lng == 999.999));
+            }
+        }
+
         public bool IsTakePhoto
         {
             get
@@ -113,7 +146,7 @@ namespace RemindXamarin.Models
         {
             get
             {
-                return GetNextDate().ToString("dd/M/yyyy");
+                return GetNextDate().ToString("dd / MM / yyyy");
 
             }
         }
@@ -122,7 +155,7 @@ namespace RemindXamarin.Models
         {
             get
             {
-                return string.Format("{0} : {1}", TimeHour, TimeMinutes);
+                return string.Format("{0} : {1}", TimeHourFormated, TimeMinutesFormated);
             }
         }
 
@@ -355,6 +388,14 @@ namespace RemindXamarin.Models
             }else{
                 DateTime c = new DateTime(DateDeb.Value.Year, DateDeb.Value.Month, DateDeb.Value.Day, TimeHour, TimeMinutes, 0);
                 return c;
+            }
+        }
+
+        public Position GetGPSPosition
+        {
+            get
+            {
+                return new Position(Lat, Lng);
             }
         }
 

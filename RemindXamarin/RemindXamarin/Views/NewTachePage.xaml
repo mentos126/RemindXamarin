@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RemindXamarin.Views.NewTachePage" 
              Title="{Binding title}">
@@ -10,6 +11,7 @@
         <ScrollView>
             <StackLayout>
                 <StackLayout Spacing="20" Padding="15">
+
                     <Label Text="Nom" FontSize="Medium" />
                     <Entry Text="{Binding Tache.Name}" FontSize="Small" />
                     
@@ -17,7 +19,7 @@
                     <Editor Text="{Binding Tache.Description}" FontSize="Small" Margin="0" />
                     
                     <Label Text="Heure" FontSize="Medium" />
-                    <TimePicker x:Name="_timePicker" Time="11:00:00" Format="T" PropertyChanged="OnTimePickerPropertyChanged" />
+                    <TimePicker x:Name="_timePicker" Time="{Binding MyTime}" Format="HH : mm" />
 
                     <Label Text="Prévenir Avant:" FontSize="Medium" />
                     <Picker x:Name="pickerWarningBefore" ItemsSource="{Binding WarningBefore}"/>
@@ -30,12 +32,7 @@
                             Toggled="OnSwitchToggled" />
 
                     <Label x:Name="datePickerLabel" Text="Date:" FontSize="Medium" />
-                    <DatePicker 
-                        x:Name="datePicker"
-                        MinimumDate="{Binding MinDate}"
-                        MaximumDate="{Binding MaxDate}"
-                        DateSelected="OnDateSelected"
-                    />
+                    <DatePicker x:Name="datePicker" Format="dd / MM / yyyy" Date="{Binding MyDate}" MinimumDate="{Binding MinDate }"/>
 
                     <Grid IsVisible="False" x:Name="controlGrid" RowSpacing="1" ColumnSpacing="1">
                         <Grid.RowDefinitions>
@@ -68,6 +65,24 @@
                         <Label HorizontalTextAlignment="End" Text="Dim." Grid.Row="2" Grid.Column="3" />
                         <Switch HorizontalOptions="Start" x:Name="Sunday" Grid.Row="2" Grid.Column="4" Toggled="OnSwitchDay" />
                     </Grid>
+
+                    <Button 
+                        Text="Prendre une photo"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Clicked="OnTakePhoto" />
+
+                    <Image x:Name="MyPhoto"/>
+
+                    <Button Text="Sélectionner un lieu"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Clicked="OnSelectPlace" />
+
+                    <maps:Map x:Name="MyMap"
+                              HeightRequest="0"
+                              WidthRequest="0"
+                              MapType="Street" />
 
                 </StackLayout>
             </StackLayout>

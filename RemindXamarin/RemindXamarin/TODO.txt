@@ -1,28 +1,18 @@
 ﻿In progress:
 ************
 
-!!! probleme d'actualisation de la list view de la home page !!!
-!!! utilisation du filtre pour faire une pseudo mise a jour !!!
-
+maps in taches.xaml
 
 ************************************
 TODO:
 *****
 
-sport activity
-sport detail
-sport list
+notification 
+SwitchNotification_Toggled
 
-notification
-base de donnée
+Utilisation de capteurs en Xamarin
 
 ***********************************
 Done (AMELIORER):
 *****************
 
-synchronized listes categories
-editTache category ??
-
-new category
-	* list icone
-	* couleur

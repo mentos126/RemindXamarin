@@ -27,6 +27,7 @@ namespace RemindXamarin.Views
         TachesViewModel viewModel;
 
         bool SortDirection { get; set; }
+        String Recherche { get; set; }
 
         public TachesPage()
         {
@@ -35,6 +36,7 @@ namespace RemindXamarin.Views
             viewModel = new TachesViewModel();
             BindingContext = viewModel;
             SortDirection = true;
+            Recherche = "";
 
         }
 
@@ -68,45 +70,6 @@ namespace RemindXamarin.Views
                 Debug.Print(ex.Message);
             }
         }
-        
-        public async void OnTakePhoto(object sender, EventArgs e)
-        {
-            var initialize = await CrossMedia.Current.Initialize();
-
-            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported || !CrossMedia.IsSupported || !initialize)
-            {
-                DependencyService.Get<IMessageToast>().Show(":( No camera available.");
-                return;
-            }
-
-            using (var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-            {
-                Name = DateTime.Now + "_pic.jpg"
-            }))
-            {
-                if (file == null)
-                    return;
-                if (string.IsNullOrWhiteSpace(file?.Path))
-                {
-                    return;
-                }
-
-                var mi = ((Button)sender);
-                Tache myTache = ((Tache)mi.CommandParameter);
-                myTache.Photo = file.Path;
-                Debug.Print(myTache.Name+"++++++++++++++++++++++++");
-                Debug.Print(myTache.Photo + "++++++++++++++++++++++++");
-
-
-                FilterList("");
-                file.Dispose();
-            }
-
-        }
-
-        void OnSelectPlace(object sender, EventArgs e)
-        {
-        }
 
         async void OnTacheSelected(object sender, SelectedItemChangedEventArgs args)
         {
@@ -135,31 +98,17 @@ namespace RemindXamarin.Views
 
         public void FilterList(String s)
         {
-                viewModel.Search(s);
-        }
-
-        public void SortList()
-        {
-          /*  IEnumerable<Tache> result = null;
-            if (sortDirection)
-            {
-                result = viewModel.Taches.OrderBy( tache => tache.name);
-            }
-            else
-            {
-                result = viewModel.Taches.OrderByDescending( tache => tache.name);
-            }
-            viewModel.Taches =  new ObservableCollection<Tache>(result.Cast<Tache>().ToList());
-            TachesListView.ItemsSource = viewModel.Taches;
-            sortDirection = !sortDirection;
-            */
+            this.Recherche = s;
+            viewModel.Search(s);
         }
 
         void OnDelete (object sender, EventArgs e)
         {
             try
-            { 
+            {
                 var mi = ((MenuItem)sender);
+                Debug.Print(mi.ToString());
+                viewModel.DeleteTache((Tache) mi.CommandParameter);
             }
             catch (Exception x)
             {
@@ -175,11 +124,6 @@ namespace RemindXamarin.Views
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.FilterList(SearchBar.Text.ToLower());
-        }
-
-        private void TapOrder_Tapped(object sender, EventArgs e)
-        {
-            this.SortList();
         }
 
         private void SwitchNotification_Toggled(object sender, ToggledEventArgs e)

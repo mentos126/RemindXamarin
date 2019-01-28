@@ -30,45 +30,11 @@ namespace RemindXamarin.ViewModels
             {
                 var newTache = tache as Tache;
                 Taches.Add(newTache);
-                try
-                {
-                    await DataStore.AddTacheAsync(newTache);
+                await DataStore.AddTacheAsync(newTache);
 
-                }
-                catch (Exception e) {
-                    Debug.Print("ADDDDAAAADDDDAAA");
-                    //Debug.Print(newTache.MyToString());
-                    Debug.Print(e.StackTrace);
-                }
             });
 
 
-        }
-
-        /*public async void UpdateTache(Tache tache)
-        {
-            try
-            {
-                if (Taches.Contains(tache))
-                {
-                    var oldTache = Taches.Where((Tache arg) => arg.ID == tache.ID).FirstOrDefault();
-                    Taches.Remove(oldTache);
-                    Taches.Add(tache);
-
-                    Debug.Print(tache.name + "++++++++++++++++++++++++");
-                    Debug.Print(tache.photo + "++++++++++++++++++++++++");
-                    await DataStore.UpdateTacheAsync(tache);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
         }
 
         public async void DeleteTache(Tache tache)
@@ -78,7 +44,7 @@ namespace RemindXamarin.ViewModels
                 if (Taches.Contains(tache))
                 {
                     Taches.Remove(tache);
-                    await DataStore.DeleteTacheAsync(tache.ID);
+                    await DataStore.DeleteTacheAsync(tache);
                 }
                  
             }
@@ -90,7 +56,7 @@ namespace RemindXamarin.ViewModels
             {
                 IsBusy = false;
             }
-        }*/
+        }
 
         async Task ExecuteLoadTachesCommand()
         {

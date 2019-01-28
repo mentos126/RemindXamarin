@@ -11,33 +11,43 @@ using RemindXamarin.Services;
 using System.ComponentModel;
 using System.Collections;
 using System.Diagnostics;
+using Plugin.Media;
+using Plugin.Geolocator.Abstractions;
+using Plugin.Geolocator;
+using Xamarin.Forms.Maps;
+using Position = Xamarin.Forms.Maps.Position;
 
 namespace RemindXamarin.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewTachePage : ContentPage
     {
-        public string title = "Nouvelle Tâche";
+        public string title { get; set; }
         public Tache Tache { get; set; }
         public bool IsRepet { get; set; }
-        public DateTime MyTime { get; set; }
+        public TimeSpan MyTime { get; set; }
         public DateTime MinDate { get; set; }
-        public DateTime MaxDate { get; set; }
-        public DateTime SelectedDate { get; set; }
+        public DateTime MyDate { get; set; }
         public List<CategoryEnum> Categories { get; set; }
         public List<String> CategoriesName { get; set; }
         public ArrayList WarningBefore { get; set; }
-
+        public bool IsInGeo { get; set; }
 
         public NewTachePage()
         {
             InitializeComponent();
 
+            IsInGeo = false;
+            title = "Nouvelle Tâche";
             DateTime temp = DateTime.Now.AddMinutes(5.0);
+
+            MyTime = DateTime.Now.TimeOfDay.Add(TimeSpan.FromMinutes(5));
 
             Tache = new Tache() {
                 Id = 0,
                 Name = "votre nom",
+                Lat = 999.999,
+                Lng = 999.999,
                 Photo = "",
                 Description = "votre description",
                 Category = CategoryEnum.Sport,
@@ -54,9 +64,8 @@ namespace RemindXamarin.Views
                 Saturday = false,
                 Sunday = false,
             };
+            MyDate = DateTime.Now;
             MinDate = DateTime.Now;
-            MaxDate = DateTime.Now.Add(new TimeSpan(1000, 0, 0, 0, 0));
-            SelectedDate = new DateTime();
             IsRepet = false;
 
             Categories = new List<CategoryEnum>()
@@ -87,32 +96,6 @@ namespace RemindXamarin.Views
 
             pickerWarningBefore.SelectedIndex = 7;
             pickerCategory.SelectedIndex = 0;
-        }
-
-        void OnTimePickerPropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            if (args.PropertyName == "Time")
-            {
-                SetTriggerTime();
-            }
-        }
-
-        void SetTriggerTime()
-        {
-
-            MyTime = DateTime.Today + _timePicker.Time;
-            if (MyTime < DateTime.Now)
-            {
-                MyTime += TimeSpan.FromDays(1);
-            }
-            Tache.TimeHour = MyTime.Hour;
-            Tache.TimeMinutes = MyTime.Minute;
-            
-        }
-
-        void OnDateSelected(object sender, DateChangedEventArgs args)
-        {
-            Tache.DateDeb = SelectedDate;
         }
 
         void OnSwitchToggled(object sender, ToggledEventArgs args)
@@ -148,13 +131,15 @@ namespace RemindXamarin.Views
             Tache newTache = new Tache {
                 Id = 0,
                 Name = Tache.Name,
-                Photo = "",
+                Lat = Tache.Lat,
+                Lng = Tache.Lng,
+                Photo = Tache.Photo,
                 Description = Tache.Description,
                 Category = Categories[pickerCategory.SelectedIndex],
                 DateDeb = null,
                 WarningBefore = pickerWarningBefore.SelectedIndex * 5,
-                TimeHour = Tache.TimeHour,
-                TimeMinutes = Tache.TimeMinutes,
+                TimeHour = MyTime.Hours,
+                TimeMinutes = MyTime.Minutes,
                 IsActivatedNotification = true,
                 Monday = false,
                 Tuesday = false,
@@ -190,7 +175,7 @@ namespace RemindXamarin.Views
                     {
                         if(DateTime.Compare(Tache.DateDeb.Value , DateTime.Now ) < 0)
                         {
-                            newTache.DateDeb = Tache.DateDeb;
+                            newTache.DateDeb = MyDate;
                             Save(newTache);
                         }
                         else
@@ -214,6 +199,89 @@ namespace RemindXamarin.Views
         {
             MessagingCenter.Send(this, "AddTache", newTache);
             await Navigation.PopModalAsync();
+        }
+
+        public async void OnTakePhoto(object sender, EventArgs e)
+        {
+            var initialize = await CrossMedia.Current.Initialize();
+
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported || !CrossMedia.IsSupported || !initialize)
+            {
+                DependencyService.Get<IMessageToast>().Show(":( No camera available.");
+                return;
+            }
+
+            using (var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+            {
+                Name = DateTime.Now + "_pic.jpg"
+            }))
+            {
+                if (file == null)
+                    return;
+                if (string.IsNullOrWhiteSpace(file?.Path))
+                {
+                    return;
+                }
+                Tache.Photo = file.Path;
+                file.Dispose();
+                MyPhoto.Source = ImageSource.FromFile(Tache.Photo);
+            }
+        }
+
+        async void OnSelectPlace(object sender, EventArgs e)
+        {
+            try
+            {
+                Button bt = (Button)sender;
+                bt.IsEnabled = false;
+                this.IsInGeo = true;
+
+                var locator = CrossGeolocator.Current;
+                locator.DesiredAccuracy = 100;
+                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(5), null, true);
+
+                if (position == null)
+                {
+                    bt.Text = "Impossible de vous géolocaliser. Voulez vous vous géolocaliser???";
+                    this.IsInGeo = false;
+                    bt.IsEnabled = true;
+                    return;
+                }
+                else
+                {
+                    bt.Text = "Trouver!!! Voulez vous vous géolocaliser?";
+                    Tache.Lat= position.Latitude;
+                    Tache.Lng= position.Longitude;
+
+                    var pos = new Position(position.Latitude, position.Longitude); 
+                    var pin = new Pin
+                    {
+                        Type = PinType.Place,
+                        Position = pos,
+                        Label = "",
+                        Address = ""
+                    };
+                    MyMap.Pins.Add(pin);
+                    MyMap.WidthRequest = 320;
+                    MyMap.HeightRequest = 200;
+                    MyMap.MoveToRegion(new MapSpan(pos, 1, 1));
+
+
+                    bt.IsEnabled = true;
+                    this.IsInGeo = false;
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Button bt = (Button)sender;
+                Debug.Write(ex.ToString());
+                await DisplayAlert("Oups", "Une erreur est survenu.", "OK");
+                bt.Text = "Impossible de vous géolocaliser. Voulez vous vous géolocaliser???";
+                bt.IsEnabled = true;
+                this.IsInGeo = false;
+            }
         }
 
     }
