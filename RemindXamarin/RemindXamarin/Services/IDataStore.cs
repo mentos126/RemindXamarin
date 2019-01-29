@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using RemindXamarin.Models;
+using System.Text;
 
 namespace RemindXamarin.Services
 {
@@ -14,6 +13,6 @@ namespace RemindXamarin.Services
         Task<T> GetTacheAsync(int id);
         Task<IEnumerable<T>> GetTachesAsync(bool forceRefresh = false);
         Task<IEnumerable<T>> SearchAsync(String recherche);
-
     }
 }
+

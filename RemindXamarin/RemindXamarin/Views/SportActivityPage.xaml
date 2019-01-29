@@ -1,15 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RemindXamarin.Views.SportActivityPage"
              xmlns:vm="clr-namespace:RemindXamarin.ViewModels"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Clicked="Save_Clicked" />
+        <ToolbarItem Text="exit" Clicked="Exit_Clicked" />
     </ContentPage.ToolbarItems>
     <ScrollView>
         <StackLayout>
-            
+            <Label x:Name="_steps" FontSize="Medium" />
+
+            <Label x:Name="_distance" FontSize="Medium" />
+
+            <Label x:Name="_duration" FontSize="Medium" />
+
+            <maps:Map x:Name="MyMap"
+                HeightRequest="200"
+                WidthRequest="320"
+                MapType="Street" />
+
+            <Button 
+                x:Name="_start"
+                IsVisible="{Binding IsNotReady}"
+                Text="Commencer"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Clicked="OnPressStart" />
+
+            <Button 
+                x:Name="_save"
+                IsVisible="{Binding IsReady}"
+                Text="Sauvegarder"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Clicked="OnPressEnd" />
+
         </StackLayout>
     </ScrollView>
 </ContentPage>

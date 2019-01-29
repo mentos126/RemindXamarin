@@ -13,11 +13,11 @@ namespace RemindXamarin.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-#pragma warning disable CS0246 // Le nom de type ou d'espace de noms 'MockDataStore' est introuvable (vous manque-t-il une directive using ou une référence d'assembly ?)
+#pragma warning disable CS0246 
         public IDataStore<Tache> DataStore => DependencyService.Get<IDataStore<Tache>>() ?? MockDataStore.Database;
-#pragma warning restore CS0246 // Le nom de type ou d'espace de noms 'MockDataStore' est introuvable (vous manque-t-il une directive using ou une référence d'assembly ?)
+#pragma warning restore CS0246 
 
-       // public IDataStore<Tache> DataStore => DependencyService.Get<IDataStore<Tache>>() ?? MockDataStore.Database;
+        public IDataStore2<SportTache> DataStore2 => DependencyService.Get<IDataStore2<SportTache>>() ?? MockDataStore2.Database;
 
         bool isBusy = false;
         public bool IsBusy
