@@ -225,7 +225,7 @@ namespace RemindXamarin.Models
                 switch (this.Category)
                 {
                     case CategoryEnum.Sport:
-                        return Color.FromHex("ff1d00");
+                        return Color.FromHex("adeaea");
                     case CategoryEnum.RDV:
                         return Color.FromHex("5eff00");
                     case CategoryEnum.Anniversaire:

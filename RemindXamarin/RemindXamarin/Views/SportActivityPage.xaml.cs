@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 using Newtonsoft.Json;
 using System.Threading;
 using RemindXamarin.Services;
+using Plugin.Sensors;
 
 namespace RemindXamarin.Views
 {
@@ -21,6 +22,8 @@ namespace RemindXamarin.Views
         Tache MyTache { get; set; }
         Timer MyTimer { get; set; }
 
+        public int NbInitSteps { get; set; }
+        public bool IsNbInitSteps { get; set; }
         public int Steps { get; set; }
         public int Distance { get; set; }
         public int Duration { get; set; }
@@ -66,6 +69,8 @@ namespace RemindXamarin.Views
             MyTache = Tache;
             MyTimer = null; ;
 
+            NbInitSteps = 0;
+            IsNbInitSteps = false;
             Steps = 0;
             Distance = 0;
             Duration = 0;
@@ -110,8 +115,7 @@ namespace RemindXamarin.Views
             CaculateDistance();
 
             //step
-
-            // TODO find plugin...
+            Pedometer();
 
         }
 
@@ -170,6 +174,34 @@ namespace RemindXamarin.Views
 
                     return;
                 }
+            }
+            catch (Exception) { }
+        }
+
+        async void Pedometer()
+        {
+            try
+            {
+                var pedo = CrossSensors.Pedometer;
+                if (pedo.IsAvailable)
+                {
+                    pedo.WhenReadingTaken().Subscribe(reading => 
+                    {
+                        if (!IsNbInitSteps)
+                        {
+                            IsNbInitSteps = !IsNbInitSteps;
+                            NbInitSteps = reading + 0 ;
+                        }
+                        Steps = reading - NbInitSteps + 1;
+
+                    });
+                    _steps.Text = GetSteps;
+                }
+                else
+                {
+                    _steps.IsVisible = false;
+                }
+                
             }
             catch (Exception) { }
         }

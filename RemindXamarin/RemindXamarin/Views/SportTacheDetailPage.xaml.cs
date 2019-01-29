@@ -24,7 +24,6 @@ namespace RemindXamarin.Views
         public SportTacheDetailPage(SportTacheDetailViewModel viewModel)
         {
             InitializeComponent();
-
             BindingContext = this.viewModel = viewModel;
 
             AddPinsInMap();
@@ -95,7 +94,7 @@ namespace RemindXamarin.Views
                 {
                     if (!ok)
                     {
-                        MyMap.MoveToRegion(new MapSpan(p, 1, 1));
+                        MyMap.MoveToRegion(new MapSpan(p, 0, 0));
                         ok = !ok;
                     }
                     var pin = new Pin

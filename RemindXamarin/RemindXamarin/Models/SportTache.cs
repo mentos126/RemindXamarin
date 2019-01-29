@@ -25,7 +25,7 @@ namespace RemindXamarin.Models
         {
             get
             {
-                return Color.FromHex("ff1d00");
+                return Color.FromHex("adeaea");
             }
         }
 
