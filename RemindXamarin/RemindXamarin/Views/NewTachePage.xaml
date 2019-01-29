@@ -19,7 +19,7 @@
                     <Editor Text="{Binding Tache.Description}" FontSize="Small" Margin="0" />
                     
                     <Label Text="Heure" FontSize="Medium" />
-                    <TimePicker x:Name="_timePicker" Time="{Binding MyTime}" Format="HH : mm" />
+                    <TimePicker x:Name="_timePicker"  Time="{Binding MyTime}" Format="HH : mm" />
 
                     <Label Text="Prévenir Avant:" FontSize="Medium" />
                     <Picker x:Name="pickerWarningBefore" ItemsSource="{Binding WarningBefore}"/>

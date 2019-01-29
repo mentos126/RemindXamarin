@@ -97,6 +97,7 @@ namespace RemindXamarin.Views
 
             pickerWarningBefore.SelectedIndex = 7;
             pickerCategory.SelectedIndex = 0;
+            
         }
 
         void OnSwitchToggled(object sender, ToggledEventArgs args)

@@ -21,18 +21,22 @@ namespace RemindXamarin.Views
 
             BindingContext = this.viewModel = viewModel;
 
-            var pos = new Position(viewModel.Tache.Lat, viewModel.Tache.Lng);
-            var pin = new Pin
+            if(viewModel.Tache.Lat < 800 || viewModel.Tache.Lat < 800)
             {
-                Type = PinType.Place,
-                Position = pos,
-                Label = "",
-                Address = ""
-            };
-            MyMap.Pins.Add(pin);
-            MyMap.WidthRequest = 320;
-            MyMap.HeightRequest = 200;
-            MyMap.MoveToRegion(new MapSpan(pos, 1, 1));
+                var pos = new Position(viewModel.Tache.Lat, viewModel.Tache.Lng);
+                var pin = new Pin
+                {
+                    Type = PinType.Place,
+                    Position = pos,
+                    Label = "",
+                    Address = ""
+                };
+                MyMap.Pins.Add(pin);
+                MyMap.WidthRequest = 320;
+                MyMap.HeightRequest = 200;
+                MyMap.MoveToRegion(new MapSpan(pos, 1, 1));
+            }
+
         }
 
         public TacheDetailPage()
@@ -46,8 +50,8 @@ namespace RemindXamarin.Views
                 Lng = 999.999,
                 Photo = "",
                 Description = "description 0",
-                Category = CategoryEnum.Sport,
-                DateDeb = new DateTime(),
+                Category = CategoryEnum.Autres,
+                DateDeb = DateTime.MinValue,
                 WarningBefore = 10,
                 TimeHour = 14,
                 TimeMinutes = 15,
@@ -82,13 +86,13 @@ namespace RemindXamarin.Views
         private void Switch_Toggled(object sender, ToggledEventArgs e)
         {
             viewModel.UpdateTache(viewModel.Tache);
+            CrossLocalNotifications.Current.Cancel(viewModel.Tache.Id);
             if (viewModel.Tache.IsActivatedNotification)
             {
-                CrossLocalNotifications.Current.Show(viewModel.Tache.Name, viewModel.Tache.CatName + ": " + viewModel.Tache.Description, viewModel.Tache.Id, viewModel.Tache.GetNextDate());
-            }
-            else
-            {
-                CrossLocalNotifications.Current.Cancel(viewModel.Tache.Id);
+                if (DateTime.Compare(viewModel.Tache.GetNextDate() , DateTime.Now) >= 0)
+                {
+                    CrossLocalNotifications.Current.Show(viewModel.Tache.Name, viewModel.Tache.CatName + ": " + viewModel.Tache.Description, viewModel.Tache.Id, viewModel.Tache.GetNextDate());
+                }
             }
         }
 
