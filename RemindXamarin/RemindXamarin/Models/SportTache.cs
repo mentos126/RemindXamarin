@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace RemindXamarin.Models
 {
@@ -20,5 +21,64 @@ namespace RemindXamarin.Models
         public long Duration { get; set; }
         public String Coordinates { get; set; }
 
+        public Color CatColor
+        {
+            get
+            {
+                return Color.FromHex("ff1d00");
+            }
+        }
+
+        public String CatIcon
+        {
+            get
+            {
+                return "ic_directions_run_black_36dp.png";
+            }
+        }
+
+        public String CatName
+        {
+            get
+            {
+                return "Sport";
+            }
+        }
+
+        public String TimeHourFormated
+        {
+            get
+            {
+                String res = "";
+                if (TimeHour < 10)
+                {
+                    res += "0";
+                }
+                return res += TimeHour;
+            }
+        }
+
+        public String TimeMinutesFormated
+        {
+            get
+            {
+                String res = "";
+                if (TimeMinutes < 10)
+                {
+                    res += "0";
+                }
+                return res += TimeMinutes;
+            }
+        }
+
+        public string FormatedTime
+        {
+            get
+            {
+                return string.Format("{0} : {1}", TimeHourFormated, TimeMinutesFormated);
+            }
+        }
+
     }
 }
+

@@ -17,8 +17,6 @@ namespace RemindXamarin.Views
     public partial class SportActivityPage : ContentPage
     {
        
-
-
         SportActivityViewModel ViewModel { get; set; }
         Tache MyTache { get; set; }
         Timer MyTimer { get; set; }
@@ -27,6 +25,7 @@ namespace RemindXamarin.Views
         public int Distance { get; set; }
         public int Duration { get; set; }
         public List<Position> Coordinates { get; set; }
+        public bool IsReady { get; set; }
 
         public String GetSteps
         {
@@ -52,7 +51,6 @@ namespace RemindXamarin.Views
             }
         }
 
-        public bool IsReady { get; set; }
         public bool IsNotReady
         {
             get
@@ -117,15 +115,12 @@ namespace RemindXamarin.Views
 
         }
 
-
         async void OnPressEnd()
         {
             IsReady = false;
             _start.IsVisible = true;
             _save.IsVisible = false;
             String res = JsonConvert.SerializeObject(Coordinates);
-
-            _steps.Text = res + "\nFind*****************************************\n" + Distance +"\n--";
 
             SportTache s = new SportTache()
             {
@@ -142,7 +137,7 @@ namespace RemindXamarin.Views
                 TimeMinutes = MyTache.TimeMinutes,
 
             };
-            ViewModel.AddSportTache(s);
+            MessagingCenter.Send(this, "AddSportTache", s);
             await Navigation.PopModalAsync();
 
         }

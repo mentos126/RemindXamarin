@@ -1,11 +1,8 @@
 ﻿In progress:
 ************
 
-Utilisation de capteurs en Xamarin
+Utilisation du pedometer
 
 ************************************
 TODO:
 *****
-
-
-

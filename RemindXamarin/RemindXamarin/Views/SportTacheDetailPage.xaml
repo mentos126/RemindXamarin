@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             x:Class="RemindXamarin.Views.SportTacheDetailPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="_steps" FontSize="Medium" />
+
+            <Label x:Name="_distance" FontSize="Medium" />
+
+            <Label x:Name="_duration" FontSize="Medium" />
+
+            <maps:Map x:Name="MyMap"
+                HeightRequest="200"
+                WidthRequest="320"
+                MapType="Street" />
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
