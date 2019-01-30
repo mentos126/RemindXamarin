@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:local="clr-namespace:RemindXamarin.Views"
              x:Class="RemindXamarin.Views.SportTacheDetailPage">
     <ContentPage.Content>
         <StackLayout>
@@ -15,6 +16,11 @@
                 HeightRequest="200"
                 WidthRequest="320"
                 MapType="Street" />
+
+            <!--local:PolylineMap x:Name="customMap" 
+                MapType="Street" 
+                HeightRequest="200"
+                WidthRequest="320" /-->
 
         </StackLayout>
     </ContentPage.Content>

@@ -95,6 +95,7 @@ namespace RemindXamarin.Views
                     if (!ok)
                     {
                         MyMap.MoveToRegion(new MapSpan(p, 0, 0));
+                        //customMap.MoveToRegion(new MapSpan(p, 0, 0));
                         ok = !ok;
                     }
                     var pin = new Pin
@@ -105,6 +106,7 @@ namespace RemindXamarin.Views
                         Address = ""
                     };
                     MyMap.Pins.Add(pin);
+                    //customMap.RouteCoordinates.Add(p);
                 }
             }
         }

@@ -178,7 +178,7 @@ namespace RemindXamarin.Views
             catch (Exception) { }
         }
 
-        async void Pedometer()
+        void Pedometer()
         {
             try
             {
