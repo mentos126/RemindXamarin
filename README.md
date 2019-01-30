@@ -38,8 +38,7 @@ Reprenez l’exemple de l'application précédente, ajoutez les fonctionnalités
 
 Reprenez l'application précédente. Développez une fonction qui permet, pour un type particulier d'évènement (sport) envoyé par l'application précédente, de demander à l'utilisateur s'il veut commencer une activité sportive. Dans le cas où la réponse est positive, l'application lui propose un certain nombre de types d'exercices. L'utilisateur choisira un parmi ces exercices. L'application commence à enregistrer certaines données liées à ces activités. Ces données dépendent des capteurs disponibles sur le téléphone.
 
-- [ ] Photo
-- [ ] GPS
-- [ ] Pedometre
+- [X] GPS
+- [X] Pedometre
 
 ---
