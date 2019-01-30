@@ -5,7 +5,7 @@ using Xamarin.Forms.Maps;
 
 namespace RemindXamarin.Views
 {
-    class PolylineMap : Map
+    public class PolylineMap : Map
     {
         public List<Position> RouteCoordinates { get; set; }
 

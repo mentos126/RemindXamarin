@@ -94,19 +94,18 @@ namespace RemindXamarin.Views
                 {
                     if (!ok)
                     {
-                        MyMap.MoveToRegion(new MapSpan(p, 0, 0));
-                        //customMap.MoveToRegion(new MapSpan(p, 0, 0));
+                        var pin = new Pin
+                        {
+                            Type = PinType.Place,
+                            Position = p,
+                            Label = "",
+                            Address = ""
+                        };
+                        customMap.Pins.Add(pin);
+                        customMap.MoveToRegion(new MapSpan(p, 0, 0));
                         ok = !ok;
                     }
-                    var pin = new Pin
-                    {
-                        Type = PinType.Place,
-                        Position = p,
-                        Label = "",
-                        Address = ""
-                    };
-                    MyMap.Pins.Add(pin);
-                    //customMap.RouteCoordinates.Add(p);
+                    customMap.RouteCoordinates.Add(p);
                 }
             }
         }

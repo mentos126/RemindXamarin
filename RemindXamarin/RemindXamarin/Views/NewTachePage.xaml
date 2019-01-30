@@ -67,6 +67,9 @@
                     </Grid>
 
                     <Button 
+                        BorderRadius="20"
+                        BorderColor="AliceBlue"
+                        BackgroundColor="Accent"
                         Text="Prendre une photo"
                         VerticalOptions="CenterAndExpand"
                         HorizontalOptions="Center"
@@ -75,6 +78,9 @@
                     <Image x:Name="MyPhoto"/>
 
                     <Button Text="Sélectionner un lieu"
+                        BorderRadius="20"
+                        BorderColor="Black"
+                        BackgroundColor="Accent"
                         VerticalOptions="CenterAndExpand"
                         HorizontalOptions="Center"
                         Clicked="OnSelectPlace" />

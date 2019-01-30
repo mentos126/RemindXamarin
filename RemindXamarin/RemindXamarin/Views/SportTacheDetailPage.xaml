@@ -11,16 +11,11 @@
             <Label x:Name="_distance" FontSize="Medium" />
 
             <Label x:Name="_duration" FontSize="Medium" />
-
-            <maps:Map x:Name="MyMap"
-                HeightRequest="200"
-                WidthRequest="320"
-                MapType="Street" />
-
-            <!--local:PolylineMap x:Name="customMap" 
+            
+            <local:PolylineMap x:Name="customMap" 
                 MapType="Street" 
                 HeightRequest="200"
-                WidthRequest="320" /-->
+                WidthRequest="320" />
 
         </StackLayout>
     </ContentPage.Content>

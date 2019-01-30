@@ -3,6 +3,7 @@
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RemindXamarin.Views.SportActivityPage"
+             xmlns:local="clr-namespace:RemindXamarin.Views"
              xmlns:vm="clr-namespace:RemindXamarin.ViewModels"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
@@ -16,12 +17,14 @@
 
             <Label x:Name="_duration" FontSize="Medium" />
 
-            <maps:Map x:Name="MyMap"
+            <local:PolylineMap x:Name="customMap" 
+                MapType="Street" 
                 HeightRequest="200"
-                WidthRequest="320"
-                MapType="Street" />
+                WidthRequest="320" />
 
-            <Button 
+            <Button  BorderRadius="20"
+                BorderColor="Black"
+                BackgroundColor="Accent"
                 x:Name="_start"
                 IsVisible="{Binding IsNotReady}"
                 Text="Commencer"
@@ -29,7 +32,9 @@
                 HorizontalOptions="Center"
                 Clicked="OnPressStart" />
 
-            <Button 
+            <Button BorderRadius="20"
+                BorderColor="Black"
+                BackgroundColor="Accent"
                 x:Name="_save"
                 IsVisible="{Binding IsReady}"
                 Text="Sauvegarder"

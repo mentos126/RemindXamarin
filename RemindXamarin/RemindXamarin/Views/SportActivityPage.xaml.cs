@@ -21,6 +21,7 @@ namespace RemindXamarin.Views
         SportActivityViewModel ViewModel { get; set; }
         Tache MyTache { get; set; }
         Timer MyTimer { get; set; }
+        bool FirstGeo { get; set; }
 
         public int NbInitSteps { get; set; }
         public bool IsNbInitSteps { get; set; }
@@ -74,6 +75,7 @@ namespace RemindXamarin.Views
             Steps = 0;
             Distance = 0;
             Duration = 0;
+            FirstGeo = false;
             Coordinates = new List<Position>();
 
             IsReady = false;
@@ -162,15 +164,21 @@ namespace RemindXamarin.Views
                     Position pos = new Position(position.Latitude, position.Longitude);
                     Coordinates.Add(pos);
 
-                    var pin = new Pin
-                    {
-                        Type = PinType.Place,
-                        Position = pos,
-                        Label = "",
-                        Address = ""
-                    };
-                    MyMap.Pins.Add(pin);
-                    MyMap.MoveToRegion(new MapSpan(pos, 0, 0));
+                    //if (!FirstGeo)
+                    //{
+                      //  FirstGeo = !FirstGeo;
+                        var pin = new Pin
+                        {
+                            Type = PinType.Place,
+                            Position = pos,
+                            Label = "",
+                            Address = ""
+                        };
+                        customMap.Pins.Add(pin);
+
+                    //}
+                    customMap.RouteCoordinates.Add(pos);
+                    customMap.MoveToRegion(new MapSpan(pos, 0, 0));
 
                     return;
                 }
@@ -221,7 +229,7 @@ namespace RemindXamarin.Views
                    res += DistanceBetween((Position)Coordinates[i - 1], (Position)Coordinates[i]);
                }
            }
-            Distance = (int)res + 0;
+            Distance = Convert.ToInt32(res)/1000 + 0;
        }
 
          private double DistanceBetween(Position C1, Position C2)

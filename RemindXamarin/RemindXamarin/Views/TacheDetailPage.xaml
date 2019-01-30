@@ -32,7 +32,10 @@
                               WidthRequest="0"
                               MapType="Street" />
 
-                <Button Text="commencer une séance de sport"
+                <Button  BorderRadius="20"
+                        BorderColor="Black"
+                        BackgroundColor="White"
+                        Text="commencer une séance de sport"
                         VerticalOptions="CenterAndExpand"
                         HorizontalOptions="Center"
                         Clicked="OnLaunchSport" />
