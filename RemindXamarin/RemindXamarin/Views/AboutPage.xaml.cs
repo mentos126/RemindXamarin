@@ -81,7 +81,6 @@ namespace RemindXamarin.Views
             try
             {
                 var mi = ((MenuItem)sender);
-                Debug.Print(mi.ToString());
                 viewModel.DeleteTache((SportTache)mi.CommandParameter);
             }
             catch (Exception x)

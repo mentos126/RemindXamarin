@@ -19,11 +19,9 @@ namespace RemindXamarin.ViewModels
         public ObservableCollection<Tache> Taches { get; set; }
         public Command LoadTachesCommand { get; set; }
         private string NowResearch { get; set; }
-        public String MyDebug { get; set; }
 
         public TachesViewModel()
         {
-            MyDebug = "null";
             NowResearch = "";
             Title = "Reminds";
             Taches = new ObservableCollection<Tache>();

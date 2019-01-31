@@ -40,6 +40,21 @@ namespace RemindXamarin.Views
             SortDirection = true;
             Recherche = "";
 
+            Device.StartTimer(TimeSpan.FromSeconds(2), () => {
+                foreach (Tache tache in viewModel.Taches)
+                {
+                    if (tache.IsActivatedNotification && tache.DateDeb == null)
+                    {
+                        if (DateTime.Compare(tache.GetNextDate(), DateTime.Now) >= 0)
+                        {
+                            CrossLocalNotifications.Current.Cancel(tache.Id);
+                            CrossLocalNotifications.Current.Show(tache.Name, tache.CatName + ": " + tache.Description, tache.Id, tache.GetNextDate());
+                        }
+                    }
+                }
+                return true;
+            });
+
         }
 
         public async void Permissions()
@@ -111,7 +126,6 @@ namespace RemindXamarin.Views
             try
             {
                 var mi = ((MenuItem)sender);
-                Debug.Print(mi.ToString());
                 viewModel.DeleteTache((Tache) mi.CommandParameter);
             }
             catch (Exception x)

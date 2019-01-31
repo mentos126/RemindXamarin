@@ -279,7 +279,6 @@ namespace RemindXamarin.Views
             catch (Exception ex)
             {
                 Button bt = (Button)sender;
-                Debug.Write(ex.ToString());
                 await DisplayAlert("Oups", "Une erreur est survenu.", "OK");
                 bt.Text = "Impossible de vous géolocaliser. Voulez vous vous géolocaliser???";
                 bt.IsEnabled = true;

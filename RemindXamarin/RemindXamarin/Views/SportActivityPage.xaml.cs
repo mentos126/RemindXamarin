@@ -106,17 +106,10 @@ namespace RemindXamarin.Views
 
         public void LaunchRegister()
         {
-            // time
             Duration = Duration  + 1;
             _duration.Text = GetTime;
-
-            //geo  
             GeoLocation();
-
-            //distance
             CaculateDistance();
-
-            //step
             Pedometer();
 
         }
@@ -164,19 +157,15 @@ namespace RemindXamarin.Views
                     Position pos = new Position(position.Latitude, position.Longitude);
                     Coordinates.Add(pos);
 
-                    //if (!FirstGeo)
-                    //{
-                      //  FirstGeo = !FirstGeo;
-                        var pin = new Pin
-                        {
-                            Type = PinType.Place,
-                            Position = pos,
-                            Label = "",
-                            Address = ""
-                        };
-                        customMap.Pins.Add(pin);
+                    var pin = new Pin
+                    {
+                        Type = PinType.Place,
+                        Position = pos,
+                        Label = "",
+                        Address = ""
+                    };
+                    customMap.Pins.Add(pin);
 
-                    //}
                     customMap.RouteCoordinates.Add(pos);
                     customMap.MoveToRegion(new MapSpan(pos, 0, 0));
 
@@ -239,16 +228,15 @@ namespace RemindXamarin.Views
             double LatC2 = C2.Latitude;
             double LngC2 = C2.Longitude;
 
-             int R = 6371; // Radius of the earth
+             int R = 6371; 
              double latDistance = this.ConvertDegreesToRadians(LatC2 - LatC1);
              double lonDistance = this.ConvertDegreesToRadians(LngC2 - LngC1);
              double a = Math.Sin(latDistance / 2) * Math.Sin(latDistance / 2)
                      + Math.Cos(this.ConvertDegreesToRadians(LatC1)) * Math.Cos(this.ConvertDegreesToRadians(LatC2))
                      * Math.Sin(lonDistance / 2) * Math.Sin(lonDistance / 2);
              double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-             double distance = R * c * 1000; // convert to meters
+             double distance = R * c * 1000; 
 
-             //double height = c1.h - c2.h;
              double height = 0;
 
              distance = Math.Pow(distance, 2) + Math.Pow(height, 2);
